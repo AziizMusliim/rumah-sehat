@@ -60,24 +60,75 @@
 
         <!-- Main Dashboard View -->
         <main id="view-dashboard" class="step-container active p-6">
-            <div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-6 mb-6 text-white shadow-lg relative overflow-hidden">
+            
+            <!-- Sapaan Personal -->
+            <div class="mb-6 flex justify-between items-center">
+                <div>
+                    <p class="text-sm text-gray-500 font-medium">Selamat bertugas,</p>
+                    <h2 class="text-xl font-bold text-gray-800">Petugas Lapangan</h2>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold border border-teal-200 shadow-sm">
+                    <i class="fas fa-user-md"></i>
+                </div>
+            </div>
+
+            <!-- Kartu Target Utama (Hero Card) -->
+            <div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden mb-4">
                 <div class="absolute -right-4 -top-4 w-24 h-24 bg-white opacity-10 rounded-full"></div>
                 <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white opacity-10 rounded-full"></div>
                 <div class="relative z-10">
-                    <p class="text-teal-100 text-sm font-medium mb-1">Total Inspeksi Bulan Ini</p>
-                    <h2 class="text-4xl font-bold mb-2">24 <span class="text-lg font-normal">Rumah</span></h2>
-                    <p class="text-xs text-teal-100"><i class="fas fa-chart-line mr-1"></i> +12% dari bulan lalu</p>
+                    <div class="flex justify-between items-center mb-1">
+                        <p class="text-teal-100 text-sm font-medium">Inspeksi Bulan Ini</p>
+                        <i class="fas fa-chart-pie text-teal-200 opacity-80"></i>
+                    </div>
+                    <div class="flex items-end gap-2 mb-3">
+                        <h2 class="text-4xl font-bold" id="stat-total">0</h2>
+                        <span class="text-sm text-teal-100 mb-1 font-medium">dari target 50</span>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-teal-800/50 rounded-full h-2 mb-1.5 overflow-hidden">
+                        <div id="stat-progress" class="bg-white h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                    </div>
+                    <p class="text-xs text-teal-100 text-right font-medium" id="stat-percent">0% Selesai</p>
+                </div>
+            </div>
+
+            <!-- Grid Statistik (Sehat vs Tidak Sehat) -->
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex justify-center items-center text-lg shrink-0">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-0.5">Memenuhi</p>
+                        <h3 class="text-lg font-bold text-gray-800 leading-none" id="stat-sehat">0</h3>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 rounded-full bg-red-100 text-red-500 flex justify-center items-center text-lg shrink-0">
+                        <i class="fas fa-house-damage"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-0.5">Tdk Memenuhi</p>
+                        <h3 class="text-lg font-bold text-gray-800 leading-none" id="stat-tidak-sehat">0</h3>
+                    </div>
                 </div>
             </div>
 
             <div class="mt-4">
                 <div class="flex justify-between items-end mb-4">
                     <h3 class="font-bold text-gray-800 text-lg">Riwayat Penilaian</h3>
-                    <button onclick="loadHistory()" class="text-sm text-teal-600 font-medium hover:underline"><i class="fas fa-sync-alt mr-1"></i>Segarkan</button>
+                    <button onclick="loadHistory()" class="text-sm text-teal-600 font-medium hover:underline bg-teal-50 px-2 py-1 rounded-md">
+                        <i class="fas fa-sync-alt mr-1"></i>Segarkan
+                    </button>
                 </div>
                 <div id="history-list" class="space-y-3 pb-24">
                     <!-- History items will be injected here -->
-                    <p class="text-sm text-gray-500 italic text-center py-4 bg-gray-50 rounded-lg border border-dashed">Belum ada data tersimpan.</p>
+                    <div class="text-center py-8">
+                        <i class="fas fa-file-alt text-gray-300 text-4xl mb-3"></i>
+                        <p class="text-sm text-gray-500 italic">Belum ada riwayat penilaian.</p>
+                    </div>
                 </div>
             </div>
         </main>
@@ -605,25 +656,76 @@
                 });
                 const history = await response.json();
                 
-                if(!history || history.length === 0) {
-                    container.innerHTML = '<p class="text-sm text-gray-500 italic text-center py-4 bg-gray-50 rounded-lg border border-dashed">Belum ada data di server.</p>';
-                    return;
-                }
+                // Variabel untuk menghitung statistik dinamis
+                let totalInspeksi = 0;
+                let sehatCount = 0;
+                let tidakSehatCount = 0;
                 
-                let html = '';
-                history.forEach(item => {
-                    const color = item.status === 'Sehat' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700';
-                    const icon = item.status === 'Sehat' ? 'fa-check-circle' : 'fa-times-circle';
-                    html += `<div class="bg-white border rounded-xl p-4 shadow-sm mb-3">
-                                <div class="flex justify-between items-start mb-2">
-                                    <div><h4 class="font-bold text-gray-800">${item.nama_kk}</h4><p class="text-xs text-gray-500"><i class="fas fa-map-marker-alt mr-1"></i>${item.kelurahan}</p></div>
-                                    <span class="${color} text-xs font-bold px-2 py-1 rounded-md flex items-center"><i class="fas ${icon} mr-1"></i> ${item.total_skor}</span>
-                                </div>
-                            </div>`;
-                });
-                container.innerHTML = html;
+                if(!history || history.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-8 bg-white rounded-2xl border border-gray-100 shadow-sm mt-4">
+                            <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-folder-open text-gray-300 text-2xl"></i>
+                            </div>
+                            <h4 class="text-gray-800 font-bold mb-1">Belum Ada Data</h4>
+                            <p class="text-xs text-gray-500 px-6">Tekan tombol + di bawah untuk mulai menilai rumah warga.</p>
+                        </div>`;
+                } else {
+                    let html = '';
+                    totalInspeksi = history.length;
+                    
+                    history.forEach(item => {
+                        // Kalkulasi statistik
+                        if(item.status === 'Sehat') sehatCount++;
+                        else tidakSehatCount++;
+
+                        const color = item.status === 'Sehat' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700';
+                        const icon = item.status === 'Sehat' ? 'fa-check-circle' : 'fa-times-circle';
+                        const badgeText = item.status === 'Sehat' ? 'Sehat' : 'Tdk Sehat';
+                        
+                        html += `<div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+                                    <div class="absolute left-0 top-0 bottom-0 w-1 ${item.status === 'Sehat' ? 'bg-green-500' : 'bg-red-500'}"></div>
+                                    <div class="flex justify-between items-start pl-2">
+                                        <div>
+                                            <h4 class="font-bold text-gray-800 text-sm mb-1">${item.nama_kk}</h4>
+                                            <p class="text-xs text-gray-500 mb-1"><i class="fas fa-map-marker-alt text-gray-400 mr-1.5 w-3"></i>${item.kelurahan}</p>
+                                            <p class="text-[10px] text-gray-400"><i class="far fa-clock text-gray-400 mr-1.5 w-3"></i>${item.timestamp}</p>
+                                        </div>
+                                        <div class="flex flex-col items-end gap-2">
+                                            <span class="${color} text-[10px] font-bold px-2 py-1 rounded-md flex items-center uppercase tracking-wider">
+                                                <i class="fas ${icon} mr-1"></i> ${badgeText}
+                                            </span>
+                                            <span class="text-gray-700 text-xs font-bold bg-gray-50 px-2 py-1 rounded border">Skor: ${item.total_skor}</span>
+                                        </div>
+                                    </div>
+                                </div>`;
+                    });
+                    container.innerHTML = html;
+                }
+
+                // Update UI Statistik Dasbor
+                const targetBulanIni = 50; // Target simulasi
+                document.getElementById('stat-total').innerText = totalInspeksi;
+                document.getElementById('stat-sehat').innerText = sehatCount;
+                document.getElementById('stat-tidak-sehat').innerText = tidakSehatCount;
+                
+                // Update Progress Bar
+                let percentage = Math.round((totalInspeksi / targetBulanIni) * 100);
+                if (percentage > 100) percentage = 100; // Cap at 100%
+                
+                // Gunakan setTimeout kecil untuk memicu animasi transisi CSS
+                setTimeout(() => {
+                    document.getElementById('stat-progress').style.width = percentage + '%';
+                    document.getElementById('stat-percent').innerText = percentage + '% Selesai';
+                }, 100);
+
             } catch (error) {
-                container.innerHTML = '<p class="text-sm text-red-500 italic text-center py-4 bg-red-50 rounded-lg">Gagal menarik data dari server.</p>';
+                container.innerHTML = `
+                    <div class="text-center py-6 bg-red-50 rounded-2xl border border-red-100">
+                        <i class="fas fa-wifi text-red-400 text-2xl mb-2"></i>
+                        <p class="text-sm text-red-600 font-medium">Gagal terhubung ke server.</p>
+                        <p class="text-xs text-red-400 mt-1">Periksa koneksi internet Anda.</p>
+                    </div>`;
             }
         }
 

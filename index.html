@@ -176,7 +176,12 @@
                 <i class="fas fa-home-medical text-2xl"></i>
                 <div>
                     <h1 class="font-bold text-lg leading-tight">Rumah Sehat</h1>
-                    <p class="text-xs text-teal-100">Dinas Kesehatan v0.3 (API Mode)</p>
+                    <div class="flex items-center gap-2 mt-0.5">
+                        <span class="text-xs text-teal-100">Dinas Kesehatan v0.3</span>
+                        <span id="network-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online
+                        </span>
+                    </div>
                 </div>
             </div>
             <button id="btn-home" class="text-teal-100 hover:text-white hidden" onclick="goHome()">
@@ -193,15 +198,34 @@
                     <p class="text-sm text-gray-500 font-medium">Selamat bertugas,</p>
                     <h2 class="text-xl font-bold text-gray-800" id="dash-petugas-name">Petugas Lapangan</h2>
                 </div>
-                <div
-                    class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold border border-teal-200 shadow-sm">
-                    <i class="fas fa-user-md"></i>
+                <div class="flex items-center gap-2">
+                    <button onclick="logout()" title="Ganti Petugas / Keluar" class="text-xs bg-gray-100 hover:bg-red-50 text-gray-600 hover:text-red-600 px-3 py-1.5 rounded-lg border border-gray-200 transition-colors flex items-center gap-1.5 font-medium">
+                        <i class="fas fa-sign-out-alt"></i> Ganti
+                    </button>
+                    <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold border border-teal-200 shadow-sm">
+                        <i class="fas fa-user-md"></i>
+                    </div>
                 </div>
             </div>
 
+            <!-- Banner Sync Draft (Jika Ada Draft Offline) -->
+            <div id="banner-offline-draft" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4 flex items-center justify-between shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                        <i class="fas fa-cloud-upload-alt text-base"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-amber-900">Draft Offline Tersimpan</h4>
+                        <p class="text-[11px] text-amber-700" id="text-offline-count">Ada 0 data belum tersinkron</p>
+                    </div>
+                </div>
+                <button onclick="syncOfflineDrafts()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-sm transition-all flex items-center gap-1">
+                    <i class="fas fa-sync-alt"></i> Sinkron
+                </button>
+            </div>
+
             <!-- Kartu Target Utama (Hero Card) -->
-            <div
-                class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden mb-4">
+            <div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden mb-4">
                 <div class="absolute -right-4 -top-4 w-24 h-24 bg-white opacity-10 rounded-full"></div>
                 <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white opacity-10 rounded-full"></div>
                 <div class="relative z-10">
@@ -215,19 +239,16 @@
                     </div>
                     <!-- Progress Bar -->
                     <div class="w-full bg-teal-800/50 rounded-full h-2 mb-1.5 overflow-hidden">
-                        <div id="stat-progress" class="bg-white h-2 rounded-full transition-all duration-1000"
-                            style="width: 0%"></div>
+                        <div id="stat-progress" class="bg-white h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
                     </div>
                     <p class="text-xs text-teal-100 text-right font-medium" id="stat-percent">0% Selesai</p>
                 </div>
             </div>
 
             <!-- Grid Statistik (Sehat vs Tidak Sehat) -->
-            <div class="grid grid-cols-2 gap-4 mb-6">
-                <div
-                    class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
-                    <div
-                        class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex justify-center items-center text-lg shrink-0">
+            <div class="grid grid-cols-2 gap-4 mb-5">
+                <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex justify-center items-center text-lg shrink-0">
                         <i class="fas fa-home"></i>
                     </div>
                     <div>
@@ -236,10 +257,8 @@
                     </div>
                 </div>
 
-                <div
-                    class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
-                    <div
-                        class="w-10 h-10 rounded-full bg-red-100 text-red-500 flex justify-center items-center text-lg shrink-0">
+                <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
+                    <div class="w-10 h-10 rounded-full bg-red-100 text-red-500 flex justify-center items-center text-lg shrink-0">
                         <i class="fas fa-house-damage"></i>
                     </div>
                     <div>
@@ -249,14 +268,57 @@
                 </div>
             </div>
 
+            <!-- Widget 1: Target Inspeksi Hari Ini -->
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 mb-5">
+                <div class="flex justify-between items-center mb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-bold">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-800 text-sm">Target Inspeksi Hari Ini</h3>
+                    </div>
+                    <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full" id="schedule-count">3 Jadwal</span>
+                </div>
+                <div id="schedule-list" class="space-y-2.5">
+                    <!-- Schedule items injected dynamically -->
+                </div>
+            </div>
+
+            <!-- Widget 2: Ringkasan Masalah Sanitasi Terbanyak -->
+            <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 mb-5">
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center text-xs font-bold">
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-sm">Temuan Masalah Terbanyak</h3>
+                </div>
+                <div id="top-issues-container" class="space-y-3">
+                    <!-- Issues list injected dynamically -->
+                </div>
+            </div>
+
+            <!-- Riwayat Penilaian dengan Search & Filter -->
             <div class="mt-4">
-                <div class="flex justify-between items-end mb-4">
+                <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-gray-800 text-lg">Riwayat Penilaian</h3>
-                    <button onclick="loadHistory()"
-                        class="text-sm text-teal-600 font-medium hover:underline bg-teal-50 px-2 py-1 rounded-md">
-                        <i class="fas fa-sync-alt mr-1"></i>Segarkan
+                    <button onclick="loadHistory()" class="text-xs text-teal-600 font-medium hover:underline bg-teal-50 px-2.5 py-1.5 rounded-lg border border-teal-100 flex items-center gap-1">
+                        <i class="fas fa-sync-alt"></i> Segarkan
                     </button>
                 </div>
+
+                <!-- Input Cari & Filter Chips -->
+                <div class="space-y-2 mb-4">
+                    <div class="relative">
+                        <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                        <input type="text" id="search-history-input" onkeyup="filterHistoryList()" placeholder="Cari nama KK / kelurahan..." class="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition-all">
+                    </div>
+                    <div class="flex gap-2 text-xs">
+                        <button onclick="setHistoryFilter('all')" id="filter-chip-all" class="px-3 py-1.5 rounded-lg font-medium bg-teal-600 text-white transition-colors">Semua</button>
+                        <button onclick="setHistoryFilter('Sehat')" id="filter-chip-Sehat" class="px-3 py-1.5 rounded-lg font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">Sehat</button>
+                        <button onclick="setHistoryFilter('Tidak Sehat')" id="filter-chip-Tidak Sehat" class="px-3 py-1.5 rounded-lg font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">Tdk Sehat</button>
+                    </div>
+                </div>
+
                 <div id="history-list" class="space-y-3 pb-24">
                     <!-- History items will be injected here -->
                     <div class="text-center py-8">
@@ -679,12 +741,20 @@
         }
 
         function showWelcomeScreen() {
-            document.getElementById('view-welcome').classList.remove('hidden');
-            document.getElementById('view-welcome').classList.add('active');
+            document.querySelectorAll('.step-container').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('hidden');
+            });
+
+            const welcome = document.getElementById('view-welcome');
+            if (welcome) {
+                welcome.classList.remove('hidden');
+                welcome.classList.add('active');
+            }
 
             document.getElementById('app-header').classList.add('hidden');
-            document.getElementById('view-dashboard').classList.remove('active');
             document.getElementById('main-bottom-nav').classList.add('hidden');
+            document.getElementById('form-bottom-nav').classList.add('hidden');
         }
 
         function loginUser(event) {
@@ -701,8 +771,11 @@
 
         function initApp() {
             // Sembunyikan layar welcome
-            document.getElementById('view-welcome').classList.remove('active');
-            setTimeout(() => { document.getElementById('view-welcome').classList.add('hidden'); }, 300);
+            const welcome = document.getElementById('view-welcome');
+            if (welcome) {
+                welcome.classList.remove('active');
+                setTimeout(() => { welcome.classList.add('hidden'); }, 300);
+            }
 
             // Tampilkan UI Utama
             document.getElementById('app-header').classList.remove('hidden');
@@ -782,35 +855,39 @@
         }
 
         function logout() {
-            localStorage.removeItem('geminiApiKey');
-            localStorage.removeItem('darkMode');
-            localStorage.removeItem('notifActive');
+            petugasName = "";
             localStorage.removeItem('petugasName');
-            showModal("Keluar", "Sesi dan pengaturan Anda telah dihapus. Memuat ulang aplikasi...", true);
-            setTimeout(() => {
-                window.location.reload();
-            }, 1500);
+            const nameInput = document.getElementById('input-petugas-name');
+            if (nameInput) nameInput.value = "";
+            showWelcomeScreen();
         }
 
         function switchTab(tabName) {
-            // Hide all main views
-            document.getElementById('view-dashboard').classList.remove('active');
-            document.getElementById('view-settings').classList.remove('active');
-
-            // Show selected view
-            document.getElementById(`view-${tabName}`).classList.add('active');
+            // Hide all step containers except the target tab
+            ['dashboard', 'settings', 'form'].forEach(tab => {
+                const el = document.getElementById(`view-${tab}`);
+                if (el) {
+                    if (tab === tabName) {
+                        el.classList.remove('hidden');
+                        el.classList.add('active');
+                    } else {
+                        el.classList.remove('active');
+                        el.classList.add('hidden');
+                    }
+                }
+            });
 
             // Update Tab Styling
             const tabDash = document.getElementById('tab-dashboard');
             const tabSet = document.getElementById('tab-settings');
 
             if (tabName === 'dashboard') {
-                tabDash.className = "flex flex-col items-center gap-1 w-16 text-teal-600 transition-colors";
-                tabSet.className = "flex flex-col items-center gap-1 w-16 text-gray-400 hover:text-teal-600 transition-colors";
+                if (tabDash) tabDash.className = "flex flex-col items-center gap-1 w-16 text-teal-600 transition-colors";
+                if (tabSet) tabSet.className = "flex flex-col items-center gap-1 w-16 text-gray-400 hover:text-teal-600 transition-colors";
                 loadHistory();
-            } else {
-                tabSet.className = "flex flex-col items-center gap-1 w-16 text-teal-600 transition-colors";
-                tabDash.className = "flex flex-col items-center gap-1 w-16 text-gray-400 hover:text-teal-600 transition-colors";
+            } else if (tabName === 'settings') {
+                if (tabSet) tabSet.className = "flex flex-col items-center gap-1 w-16 text-teal-600 transition-colors";
+                if (tabDash) tabDash.className = "flex flex-col items-center gap-1 w-16 text-gray-400 hover:text-teal-600 transition-colors";
             }
         }
 
@@ -982,6 +1059,214 @@
             sEl.className = isSehat ? "inline-block bg-green-100 text-green-800 rounded-full px-4 py-1 text-sm font-bold mt-2" : "inline-block bg-red-100 text-red-800 rounded-full px-4 py-1 text-sm font-bold mt-2";
         }
 
+        // --- 1. OTENTIKASI & INIT --- //
+        let allHistoryData = [];
+        let activeHistoryFilter = 'all';
+        let offlineDrafts = JSON.parse(localStorage.getItem('offlineDrafts') || '[]');
+
+        const todaySchedules = [
+            { id: "sch1", nama_kk: "Bpk. Ahmad Yani", kelurahan: "Cigadung", kecamatan: "Cibeunying Kaler", alamat: "Jl. Cigadung Raya No. 42, RT 02/RW 05", status: "pending" },
+            { id: "sch2", nama_kk: "Ibu Siti Rahmah", kelurahan: "Cigadung", kecamatan: "Cibeunying Kaler", alamat: "Gg. Pak Damin No. 15, RT 04/RW 02", status: "pending" },
+            { id: "sch3", nama_kk: "Bpk. Bambang Sutrisno", kelurahan: "Sadang Serang", kecamatan: "Coblong", alamat: "Jl. Sadang Tengah No. 88, RT 01/RW 08", status: "completed" }
+        ];
+
+        function initNetworkMonitoring() {
+            updateNetworkStatus();
+            window.addEventListener('online', () => {
+                updateNetworkStatus();
+                syncOfflineDrafts();
+            });
+            window.addEventListener('offline', updateNetworkStatus);
+        }
+
+        function updateNetworkStatus() {
+            const badge = document.getElementById('network-badge');
+            if (badge) {
+                if (navigator.onLine) {
+                    badge.className = "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30";
+                    badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online';
+                } else {
+                    badge.className = "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/30 text-amber-200 border border-amber-400/30";
+                    badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Offline';
+                }
+            }
+            updateOfflineBanner();
+        }
+
+        function updateOfflineBanner() {
+            const banner = document.getElementById('banner-offline-draft');
+            const countText = document.getElementById('text-offline-count');
+            if (banner && countText) {
+                if (offlineDrafts.length > 0) {
+                    banner.classList.remove('hidden');
+                    countText.innerText = `Ada ${offlineDrafts.length} penilai tersimpan offline`;
+                } else {
+                    banner.classList.add('hidden');
+                }
+            }
+        }
+
+        async function syncOfflineDrafts() {
+            if (offlineDrafts.length === 0 || !navigator.onLine) return;
+            showModal("Menyinkronkan Draft...", `Mengirim ${offlineDrafts.length} data draft ke server...`);
+
+            let successCount = 0;
+            const remainingDrafts = [];
+
+            for (const draft of offlineDrafts) {
+                try {
+                    const response = await fetch(GAS_WEB_APP_URL, {
+                        method: "POST",
+                        redirect: "follow",
+                        body: JSON.stringify(draft),
+                        headers: { "Content-Type": "text/plain;charset=utf-8" }
+                    });
+                    const res = await response.json();
+                    if (res.success) successCount++;
+                    else remainingDrafts.push(draft);
+                } catch (e) {
+                    remainingDrafts.push(draft);
+                }
+            }
+
+            offlineDrafts = remainingDrafts;
+            localStorage.setItem('offlineDrafts', JSON.stringify(offlineDrafts));
+            updateOfflineBanner();
+            loadHistory();
+            showModal("Sinkronisasi Selesai", `${successCount} data draft berhasil dikirim ke Google Sheets.`, true);
+        }
+
+        function renderScheduleWidget() {
+            const container = document.getElementById('schedule-list');
+            const countEl = document.getElementById('schedule-count');
+            if (!container) return;
+            let html = '';
+            let pendingCount = 0;
+            todaySchedules.forEach(item => {
+                const isDone = item.status === 'completed';
+                if (!isDone) pendingCount++;
+                html += `
+                    <div class="p-3 bg-gray-50 rounded-xl border border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full ${isDone ? 'bg-emerald-100 text-emerald-600' : 'bg-indigo-100 text-indigo-600'} flex items-center justify-center text-xs font-bold shrink-0">
+                                <i class="fas ${isDone ? 'fa-check' : 'fa-home'}"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xs text-gray-800">${item.nama_kk}</h4>
+                                <p class="text-[10px] text-gray-500">${item.alamat}</p>
+                            </div>
+                        </div>
+                        <div>
+                            ${isDone ? '<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">Selesai</span>' : 
+                            `<button onclick="startScheduledAssessment('${item.nama_kk}', '${item.alamat}', '${item.kelurahan}', '${item.kecamatan}')" class="text-[10px] font-bold text-white bg-indigo-600 hover:bg-indigo-700 px-2.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1">
+                                Inspeksi <i class="fas fa-arrow-right text-[8px]"></i>
+                            </button>`}
+                        </div>
+                    </div>`;
+            });
+            if (countEl) countEl.innerText = `${pendingCount} Sisa Jadwal`;
+            container.innerHTML = html;
+        }
+
+        function startScheduledAssessment(nama_kk, alamat, kelurahan, kecamatan) {
+            startAssessment();
+            document.getElementById('nama_kk').value = nama_kk;
+            document.getElementById('alamat').value = alamat;
+            document.getElementById('kelurahan').value = kelurahan;
+            document.getElementById('kecamatan').value = kecamatan;
+        }
+
+        function renderTopIssues() {
+            const container = document.getElementById('top-issues-container');
+            if (!container) return;
+            const issues = [
+                { name: "SPAL Mencemari / Tdk Tertutup", count: "65% Rumah", pct: "65%", color: "bg-rose-500" },
+                { name: "Luas Ventilasi Rumah < 10%", count: "40% Rumah", pct: "40%", color: "bg-amber-500" },
+                { name: "Jamban Belum Leher Angsa", count: "25% Rumah", pct: "25%", color: "bg-indigo-500" }
+            ];
+            let html = '';
+            issues.forEach(issue => {
+                html += `
+                    <div>
+                        <div class="flex justify-between text-xs font-medium mb-1">
+                            <span class="text-gray-700 text-[11px] font-medium">${issue.name}</span>
+                            <span class="text-gray-500 text-[11px] font-bold">${issue.count}</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                            <div class="${issue.color} h-1.5 rounded-full transition-all duration-500" style="width: ${issue.pct}"></div>
+                        </div>
+                    </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function filterHistoryList() {
+            const inputEl = document.getElementById('search-history-input');
+            const query = inputEl ? inputEl.value.toLowerCase().trim() : '';
+            const filtered = allHistoryData.filter(item => {
+                const matchesQuery = (item.nama_kk && item.nama_kk.toLowerCase().includes(query)) ||
+                                     (item.kelurahan && item.kelurahan.toLowerCase().includes(query)) ||
+                                     (item.alamat && item.alamat.toLowerCase().includes(query));
+                const matchesFilter = activeHistoryFilter === 'all' || item.status === activeHistoryFilter;
+                return matchesQuery && matchesFilter;
+            });
+            renderHistoryCards(filtered);
+        }
+
+        function setHistoryFilter(filterType) {
+            activeHistoryFilter = filterType;
+            ['all', 'Sehat', 'Tidak Sehat'].forEach(type => {
+                const btn = document.getElementById(`filter-chip-${type}`);
+                if (btn) {
+                    if (type === filterType) {
+                        btn.className = "px-3 py-1.5 rounded-lg font-medium bg-teal-600 text-white transition-colors";
+                    } else {
+                        btn.className = "px-3 py-1.5 rounded-lg font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors";
+                    }
+                }
+            });
+            filterHistoryList();
+        }
+
+        function renderHistoryCards(historyItems) {
+            const container = document.getElementById('history-list');
+            if (!container) return;
+            if (!historyItems || historyItems.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 bg-white rounded-2xl border border-gray-100 shadow-sm mt-2">
+                        <div class="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-2 text-gray-300">
+                            <i class="fas fa-search text-xl"></i>
+                        </div>
+                        <p class="text-xs text-gray-500 font-medium">Tidak ada riwayat yang cocok.</p>
+                    </div>`;
+                return;
+            }
+            let html = '';
+            historyItems.forEach(item => {
+                const color = item.status === 'Sehat' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700';
+                const icon = item.status === 'Sehat' ? 'fa-check-circle' : 'fa-times-circle';
+                const badgeText = item.status === 'Sehat' ? 'Sehat' : 'Tdk Sehat';
+
+                html += `<div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+                            <div class="absolute left-0 top-0 bottom-0 w-1 ${item.status === 'Sehat' ? 'bg-green-500' : 'bg-red-500'}"></div>
+                            <div class="flex justify-between items-start pl-2">
+                                <div>
+                                    <h4 class="font-bold text-gray-800 text-sm mb-1">${item.nama_kk}</h4>
+                                    <p class="text-xs text-gray-500 mb-1"><i class="fas fa-map-marker-alt text-gray-400 mr-1.5 w-3"></i>${item.kelurahan}</p>
+                                    <p class="text-[10px] text-gray-400"><i class="far fa-clock text-gray-400 mr-1.5 w-3"></i>${item.timestamp}</p>
+                                </div>
+                                <div class="flex flex-col items-end gap-2">
+                                    <span class="${color} text-[10px] font-bold px-2 py-1 rounded-md flex items-center uppercase tracking-wider">
+                                        <i class="fas ${icon} mr-1"></i> ${badgeText}
+                                    </span>
+                                    <span class="text-gray-700 text-xs font-bold bg-gray-50 px-2 py-1 rounded border">Skor: ${item.total_skor}</span>
+                                </div>
+                            </div>
+                        </div>`;
+            });
+            container.innerHTML = html;
+        }
+
         async function submitData() {
             if (GAS_WEB_APP_URL === "MASUKKAN_URL_EXEC_ANDA_DISINI") {
                 showModal("URL Belum Diatur", "Anda belum memasukkan URL Google Apps Script di kode HTML.");
@@ -1006,17 +1291,29 @@
                 sub_sanitasi: subScores.sanitasi,
                 sub_perilaku: subScores.perilaku,
                 total_skor: totalScore,
-                status: totalScore >= 1068 ? 'Sehat' : 'Tidak Sehat'
+                status: totalScore >= 1068 ? 'Sehat' : 'Tidak Sehat',
+                timestamp: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
             };
 
+            // Handling mode Offline
+            if (!navigator.onLine) {
+                offlineDrafts.push(dataPayload);
+                localStorage.setItem('offlineDrafts', JSON.stringify(offlineDrafts));
+                updateOfflineBanner();
+                showModal("Draft Offline Tersimpan", "Koneksi terputus. Data penilaian berhasil disimpan secara lokal di perangkat Anda dan akan tersinkron otomatis saat online.", true);
+                document.getElementById('modal-action-btn').onclick = function () { closeModal(); goHome(); };
+                btnSubmit.innerHTML = '<i class="fas fa-save mr-2"></i> Simpan Data';
+                btnSubmit.disabled = false;
+                return;
+            }
+
             try {
-                // Konfigurasi fetch khusus untuk Google Apps Script guna menghindari masalah CORS preflight
                 const response = await fetch(GAS_WEB_APP_URL, {
                     method: "POST",
-                    redirect: "follow", // Wajib karena Google akan me-redirect request
+                    redirect: "follow",
                     body: JSON.stringify(dataPayload),
                     headers: {
-                        "Content-Type": "text/plain;charset=utf-8", // Menggunakan text/plain bypasses preflight browser
+                        "Content-Type": "text/plain;charset=utf-8",
                     }
                 });
 
@@ -1030,7 +1327,12 @@
                 }
             } catch (error) {
                 console.error(error);
-                showModal("Error Koneksi", "Gagal menghubungi server Google Apps Script. Pastikan URL sudah benar dan status Deploy adalah 'Anyone'.");
+                // Fallback simpan offline jika gagal koneksi
+                offlineDrafts.push(dataPayload);
+                localStorage.setItem('offlineDrafts', JSON.stringify(offlineDrafts));
+                updateOfflineBanner();
+                showModal("Tersimpan sebagai Draft Offline", "Gagal menghubungi server. Data telah disimpan secara lokal di perangkat Anda.", true);
+                document.getElementById('modal-action-btn').onclick = function () { closeModal(); goHome(); };
             } finally {
                 btnSubmit.innerHTML = '<i class="fas fa-save mr-2"></i> Simpan Data';
                 btnSubmit.disabled = false;
@@ -1044,71 +1346,36 @@
             container.innerHTML = '<div class="text-center py-6 text-teal-600"><i class="fas fa-circle-notch fa-spin text-2xl"></i></div>';
 
             try {
-                // Tambahkan parameter ?action=get_history agar backend mengenali ini request dari aplikasi
                 const response = await fetch(GAS_WEB_APP_URL + "?action=get_history", {
                     method: "GET",
                     redirect: "follow"
                 });
                 const history = await response.json();
 
-                // Variabel untuk menghitung statistik dinamis
-                let totalInspeksi = 0;
+                allHistoryData = history || [];
+
+                let totalInspeksi = allHistoryData.length;
                 let sehatCount = 0;
                 let tidakSehatCount = 0;
 
-                if (!history || history.length === 0) {
-                    container.innerHTML = `
-                        <div class="text-center py-8 bg-white rounded-2xl border border-gray-100 shadow-sm mt-4">
-                            <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3">
-                                <i class="fas fa-folder-open text-gray-300 text-2xl"></i>
-                            </div>
-                            <h4 class="text-gray-800 font-bold mb-1">Belum Ada Data</h4>
-                            <p class="text-xs text-gray-500 px-6">Tekan tombol + di bawah untuk mulai menilai rumah warga.</p>
-                        </div>`;
-                } else {
-                    let html = '';
-                    totalInspeksi = history.length;
+                allHistoryData.forEach(item => {
+                    if (item.status === 'Sehat') sehatCount++;
+                    else tidakSehatCount++;
+                });
 
-                    history.forEach(item => {
-                        // Kalkulasi statistik
-                        if (item.status === 'Sehat') sehatCount++;
-                        else tidakSehatCount++;
-
-                        const color = item.status === 'Sehat' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700';
-                        const icon = item.status === 'Sehat' ? 'fa-check-circle' : 'fa-times-circle';
-                        const badgeText = item.status === 'Sehat' ? 'Sehat' : 'Tdk Sehat';
-
-                        html += `<div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
-                                    <div class="absolute left-0 top-0 bottom-0 w-1 ${item.status === 'Sehat' ? 'bg-green-500' : 'bg-red-500'}"></div>
-                                    <div class="flex justify-between items-start pl-2">
-                                        <div>
-                                            <h4 class="font-bold text-gray-800 text-sm mb-1">${item.nama_kk}</h4>
-                                            <p class="text-xs text-gray-500 mb-1"><i class="fas fa-map-marker-alt text-gray-400 mr-1.5 w-3"></i>${item.kelurahan}</p>
-                                            <p class="text-[10px] text-gray-400"><i class="far fa-clock text-gray-400 mr-1.5 w-3"></i>${item.timestamp}</p>
-                                        </div>
-                                        <div class="flex flex-col items-end gap-2">
-                                            <span class="${color} text-[10px] font-bold px-2 py-1 rounded-md flex items-center uppercase tracking-wider">
-                                                <i class="fas ${icon} mr-1"></i> ${badgeText}
-                                            </span>
-                                            <span class="text-gray-700 text-xs font-bold bg-gray-50 px-2 py-1 rounded border">Skor: ${item.total_skor}</span>
-                                        </div>
-                                    </div>
-                                </div>`;
-                    });
-                    container.innerHTML = html;
-                }
+                filterHistoryList();
+                renderScheduleWidget();
+                renderTopIssues();
 
                 // Update UI Statistik Dasbor
-                const targetBulanIni = 50; // Target simulasi
+                const targetBulanIni = 50;
                 document.getElementById('stat-total').innerText = totalInspeksi;
                 document.getElementById('stat-sehat').innerText = sehatCount;
                 document.getElementById('stat-tidak-sehat').innerText = tidakSehatCount;
 
-                // Update Progress Bar
                 let percentage = Math.round((totalInspeksi / targetBulanIni) * 100);
-                if (percentage > 100) percentage = 100; // Cap at 100%
+                if (percentage > 100) percentage = 100;
 
-                // Gunakan setTimeout kecil untuk memicu animasi transisi CSS
                 setTimeout(() => {
                     document.getElementById('stat-progress').style.width = percentage + '%';
                     document.getElementById('stat-percent').innerText = percentage + '% Selesai';
@@ -1239,6 +1506,9 @@
         function closeModal() { document.getElementById('custom-modal').classList.add('hidden'); }
 
         window.onload = function () {
+            initNetworkMonitoring();
+            renderScheduleWidget();
+            renderTopIssues();
             checkLoginStatus();
         };
     </script>

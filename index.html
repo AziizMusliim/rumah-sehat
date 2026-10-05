@@ -1070,8 +1070,73 @@
         let allHistoryData = [];
         let activeHistoryFilter = 'all';
         let offlineDrafts = JSON.parse(localStorage.getItem('offlineDrafts') || '[]');
-
         let realSchedules = JSON.parse(localStorage.getItem('realSchedules') || '[]');
+
+        function initNetworkMonitoring() {
+            updateNetworkStatus();
+            window.addEventListener('online', () => {
+                updateNetworkStatus();
+                syncOfflineDrafts();
+            });
+            window.addEventListener('offline', updateNetworkStatus);
+        }
+
+        function updateNetworkStatus() {
+            const badge = document.getElementById('network-badge');
+            if (badge) {
+                if (navigator.onLine) {
+                    badge.className = "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30";
+                    badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online';
+                } else {
+                    badge.className = "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/30 text-amber-200 border border-amber-400/30";
+                    badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Offline';
+                }
+            }
+            updateOfflineBanner();
+        }
+
+        function updateOfflineBanner() {
+            const banner = document.getElementById('banner-offline-draft');
+            const countText = document.getElementById('text-offline-count');
+            if (banner && countText) {
+                if (offlineDrafts && offlineDrafts.length > 0) {
+                    banner.classList.remove('hidden');
+                    countText.innerText = `Ada ${offlineDrafts.length} penilai tersimpan offline`;
+                } else {
+                    banner.classList.add('hidden');
+                }
+            }
+        }
+
+        async function syncOfflineDrafts() {
+            if (!offlineDrafts || offlineDrafts.length === 0 || !navigator.onLine) return;
+            showModal("Menyinkronkan Draft...", `Mengirim ${offlineDrafts.length} data draft ke server...`);
+
+            let successCount = 0;
+            const remainingDrafts = [];
+
+            for (const draft of offlineDrafts) {
+                try {
+                    const response = await fetch(GAS_WEB_APP_URL, {
+                        method: "POST",
+                        redirect: "follow",
+                        body: JSON.stringify(draft),
+                        headers: { "Content-Type": "text/plain;charset=utf-8" }
+                    });
+                    const res = await response.json();
+                    if (res.success) successCount++;
+                    else remainingDrafts.push(draft);
+                } catch (e) {
+                    remainingDrafts.push(draft);
+                }
+            }
+
+            offlineDrafts = remainingDrafts;
+            localStorage.setItem('offlineDrafts', JSON.stringify(offlineDrafts));
+            updateOfflineBanner();
+            loadHistory();
+            showModal("Sinkronisasi Selesai", `${successCount} data draft berhasil dikirim ke Google Sheets.`, true);
+        }
 
         function renderScheduleWidget() {
             const container = document.getElementById('schedule-list');
@@ -1499,10 +1564,15 @@
         function closeModal() { document.getElementById('custom-modal').classList.add('hidden'); }
 
         window.onload = function () {
-            initNetworkMonitoring();
-            renderScheduleWidget();
-            renderTopIssues();
-            checkLoginStatus();
+            try {
+                initNetworkMonitoring();
+                renderScheduleWidget();
+                renderTopIssues();
+            } catch (e) {
+                console.error("Initialization error:", e);
+            } finally {
+                checkLoginStatus();
+            }
         };
     </script>
 </body>

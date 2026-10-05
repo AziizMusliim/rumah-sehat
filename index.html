@@ -277,7 +277,12 @@
                         </div>
                         <h3 class="font-bold text-gray-800 text-sm">Target Inspeksi Hari Ini</h3>
                     </div>
-                    <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full" id="schedule-count">3 Jadwal</span>
+                    <div class="flex items-center gap-2">
+                        <button onclick="promptAddSchedule()" class="text-[10px] font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-lg transition-colors">
+                            + Tambah
+                        </button>
+                        <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full" id="schedule-count">0 Jadwal</span>
+                    </div>
                 </div>
                 <div id="schedule-list" class="space-y-2.5">
                     <!-- Schedule items injected dynamically -->
@@ -1064,85 +1069,28 @@
         let activeHistoryFilter = 'all';
         let offlineDrafts = JSON.parse(localStorage.getItem('offlineDrafts') || '[]');
 
-        const todaySchedules = [
-            { id: "sch1", nama_kk: "Bpk. Ahmad Yani", kelurahan: "Cigadung", kecamatan: "Cibeunying Kaler", alamat: "Jl. Cigadung Raya No. 42, RT 02/RW 05", status: "pending" },
-            { id: "sch2", nama_kk: "Ibu Siti Rahmah", kelurahan: "Cigadung", kecamatan: "Cibeunying Kaler", alamat: "Gg. Pak Damin No. 15, RT 04/RW 02", status: "pending" },
-            { id: "sch3", nama_kk: "Bpk. Bambang Sutrisno", kelurahan: "Sadang Serang", kecamatan: "Coblong", alamat: "Jl. Sadang Tengah No. 88, RT 01/RW 08", status: "completed" }
-        ];
-
-        function initNetworkMonitoring() {
-            updateNetworkStatus();
-            window.addEventListener('online', () => {
-                updateNetworkStatus();
-                syncOfflineDrafts();
-            });
-            window.addEventListener('offline', updateNetworkStatus);
-        }
-
-        function updateNetworkStatus() {
-            const badge = document.getElementById('network-badge');
-            if (badge) {
-                if (navigator.onLine) {
-                    badge.className = "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30";
-                    badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online';
-                } else {
-                    badge.className = "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/30 text-amber-200 border border-amber-400/30";
-                    badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span> Offline';
-                }
-            }
-            updateOfflineBanner();
-        }
-
-        function updateOfflineBanner() {
-            const banner = document.getElementById('banner-offline-draft');
-            const countText = document.getElementById('text-offline-count');
-            if (banner && countText) {
-                if (offlineDrafts.length > 0) {
-                    banner.classList.remove('hidden');
-                    countText.innerText = `Ada ${offlineDrafts.length} penilai tersimpan offline`;
-                } else {
-                    banner.classList.add('hidden');
-                }
-            }
-        }
-
-        async function syncOfflineDrafts() {
-            if (offlineDrafts.length === 0 || !navigator.onLine) return;
-            showModal("Menyinkronkan Draft...", `Mengirim ${offlineDrafts.length} data draft ke server...`);
-
-            let successCount = 0;
-            const remainingDrafts = [];
-
-            for (const draft of offlineDrafts) {
-                try {
-                    const response = await fetch(GAS_WEB_APP_URL, {
-                        method: "POST",
-                        redirect: "follow",
-                        body: JSON.stringify(draft),
-                        headers: { "Content-Type": "text/plain;charset=utf-8" }
-                    });
-                    const res = await response.json();
-                    if (res.success) successCount++;
-                    else remainingDrafts.push(draft);
-                } catch (e) {
-                    remainingDrafts.push(draft);
-                }
-            }
-
-            offlineDrafts = remainingDrafts;
-            localStorage.setItem('offlineDrafts', JSON.stringify(offlineDrafts));
-            updateOfflineBanner();
-            loadHistory();
-            showModal("Sinkronisasi Selesai", `${successCount} data draft berhasil dikirim ke Google Sheets.`, true);
-        }
+        let realSchedules = JSON.parse(localStorage.getItem('realSchedules') || '[]');
 
         function renderScheduleWidget() {
             const container = document.getElementById('schedule-list');
             const countEl = document.getElementById('schedule-count');
             if (!container) return;
+
+            if (!realSchedules || realSchedules.length === 0) {
+                if (countEl) countEl.innerText = "0 Jadwal";
+                container.innerHTML = `
+                    <div class="text-center py-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <p class="text-xs text-gray-500 font-medium">Belum ada target jadwal inspeksi hari ini.</p>
+                        <button onclick="promptAddSchedule()" class="text-xs text-teal-600 font-bold hover:underline mt-1 inline-block">
+                            + Tambah Jadwal Kunjungan
+                        </button>
+                    </div>`;
+                return;
+            }
+
             let html = '';
             let pendingCount = 0;
-            todaySchedules.forEach(item => {
+            realSchedules.forEach((item, index) => {
                 const isDone = item.status === 'completed';
                 if (!isDone) pendingCount++;
                 html += `
@@ -1156,11 +1104,12 @@
                                 <p class="text-[10px] text-gray-500">${item.alamat}</p>
                             </div>
                         </div>
-                        <div>
+                        <div class="flex items-center gap-2">
                             ${isDone ? '<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">Selesai</span>' : 
-                            `<button onclick="startScheduledAssessment('${item.nama_kk}', '${item.alamat}', '${item.kelurahan}', '${item.kecamatan}')" class="text-[10px] font-bold text-white bg-indigo-600 hover:bg-indigo-700 px-2.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1">
+                            `<button onclick="startScheduledAssessment('${item.nama_kk}', '${item.alamat}', '${item.kelurahan || ''}', '${item.kecamatan || ''}')" class="text-[10px] font-bold text-white bg-indigo-600 hover:bg-indigo-700 px-2.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1">
                                 Inspeksi <i class="fas fa-arrow-right text-[8px]"></i>
                             </button>`}
+                            <button onclick="removeSchedule(${index})" class="text-gray-400 hover:text-red-500 text-xs px-1" title="Hapus Jadwal"><i class="fas fa-trash-alt"></i></button>
                         </div>
                     </div>`;
             });
@@ -1168,32 +1117,79 @@
             container.innerHTML = html;
         }
 
+        function promptAddSchedule() {
+            const nama = prompt("Masukkan Nama Kepala Keluarga (KK):");
+            if (!nama || !nama.trim()) return;
+            const alamat = prompt("Masukkan Alamat / RT / RW:");
+            const kel = prompt("Masukkan Kelurahan:");
+            const kec = prompt("Masukkan Kecamatan:");
+
+            realSchedules.push({
+                id: 'sch-' + new Date().getTime(),
+                nama_kk: nama.trim(),
+                alamat: alamat ? alamat.trim() : '',
+                kelurahan: kel ? kel.trim() : '',
+                kecamatan: kec ? kec.trim() : '',
+                status: 'pending'
+            });
+            localStorage.setItem('realSchedules', JSON.stringify(realSchedules));
+            renderScheduleWidget();
+        }
+
+        function removeSchedule(index) {
+            realSchedules.splice(index, 1);
+            localStorage.setItem('realSchedules', JSON.stringify(realSchedules));
+            renderScheduleWidget();
+        }
+
         function startScheduledAssessment(nama_kk, alamat, kelurahan, kecamatan) {
             startAssessment();
-            document.getElementById('nama_kk').value = nama_kk;
-            document.getElementById('alamat').value = alamat;
-            document.getElementById('kelurahan').value = kelurahan;
-            document.getElementById('kecamatan').value = kecamatan;
+            if (nama_kk) document.getElementById('nama_kk').value = nama_kk;
+            if (alamat) document.getElementById('alamat').value = alamat;
+            if (kelurahan) document.getElementById('kelurahan').value = kelurahan;
+            if (kecamatan) document.getElementById('kecamatan').value = kecamatan;
         }
 
         function renderTopIssues() {
             const container = document.getElementById('top-issues-container');
             if (!container) return;
+
+            if (!allHistoryData || allHistoryData.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-4 bg-gray-50 rounded-xl border border-gray-100">
+                        <p class="text-xs text-gray-500 font-medium">Belum ada data penilaian tersimpan.</p>
+                        <p class="text-[10px] text-gray-400 mt-0.5">Lakukan inspeksi pertama untuk melihat statistik real temuan masalah.</p>
+                    </div>`;
+                return;
+            }
+
+            const totalCount = allHistoryData.length;
+            let sanitasiIssueCount = 0;
+            let komponenIssueCount = 0;
+            let perilakuIssueCount = 0;
+
+            allHistoryData.forEach(item => {
+                if (item.sub_sanitasi < 375 || item.status === 'Tidak Sehat') sanitasiIssueCount++;
+                if (item.sub_komponen < 496) komponenIssueCount++;
+                if (item.sub_perilaku < 440) perilakuIssueCount++;
+            });
+
             const issues = [
-                { name: "SPAL Mencemari / Tdk Tertutup", count: "65% Rumah", pct: "65%", color: "bg-rose-500" },
-                { name: "Luas Ventilasi Rumah < 10%", count: "40% Rumah", pct: "40%", color: "bg-amber-500" },
-                { name: "Jamban Belum Leher Angsa", count: "25% Rumah", pct: "25%", color: "bg-indigo-500" }
-            ];
+                { name: "Sarana Sanitasi Tdk Memenuhi Syarat", count: Math.round((sanitasiIssueCount / totalCount) * 100), color: "bg-rose-500" },
+                { name: "Komponen Fisik Rumah Sub-Optimal", count: Math.round((komponenIssueCount / totalCount) * 100), color: "bg-amber-500" },
+                { name: "Perilaku Penghuni Perlu Pembinaan", count: Math.round((perilakuIssueCount / totalCount) * 100), color: "bg-indigo-500" }
+            ].sort((a, b) => b.count - a.count);
+
             let html = '';
             issues.forEach(issue => {
                 html += `
                     <div>
                         <div class="flex justify-between text-xs font-medium mb-1">
                             <span class="text-gray-700 text-[11px] font-medium">${issue.name}</span>
-                            <span class="text-gray-500 text-[11px] font-bold">${issue.count}</span>
+                            <span class="text-gray-500 text-[11px] font-bold">${issue.count}% Rumah (${Math.round((issue.count * totalCount)/100)}/${totalCount})</span>
                         </div>
                         <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
-                            <div class="${issue.color} h-1.5 rounded-full transition-all duration-500" style="width: ${issue.pct}"></div>
+                            <div class="${issue.color} h-1.5 rounded-full transition-all duration-500" style="width: ${issue.count}%"></div>
                         </div>
                     </div>`;
             });
@@ -1425,17 +1421,12 @@
 
             btn.disabled = true; stat.classList.remove('hidden');
 
-            // Dummy bypass jika API Key tidak diset. Dalam produksi, gunakan endpoint API Asli
+            // Jika API Key tidak diset, tampilkan pesan agar diatur di menu Pengaturan
             if (!geminiApiKey) {
-                setTimeout(() => {
-                    stat.classList.add('hidden');
-                    closeScannerModal();
-                    startAssessment();
-                    document.getElementById('nama_kk').value = "Bapak/Ibu dari Baris " + kkIndex;
-                    document.getElementById('alamat').value = "Alamat Ekstraksi Dummy";
-                    showModal("Simulasi Ekstraksi AI", "Karena API Key AI tidak disertakan, aplikasi mengisi form secara simulasi.", true);
-                    document.getElementById('modal-action-btn').onclick = closeModal;
-                }, 1500);
+                stat.classList.add('hidden');
+                btn.disabled = false;
+                closeScannerModal();
+                showModal("Kunci API Belum Diberikan", "Silakan masukkan Kunci API Gemini AI Anda pada menu Pengaturan -> Konfigurasi API AI untuk mengaktifkan ekstraksi scan foto.");
                 return;
             }
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -10,69 +11,129 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* gray-100 */
+            background-color: #f3f4f6;
+            /* gray-100 */
         }
+
         /* Hide scrollbar for cleaner mobile look */
         ::-webkit-scrollbar {
             width: 0px;
             background: transparent;
         }
+
         .step-container {
             display: none;
             animation: fadeIn 0.3s ease-in-out;
         }
+
         .step-container.active {
             display: block;
         }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         /* Mobile container constraints */
         .mobile-app-container {
             max-width: 480px;
             margin: 0 auto;
             background-color: #ffffff;
             min-height: 100vh;
-            min-height: 100dvh; /* Adaptif untuk browser mobile */
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            min-height: 100dvh;
+            /* Adaptif untuk browser mobile */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
             position: relative;
-            padding-bottom: 80px; /* Space for bottom nav */
+            padding-bottom: 80px;
+            /* Space for bottom nav */
             overflow-x: hidden;
         }
-        
+
         /* Dark Mode Override Styles */
-        body.dark-mode { background-color: #111827; }
-        body.dark-mode .mobile-app-container, body.dark-mode .bg-white { background-color: #1f2937 !important; border-color: #374151 !important; color: #f3f4f6 !important; }
-        body.dark-mode .text-gray-800, body.dark-mode .text-gray-700, body.dark-mode .text-gray-900 { color: #f3f4f6 !important; }
-        body.dark-mode .bg-gray-50, body.dark-mode .bg-gray-100, body.dark-mode .bg-gray-200 { background-color: #111827 !important; border-color: #374151 !important;}
-        body.dark-mode .text-gray-500, body.dark-mode .text-gray-400 { color: #9ca3af !important; }
-        body.dark-mode input, body.dark-mode textarea, body.dark-mode select { background-color: #374151 !important; color: #fff !important; border-color: #4b5563 !important; }
-        body.dark-mode #main-bottom-nav, body.dark-mode #form-bottom-nav, body.dark-mode #add-menu-sheet { background-color: #1f2937 !important; }
+        body.dark-mode {
+            background-color: #111827;
+        }
+
+        body.dark-mode .mobile-app-container,
+        body.dark-mode .bg-white {
+            background-color: #1f2937 !important;
+            border-color: #374151 !important;
+            color: #f3f4f6 !important;
+        }
+
+        body.dark-mode .text-gray-800,
+        body.dark-mode .text-gray-700,
+        body.dark-mode .text-gray-900 {
+            color: #f3f4f6 !important;
+        }
+
+        body.dark-mode .bg-gray-50,
+        body.dark-mode .bg-gray-100,
+        body.dark-mode .bg-gray-200 {
+            background-color: #111827 !important;
+            border-color: #374151 !important;
+        }
+
+        body.dark-mode .text-gray-500,
+        body.dark-mode .text-gray-400 {
+            color: #9ca3af !important;
+        }
+
+        body.dark-mode input,
+        body.dark-mode textarea,
+        body.dark-mode select {
+            background-color: #374151 !important;
+            color: #fff !important;
+            border-color: #4b5563 !important;
+        }
+
+        body.dark-mode #main-bottom-nav,
+        body.dark-mode #form-bottom-nav,
+        body.dark-mode #add-menu-sheet {
+            background-color: #1f2937 !important;
+        }
     </style>
 </head>
+
 <body class="text-gray-800">
 
     <div class="mobile-app-container">
-        
+
         <!-- Welcome / Login Screen -->
-        <main id="view-welcome" class="step-container absolute top-0 left-0 w-full h-[100dvh] bg-gradient-to-b from-teal-50/60 to-gray-50 z-[60] overflow-hidden">
+        <main id="view-welcome"
+            class="step-container absolute top-0 left-0 w-full h-[100dvh] bg-gradient-to-b from-teal-50/60 to-gray-50 z-[60] overflow-hidden">
             <!-- Inner wrapper untuk memastikan tata letak Flexbox tidak bertabrakan dengan class display:block -->
             <div class="flex flex-col justify-between items-center px-6 pt-20 pb-12 w-full h-full relative">
-                
+
                 <!-- Decorative background elements -->
-                <div class="absolute top-0 right-0 -mr-32 -mt-20 w-96 h-96 border-[50px] border-teal-100/40 rounded-full opacity-60 pointer-events-none"></div>
-                <div class="absolute bottom-40 left-0 -ml-20 w-64 h-64 bg-teal-100/40 rounded-full blur-3xl pointer-events-none"></div>
-                
+                <div
+                    class="absolute top-0 right-0 -mr-32 -mt-20 w-96 h-96 border-[50px] border-teal-100/40 rounded-full opacity-60 pointer-events-none">
+                </div>
+                <div
+                    class="absolute bottom-40 left-0 -ml-20 w-64 h-64 bg-teal-100/40 rounded-full blur-3xl pointer-events-none">
+                </div>
+
                 <!-- Top Section: Icon & Text -->
                 <div class="flex flex-col items-center relative z-10 w-full max-w-sm mt-8">
                     <!-- App Icon (Squircle) -->
-                    <div class="w-20 h-20 bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-[1.75rem] flex items-center justify-center shadow-lg shadow-teal-500/40 transform transition hover:scale-105">
-                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6M9 10h.01M15 10h.01M9 14h.01M15 14h.01"></path>
+                    <div
+                        class="w-20 h-20 bg-gradient-to-br from-teal-500 to-teal-600 text-white rounded-[1.75rem] flex items-center justify-center shadow-lg shadow-teal-500/40 transform transition hover:scale-105">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6M9 10h.01M15 10h.01M9 14h.01M15 14h.01">
+                            </path>
                         </svg>
                     </div>
-                    
+
                     <!-- Headings -->
                     <h1 class="text-3xl font-extrabold text-gray-900 mt-8 text-center leading-tight tracking-tight">
                         Selamat Datang<br>di Rumah Sehat
@@ -81,24 +142,24 @@
                         Ubah inspeksi harian menjadi kemajuan nyata untuk kesehatan lingkungan.
                     </p>
                 </div>
-                
+
                 <!-- Bottom Section: Form Input & Button -->
                 <div class="w-full max-w-sm relative z-10 mb-4">
                     <form id="login-form" onsubmit="loginUser(event)" class="space-y-4">
-                        
+
                         <div class="relative">
                             <!-- Name Input (Pill shape) -->
-                            <input type="text" id="input-petugas-name" required 
-                                class="w-full bg-white border border-gray-200/80 rounded-full px-6 py-4 text-center text-gray-800 font-medium shadow-sm focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all placeholder-gray-400" 
+                            <input type="text" id="input-petugas-name" required
+                                class="w-full bg-white border border-gray-200/80 rounded-full px-6 py-4 text-center text-gray-800 font-medium shadow-sm focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none transition-all placeholder-gray-400"
                                 placeholder="Nama Petugas / Kader">
                         </div>
-                        
+
                         <!-- Submit Button (Pill shape) -->
-                        <button type="submit" 
+                        <button type="submit"
                             class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-4 px-6 rounded-full shadow-lg shadow-teal-600/40 transition-all flex justify-center items-center">
                             Mulai Bertugas
                         </button>
-                        
+
                         <!-- Footer text -->
                         <p class="text-[11px] font-medium text-center text-gray-400 mt-6 tracking-wide">
                             Sistem Penilaian Digital &copy; 2026
@@ -109,7 +170,8 @@
         </main>
 
         <!-- App Header -->
-        <header id="app-header" class="bg-teal-600 text-white p-4 sticky top-0 z-50 shadow-md flex items-center justify-between hidden">
+        <header id="app-header"
+            class="bg-teal-600 text-white p-4 sticky top-0 z-50 shadow-md flex items-center justify-between hidden">
             <div class="flex items-center gap-3">
                 <i class="fas fa-home-medical text-2xl"></i>
                 <div>
@@ -124,20 +186,22 @@
 
         <!-- Main Dashboard View -->
         <main id="view-dashboard" class="step-container p-6">
-            
+
             <!-- Sapaan Personal -->
             <div class="mb-6 flex justify-between items-center">
                 <div>
                     <p class="text-sm text-gray-500 font-medium">Selamat bertugas,</p>
                     <h2 class="text-xl font-bold text-gray-800" id="dash-petugas-name">Petugas Lapangan</h2>
                 </div>
-                <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold border border-teal-200 shadow-sm">
+                <div
+                    class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold border border-teal-200 shadow-sm">
                     <i class="fas fa-user-md"></i>
                 </div>
             </div>
 
             <!-- Kartu Target Utama (Hero Card) -->
-            <div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden mb-4">
+            <div
+                class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden mb-4">
                 <div class="absolute -right-4 -top-4 w-24 h-24 bg-white opacity-10 rounded-full"></div>
                 <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white opacity-10 rounded-full"></div>
                 <div class="relative z-10">
@@ -151,7 +215,8 @@
                     </div>
                     <!-- Progress Bar -->
                     <div class="w-full bg-teal-800/50 rounded-full h-2 mb-1.5 overflow-hidden">
-                        <div id="stat-progress" class="bg-white h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        <div id="stat-progress" class="bg-white h-2 rounded-full transition-all duration-1000"
+                            style="width: 0%"></div>
                     </div>
                     <p class="text-xs text-teal-100 text-right font-medium" id="stat-percent">0% Selesai</p>
                 </div>
@@ -159,8 +224,10 @@
 
             <!-- Grid Statistik (Sehat vs Tidak Sehat) -->
             <div class="grid grid-cols-2 gap-4 mb-6">
-                <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
-                    <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex justify-center items-center text-lg shrink-0">
+                <div
+                    class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
+                    <div
+                        class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex justify-center items-center text-lg shrink-0">
                         <i class="fas fa-home"></i>
                     </div>
                     <div>
@@ -168,9 +235,11 @@
                         <h3 class="text-lg font-bold text-gray-800 leading-none" id="stat-sehat">0</h3>
                     </div>
                 </div>
-                
-                <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
-                    <div class="w-10 h-10 rounded-full bg-red-100 text-red-500 flex justify-center items-center text-lg shrink-0">
+
+                <div
+                    class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
+                    <div
+                        class="w-10 h-10 rounded-full bg-red-100 text-red-500 flex justify-center items-center text-lg shrink-0">
                         <i class="fas fa-house-damage"></i>
                     </div>
                     <div>
@@ -183,7 +252,8 @@
             <div class="mt-4">
                 <div class="flex justify-between items-end mb-4">
                     <h3 class="font-bold text-gray-800 text-lg">Riwayat Penilaian</h3>
-                    <button onclick="loadHistory()" class="text-sm text-teal-600 font-medium hover:underline bg-teal-50 px-2 py-1 rounded-md">
+                    <button onclick="loadHistory()"
+                        class="text-sm text-teal-600 font-medium hover:underline bg-teal-50 px-2 py-1 rounded-md">
                         <i class="fas fa-sync-alt mr-1"></i>Segarkan
                     </button>
                 </div>
@@ -200,10 +270,12 @@
         <!-- Settings View -->
         <main id="view-settings" class="step-container hidden p-6 bg-gray-50 min-h-screen">
             <h2 class="text-2xl font-bold text-gray-800 mb-6">Pengaturan</h2>
-            
+
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6 transition-colors">
                 <div class="p-4 border-b flex items-center gap-3">
-                    <div class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-xl"><i class="fas fa-user"></i></div>
+                    <div
+                        class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-xl">
+                        <i class="fas fa-user"></i></div>
                     <div>
                         <h4 class="font-bold text-gray-800" id="set-petugas-name">Petugas Lapangan</h4>
                         <p class="text-xs text-gray-500">Petugas Aktif</p>
@@ -212,34 +284,66 @@
                 <div class="p-4 space-y-4">
                     <div class="flex justify-between items-center cursor-pointer" onclick="toggleNotification()">
                         <span class="text-sm font-medium text-gray-700">Notifikasi</span>
-                        <div id="toggle-notif" class="w-10 h-6 bg-gray-300 rounded-full relative transition-colors duration-300"><div class="w-4 h-4 bg-white rounded-full absolute left-1 top-1 transition-transform duration-300 transform translate-x-0"></div></div>
+                        <div id="toggle-notif"
+                            class="w-10 h-6 bg-gray-300 rounded-full relative transition-colors duration-300">
+                            <div
+                                class="w-4 h-4 bg-white rounded-full absolute left-1 top-1 transition-transform duration-300 transform translate-x-0">
+                            </div>
+                        </div>
                     </div>
                     <div class="flex justify-between items-center cursor-pointer" onclick="toggleDarkMode()">
                         <span class="text-sm font-medium text-gray-700">Mode Gelap</span>
-                        <div id="toggle-dark" class="w-10 h-6 bg-gray-300 rounded-full relative transition-colors duration-300"><div class="w-4 h-4 bg-white rounded-full absolute left-1 top-1 transition-transform duration-300 transform translate-x-0"></div></div>
+                        <div id="toggle-dark"
+                            class="w-10 h-6 bg-gray-300 rounded-full relative transition-colors duration-300">
+                            <div
+                                class="w-4 h-4 bg-white rounded-full absolute left-1 top-1 transition-transform duration-300 transform translate-x-0">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            
+
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-colors">
-                <button onclick="syncData()" class="w-full text-left p-4 border-b hover:bg-gray-50 text-sm font-medium text-gray-700 flex justify-between items-center"><i class="fas fa-cloud text-teal-600 w-6"></i> Sinkronisasi Data <i class="fas fa-chevron-right text-gray-400 text-xs"></i></button>
-                <button onclick="openApiConfig()" class="w-full text-left p-4 border-b hover:bg-gray-50 text-sm font-medium text-gray-700 flex justify-between items-center"><i class="fas fa-database text-indigo-600 w-6"></i> Konfigurasi API AI <i class="fas fa-chevron-right text-gray-400 text-xs"></i></button>
-                <button onclick="logout()" class="w-full text-left p-4 hover:bg-red-50 text-sm font-medium text-red-600 flex justify-between items-center"><i class="fas fa-sign-out-alt w-6"></i> Keluar <i class="fas fa-chevron-right text-red-300 text-xs"></i></button>
+                <button onclick="syncData()"
+                    class="w-full text-left p-4 border-b hover:bg-gray-50 text-sm font-medium text-gray-700 flex justify-between items-center"><i
+                        class="fas fa-cloud text-teal-600 w-6"></i> Sinkronisasi Data <i
+                        class="fas fa-chevron-right text-gray-400 text-xs"></i></button>
+                <button onclick="openApiConfig()"
+                    class="w-full text-left p-4 border-b hover:bg-gray-50 text-sm font-medium text-gray-700 flex justify-between items-center"><i
+                        class="fas fa-database text-indigo-600 w-6"></i> Konfigurasi API AI <i
+                        class="fas fa-chevron-right text-gray-400 text-xs"></i></button>
+                <button onclick="logout()"
+                    class="w-full text-left p-4 hover:bg-red-50 text-sm font-medium text-red-600 flex justify-between items-center"><i
+                        class="fas fa-sign-out-alt w-6"></i> Keluar <i
+                        class="fas fa-chevron-right text-red-300 text-xs"></i></button>
             </div>
         </main>
 
         <!-- Form View Container -->
         <main id="view-form" class="step-container hidden bg-white">
-            
+
             <!-- Progress Stepper -->
-            <div class="px-6 py-4 bg-gray-50 border-b flex justify-between items-center text-xs font-medium text-gray-400">
-                <div id="step-ind-1" class="flex flex-col items-center gap-1 text-teal-600"><div class="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center">1</div><span>Identitas</span></div>
+            <div
+                class="px-6 py-4 bg-gray-50 border-b flex justify-between items-center text-xs font-medium text-gray-400">
+                <div id="step-ind-1" class="flex flex-col items-center gap-1 text-teal-600">
+                    <div class="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center">1</div>
+                    <span>Identitas</span>
+                </div>
                 <div class="flex-1 h-px bg-gray-300 mx-2"></div>
-                <div id="step-ind-2" class="flex flex-col items-center gap-1"><div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">2</div><span>Komponen</span></div>
+                <div id="step-ind-2" class="flex flex-col items-center gap-1">
+                    <div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">2</div>
+                    <span>Komponen</span>
+                </div>
                 <div class="flex-1 h-px bg-gray-300 mx-2"></div>
-                <div id="step-ind-3" class="flex flex-col items-center gap-1"><div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">3</div><span>Sanitasi</span></div>
+                <div id="step-ind-3" class="flex flex-col items-center gap-1">
+                    <div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">3</div>
+                    <span>Sanitasi</span>
+                </div>
                 <div class="flex-1 h-px bg-gray-300 mx-2"></div>
-                <div id="step-ind-4" class="flex flex-col items-center gap-1"><div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">4</div><span>Perilaku</span></div>
+                <div id="step-ind-4" class="flex flex-col items-center gap-1">
+                    <div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">4</div>
+                    <span>Perilaku</span>
+                </div>
             </div>
 
             <!-- Step 1: Identitas -->
@@ -248,105 +352,150 @@
                 <form id="form-identitas" class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nama Kepala Keluarga (KK) *</label>
-                        <input type="text" id="nama_kk" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border" placeholder="Masukkan nama KK">
+                        <input type="text" id="nama_kk" required
+                            class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border"
+                            placeholder="Masukkan nama KK">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Alamat Lengkap *</label>
-                        <textarea id="alamat" required rows="2" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border" placeholder="Nama jalan, RT/RW"></textarea>
+                        <textarea id="alamat" required rows="2"
+                            class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border"
+                            placeholder="Nama jalan, RT/RW"></textarea>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Kelurahan *</label>
-                            <input type="text" id="kelurahan" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border">
+                            <input type="text" id="kelurahan" required
+                                class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Kecamatan *</label>
-                            <input type="text" id="kecamatan" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border">
+                            <input type="text" id="kecamatan" required
+                                class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border">
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Kabupaten/Kota *</label>
-                            <input type="text" id="kabupaten" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border" value="Bandung">
+                            <input type="text" id="kabupaten" required
+                                class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border"
+                                value="Bandung">
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Provinsi *</label>
-                            <input type="text" id="provinsi" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border" value="Jawa Barat">
+                            <input type="text" id="provinsi" required
+                                class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border"
+                                value="Jawa Barat">
                         </div>
                     </div>
                     <hr class="my-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nama Petugas *</label>
-                        <input type="text" id="nama_petugas" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border" placeholder="Nama Pemeriksa">
+                        <input type="text" id="nama_petugas" required
+                            class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border"
+                            placeholder="Nama Pemeriksa">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal Pemeriksaan *</label>
-                        <input type="date" id="tanggal" required class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border">
+                        <input type="date" id="tanggal" required
+                            class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border">
                     </div>
                 </form>
             </div>
 
             <!-- Step 2,3,4: Kuesioner Containers -->
             <div id="step-2" class="form-step p-6 hidden">
-                <div class="mb-4"><h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">I. Komponen Rumah</h2><p class="text-sm text-gray-500 mt-1">Bobot: 31</p></div>
+                <div class="mb-4">
+                    <h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">I. Komponen Rumah</h2>
+                    <p class="text-sm text-gray-500 mt-1">Bobot: 31</p>
+                </div>
                 <div id="container-komponen" class="space-y-6"></div>
             </div>
             <div id="step-3" class="form-step p-6 hidden">
-                <div class="mb-4"><h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">II. Sarana Sanitasi</h2><p class="text-sm text-gray-500 mt-1">Bobot: 25</p></div>
+                <div class="mb-4">
+                    <h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">II. Sarana Sanitasi</h2>
+                    <p class="text-sm text-gray-500 mt-1">Bobot: 25</p>
+                </div>
                 <div id="container-sanitasi" class="space-y-6"></div>
             </div>
             <div id="step-4" class="form-step p-6 hidden">
-                <div class="mb-4"><h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">III. Perilaku Penghuni</h2><p class="text-sm text-gray-500 mt-1">Bobot: 44</p></div>
+                <div class="mb-4">
+                    <h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">III. Perilaku Penghuni
+                    </h2>
+                    <p class="text-sm text-gray-500 mt-1">Bobot: 44</p>
+                </div>
                 <div id="container-perilaku" class="space-y-6"></div>
             </div>
 
             <!-- Step 5: Review & Submit -->
             <div id="step-5" class="form-step p-6 hidden">
-                <h2 class="text-xl font-bold text-gray-800 mb-4 border-l-4 border-teal-500 pl-3">Ringkasan Penilaian</h2>
-                <div class="bg-gradient-to-br from-teal-600 to-teal-800 rounded-xl p-6 text-white text-center shadow-lg mb-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 border-l-4 border-teal-500 pl-3">Ringkasan Penilaian
+                </h2>
+                <div
+                    class="bg-gradient-to-br from-teal-600 to-teal-800 rounded-xl p-6 text-white text-center shadow-lg mb-6">
                     <p class="text-teal-100 text-sm font-medium mb-1">TOTAL SKOR RUMAH SEHAT</p>
                     <div class="text-5xl font-bold mb-2" id="review-total-skor">0</div>
-                    <div class="inline-block bg-white/20 rounded-full px-4 py-1 text-sm font-semibold backdrop-blur-sm" id="review-status">-</div>
+                    <div class="inline-block bg-white/20 rounded-full px-4 py-1 text-sm font-semibold backdrop-blur-sm"
+                        id="review-status">-</div>
                 </div>
                 <div class="space-y-3 mb-6">
-                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border"><span class="text-sm font-medium text-gray-700">I. Komponen</span><span class="font-bold text-teal-600" id="review-sub-1">0</span></div>
-                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border"><span class="text-sm font-medium text-gray-700">II. Sanitasi</span><span class="font-bold text-teal-600" id="review-sub-2">0</span></div>
-                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border"><span class="text-sm font-medium text-gray-700">III. Perilaku</span><span class="font-bold text-teal-600" id="review-sub-3">0</span></div>
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border"><span
+                            class="text-sm font-medium text-gray-700">I. Komponen</span><span
+                            class="font-bold text-teal-600" id="review-sub-1">0</span></div>
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border"><span
+                            class="text-sm font-medium text-gray-700">II. Sanitasi</span><span
+                            class="font-bold text-teal-600" id="review-sub-2">0</span></div>
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border"><span
+                            class="text-sm font-medium text-gray-700">III. Perilaku</span><span
+                            class="font-bold text-teal-600" id="review-sub-3">0</span></div>
                 </div>
-                <p class="text-xs text-gray-500 text-center italic mt-4 pb-24">Pastikan data sesuai sebelum menekan tombol Simpan.</p>
+                <p class="text-xs text-gray-500 text-center italic mt-4 pb-24">Pastikan data sesuai sebelum menekan
+                    tombol Simpan.</p>
             </div>
         </main>
 
         <!-- Form Floating Navigation Bar -->
-        <div id="form-bottom-nav" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white border-t border-gray-200 px-4 py-3 flex justify-between items-center shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] hidden z-40">
-            <button id="btn-prev" onclick="prevStep()" class="px-5 py-2.5 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors hidden"><i class="fas fa-arrow-left mr-2"></i> Kembali</button>
-            <div id="live-score-badge" class="hidden flex-1 text-center font-bold text-teal-600">Skor: <span id="live-score">0</span></div>
-            <button id="btn-next" onclick="nextStep()" class="px-6 py-2.5 bg-teal-600 text-white font-medium rounded-lg hover:bg-teal-700 transition-colors shadow-md ml-auto flex items-center">Selanjutnya <i class="fas fa-arrow-right ml-2"></i></button>
-            <button id="btn-submit" onclick="submitData()" class="px-6 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors shadow-md hidden ml-auto flex items-center"><i class="fas fa-save mr-2"></i> Simpan Data</button>
+        <div id="form-bottom-nav"
+            class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white border-t border-gray-200 px-4 py-3 flex justify-between items-center shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] hidden z-40">
+            <button id="btn-prev" onclick="prevStep()"
+                class="px-5 py-2.5 text-gray-600 font-medium rounded-lg hover:bg-gray-100 transition-colors hidden"><i
+                    class="fas fa-arrow-left mr-2"></i> Kembali</button>
+            <div id="live-score-badge" class="hidden flex-1 text-center font-bold text-teal-600">Skor: <span
+                    id="live-score">0</span></div>
+            <button id="btn-next" onclick="nextStep()"
+                class="px-6 py-2.5 bg-teal-600 text-white font-medium rounded-lg hover:bg-teal-700 transition-colors shadow-md ml-auto flex items-center">Selanjutnya
+                <i class="fas fa-arrow-right ml-2"></i></button>
+            <button id="btn-submit" onclick="submitData()"
+                class="px-6 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors shadow-md hidden ml-auto flex items-center"><i
+                    class="fas fa-save mr-2"></i> Simpan Data</button>
         </div>
 
         <!-- Main Global Navigation Bar (iOS Style Cutout) -->
-        <div id="main-bottom-nav" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white z-40 rounded-t-3xl shadow-[0_-10px_20px_rgba(0,0,0,0.05)] hidden">
+        <div id="main-bottom-nav"
+            class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white z-40 rounded-t-3xl shadow-[0_-10px_20px_rgba(0,0,0,0.05)] hidden">
             <div class="grid grid-cols-3 items-end px-6 pb-3 pt-3 relative">
-                
+
                 <!-- Tab: Home -->
                 <div class="flex justify-center w-full">
-                    <button id="tab-dashboard" onclick="switchTab('dashboard')" class="flex flex-col items-center gap-1 text-teal-600 transition-colors">
+                    <button id="tab-dashboard" onclick="switchTab('dashboard')"
+                        class="flex flex-col items-center gap-1 text-teal-600 transition-colors">
                         <i class="fas fa-home text-2xl mb-1"></i>
                         <span class="text-[10px] font-bold">Home</span>
                     </button>
                 </div>
-                
+
                 <!-- Floating Action Button (+) Center -->
                 <div class="relative flex justify-center items-center w-full">
-                    <button onclick="toggleAddMenu()" class="absolute -top-10 bg-gradient-to-r from-teal-500 to-teal-600 text-white w-16 h-16 rounded-full shadow-lg shadow-teal-200/50 flex items-center justify-center text-2xl hover:scale-105 active:scale-95 transition-all duration-200 border-4 border-white z-50">
+                    <button onclick="toggleAddMenu()"
+                        class="absolute -top-10 bg-gradient-to-r from-teal-500 to-teal-600 text-white w-16 h-16 rounded-full shadow-lg shadow-teal-200/50 flex items-center justify-center text-2xl hover:scale-105 active:scale-95 transition-all duration-200 border-4 border-white z-50">
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
 
                 <!-- Tab: Settings -->
                 <div class="flex justify-center w-full">
-                    <button id="tab-settings" onclick="switchTab('settings')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-teal-600 transition-colors">
+                    <button id="tab-settings" onclick="switchTab('settings')"
+                        class="flex flex-col items-center gap-1 text-gray-400 hover:text-teal-600 transition-colors">
                         <i class="fas fa-cog text-2xl mb-1"></i>
                         <span class="text-[10px] font-bold">Pengaturan</span>
                     </button>
@@ -355,22 +504,28 @@
         </div>
 
         <!-- Add Menu Action Sheet -->
-        <div id="add-menu-backdrop" class="fixed inset-0 bg-black/40 z-[100] hidden opacity-0 transition-opacity duration-300" onclick="toggleAddMenu()"></div>
-        <div id="add-menu-sheet" class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white rounded-t-3xl shadow-2xl z-[101] transform translate-y-full transition-transform duration-300">
+        <div id="add-menu-backdrop"
+            class="fixed inset-0 bg-black/40 z-[100] hidden opacity-0 transition-opacity duration-300"
+            onclick="toggleAddMenu()"></div>
+        <div id="add-menu-sheet"
+            class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white rounded-t-3xl shadow-2xl z-[101] transform translate-y-full transition-transform duration-300">
             <div class="p-6">
                 <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mb-6"></div>
                 <h3 class="text-center font-bold text-gray-800 mb-6 text-lg">Mulai Inspeksi Baru</h3>
                 <div class="grid grid-cols-2 gap-4">
-                    <button onclick="toggleAddMenu(); startAssessment()" class="w-full bg-teal-50 hover:bg-teal-100 text-teal-700 font-semibold py-6 px-4 rounded-2xl shadow-sm border border-teal-100 transition-all flex flex-col justify-center items-center">
+                    <button onclick="toggleAddMenu(); startAssessment()"
+                        class="w-full bg-teal-50 hover:bg-teal-100 text-teal-700 font-semibold py-6 px-4 rounded-2xl shadow-sm border border-teal-100 transition-all flex flex-col justify-center items-center">
                         <i class="fas fa-pen text-3xl mb-3"></i>
                         <span class="text-sm">Input<br>Manual</span>
                     </button>
-                    <button onclick="toggleAddMenu(); openScannerModal()" class="w-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-6 px-4 rounded-2xl shadow-sm border border-indigo-100 transition-all flex flex-col justify-center items-center">
+                    <button onclick="toggleAddMenu(); openScannerModal()"
+                        class="w-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold py-6 px-4 rounded-2xl shadow-sm border border-indigo-100 transition-all flex flex-col justify-center items-center">
                         <i class="fas fa-camera text-3xl mb-3"></i>
                         <span class="text-sm">Scan Foto<br>Kertas</span>
                     </button>
                 </div>
-                <button onclick="toggleAddMenu()" class="w-full mt-6 py-3 text-gray-500 font-medium hover:bg-gray-50 rounded-xl">Batal</button>
+                <button onclick="toggleAddMenu()"
+                    class="w-full mt-6 py-3 text-gray-500 font-medium hover:bg-gray-50 rounded-xl">Batal</button>
             </div>
         </div>
 
@@ -378,10 +533,13 @@
         <div id="custom-modal" class="fixed inset-0 bg-black/50 z-[100] hidden flex items-center justify-center p-4">
             <div class="bg-white rounded-xl shadow-xl w-full max-w-sm overflow-hidden" id="modal-content">
                 <div class="p-6 text-center">
-                    <div id="modal-icon" class="w-16 h-16 mx-auto rounded-full bg-red-100 text-red-600 flex items-center justify-center text-3xl mb-4"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div id="modal-icon"
+                        class="w-16 h-16 mx-auto rounded-full bg-red-100 text-red-600 flex items-center justify-center text-3xl mb-4">
+                        <i class="fas fa-exclamation-triangle"></i></div>
                     <h3 id="modal-title" class="text-lg font-bold text-gray-900 mb-2">Peringatan</h3>
                     <p id="modal-desc" class="text-sm text-gray-500 mb-6">Pesan.</p>
-                    <button id="modal-action-btn" onclick="closeModal()" class="w-full bg-gray-900 text-white font-medium py-3 rounded-lg hover:bg-gray-800">Mengerti</button>
+                    <button id="modal-action-btn" onclick="closeModal()"
+                        class="w-full bg-gray-900 text-white font-medium py-3 rounded-lg hover:bg-gray-800">Mengerti</button>
                 </div>
             </div>
         </div>
@@ -391,11 +549,16 @@
             <div class="bg-white rounded-xl shadow-xl w-full max-w-sm overflow-hidden">
                 <div class="p-6">
                     <h3 class="text-lg font-bold text-gray-900 mb-2">Konfigurasi API AI</h3>
-                    <p class="text-sm text-gray-500 mb-4">Masukkan API Key Google Gemini Anda untuk mengaktifkan fitur scan formulir dari kamera.</p>
-                    <input type="text" id="api-key-input" class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border mb-6 text-sm" placeholder="AIzaSy...">
+                    <p class="text-sm text-gray-500 mb-4">Masukkan API Key Google Gemini Anda untuk mengaktifkan fitur
+                        scan formulir dari kamera.</p>
+                    <input type="text" id="api-key-input"
+                        class="w-full border-gray-300 rounded-lg shadow-sm focus:border-teal-500 focus:ring-teal-500 p-3 bg-gray-50 border mb-6 text-sm"
+                        placeholder="AIzaSy...">
                     <div class="flex gap-3">
-                        <button onclick="closeApiConfig()" class="flex-1 py-3 text-gray-700 font-medium rounded-lg hover:bg-gray-200">Batal</button>
-                        <button onclick="saveApiConfig()" class="flex-1 py-3 bg-teal-600 text-white font-medium rounded-lg hover:bg-teal-700">Simpan</button>
+                        <button onclick="closeApiConfig()"
+                            class="flex-1 py-3 text-gray-700 font-medium rounded-lg hover:bg-gray-200">Batal</button>
+                        <button onclick="saveApiConfig()"
+                            class="flex-1 py-3 bg-teal-600 text-white font-medium rounded-lg hover:bg-teal-700">Simpan</button>
                     </div>
                 </div>
             </div>
@@ -405,29 +568,51 @@
         <div id="scanner-modal" class="fixed inset-0 bg-black/50 z-[100] hidden flex items-center justify-center p-4">
             <div class="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden flex flex-col max-h-[90vh]">
                 <div class="p-4 border-b flex justify-between items-center bg-gray-50">
-                    <h3 class="font-bold text-gray-800"><i class="fas fa-camera text-indigo-600 mr-2"></i>Scan Formulir</h3>
-                    <button onclick="closeScannerModal()" class="text-gray-500 hover:text-gray-800"><i class="fas fa-times text-xl"></i></button>
+                    <h3 class="font-bold text-gray-800"><i class="fas fa-camera text-indigo-600 mr-2"></i>Scan Formulir
+                    </h3>
+                    <button onclick="closeScannerModal()" class="text-gray-500 hover:text-gray-800"><i
+                            class="fas fa-times text-xl"></i></button>
                 </div>
                 <div class="p-6 flex-1 overflow-y-auto space-y-4">
-                    <div class="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:bg-gray-50 transition-colors relative">
-                        <input type="file" id="image-upload" accept="image/*" capture="environment" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onchange="handleImageSelection(this)">
-                        <div id="upload-placeholder"><i class="fas fa-cloud-upload-alt text-4xl text-indigo-400 mb-2"></i><p class="text-sm font-medium text-gray-700">Pilih Foto Ceklis</p></div>
-                        <img id="image-preview" class="hidden w-full h-48 object-contain mx-auto rounded-lg" src="" alt="Preview">
+                    <div
+                        class="border-2 border-dashed border-gray-300 rounded-xl p-4 text-center hover:bg-gray-50 transition-colors relative">
+                        <input type="file" id="image-upload" accept="image/*" capture="environment"
+                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                            onchange="handleImageSelection(this)">
+                        <div id="upload-placeholder"><i
+                                class="fas fa-cloud-upload-alt text-4xl text-indigo-400 mb-2"></i>
+                            <p class="text-sm font-medium text-gray-700">Pilih Foto Ceklis</p>
+                        </div>
+                        <img id="image-preview" class="hidden w-full h-48 object-contain mx-auto rounded-lg" src=""
+                            alt="Preview">
                     </div>
                     <div id="column-selector" class="hidden">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Ekstrak Data Kolom (KK) Nomor:</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Ekstrak Data Kolom (KK)
+                            Nomor:</label>
                         <select id="kk-index" class="w-full border-gray-300 rounded-lg p-3 bg-white border">
-                            <option value="1">Kolom 1</option><option value="2">Kolom 2</option><option value="3">Kolom 3</option>
-                            <option value="4">Kolom 4</option><option value="5">Kolom 5</option><option value="6">Kolom 6</option>
-                            <option value="7">Kolom 7</option><option value="8">Kolom 8</option><option value="9">Kolom 9</option>
+                            <option value="1">Kolom 1</option>
+                            <option value="2">Kolom 2</option>
+                            <option value="3">Kolom 3</option>
+                            <option value="4">Kolom 4</option>
+                            <option value="5">Kolom 5</option>
+                            <option value="6">Kolom 6</option>
+                            <option value="7">Kolom 7</option>
+                            <option value="8">Kolom 8</option>
+                            <option value="9">Kolom 9</option>
                             <option value="10">Kolom 10</option>
                         </select>
                     </div>
-                    <div id="scan-status" class="hidden flex items-center justify-center p-3 bg-indigo-50 text-indigo-700 rounded-lg"><i class="fas fa-circle-notch fa-spin mr-3 text-xl"></i><span class="text-sm font-medium">AI membaca dokumen...</span></div>
+                    <div id="scan-status"
+                        class="hidden flex items-center justify-center p-3 bg-indigo-50 text-indigo-700 rounded-lg"><i
+                            class="fas fa-circle-notch fa-spin mr-3 text-xl"></i><span class="text-sm font-medium">AI
+                            membaca dokumen...</span></div>
                 </div>
                 <div class="p-4 border-t bg-gray-50 flex gap-3">
-                    <button onclick="closeScannerModal()" class="flex-1 py-3 text-gray-700 font-medium rounded-lg hover:bg-gray-200">Batal</button>
-                    <button id="btn-process-scan" onclick="processScan()" class="flex-1 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 disabled:opacity-50" disabled>Ekstrak</button>
+                    <button onclick="closeScannerModal()"
+                        class="flex-1 py-3 text-gray-700 font-medium rounded-lg hover:bg-gray-200">Batal</button>
+                    <button id="btn-process-scan" onclick="processScan()"
+                        class="flex-1 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+                        disabled>Ekstrak</button>
                 </div>
             </div>
         </div>
@@ -436,38 +621,40 @@
     <script>
         // --- KONFIGURASI PENTING --- //
         // URL Web App dari Apps Script yang Anda berikan
-        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwgZDwLpTSq0zBfKk62UgN2dw5J9RP-BKGT-96DPx0bzMlAKeKy4VPDRd5FbCBIeXRH/exec"; 
-        
-        // Data Kuesioner Statis (Disamakan dengan Form Excel)
+        const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwgZDwLpTSq0zBfKk62UgN2dw5J9RP-BKGT-96DPx0bzMlAKeKy4VPDRd5FbCBIeXRH/exec";
+
+        // Data Kuesioner Statis (Disamakan dengan Form Excel / Formulir Penilaian Rumah Sehat)
         const configData = {
             komponen: {
                 id: 'komponen', title: 'Komponen Rumah', bobot: 31,
                 questions: [
-                    { id: "k1", text: "1. Langit-langit", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, kotor, rawan kecelakaan" }, { val: 2, label: "Ada, bersih" }] },
-                    { id: "k2", text: "2. Dinding", options: [{ val: 1, label: "Bukan tembok (bambu/ilalang)" }, { val: 2, label: "Semi permanen/tidak kedap air" }, { val: 3, label: "Permanen (tembok kedap air)" }] },
-                    { id: "k3", text: "3. Lantai", options: [{ val: 0, label: "Tanah" }, { val: 1, label: "Papan/plesteran retak" }, { val: 2, label: "Diplester/ubin/keramik" }] },
+                    { id: "k1", text: "1. Langit-langit", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, kotor, sulit dibersihkan dan rawan kecelakaan" }, { val: 2, label: "Ada, bersih dan tidak rawan kecelakaan" }] },
+                    { id: "k2", text: "2. Dinding", options: [{ val: 1, label: "Bukan tembok (terbuat dari anyaman bambu/ilalang)" }, { val: 2, label: "Semi permanen/setengah tembok/pasangan bata/batu tidak diplester/papan tidak kedap air" }, { val: 3, label: "Permanen (tembok/pasangan batu bata yang diplester) papan kedap air" }] },
+                    { id: "k3", text: "3. Lantai", options: [{ val: 0, label: "Tanah" }, { val: 1, label: "Papan/anyaman bambu dekat tanah/plesteran retak dan berdebu" }, { val: 2, label: "Diplester/ubin/keramik/papan (rumah panggung)" }] },
                     { id: "k4", text: "4. Jendela kamar tidur", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada" }] },
                     { id: "k5", text: "5. Jendela ruang keluarga", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada" }] },
-                    { id: "k6", text: "6. Ventilasi", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, permanen < 10%" }, { val: 2, label: "Ada, permanen > 10%" }] },
-                    { id: "k7", text: "7. Lubang asap dapur", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, < 10% luas lantai" }, { val: 2, label: "Ada, > 10% luas lantai" }] },
-                    { id: "k8", text: "8. Pencahayaan", options: [{ val: 0, label: "Tidak terang" }, { val: 1, label: "Kurang terang" }, { val: 2, label: "Terang, tidak silau" }] }
+                    { id: "k6", text: "6. Ventilasi", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, luas ventilasi permanen < 10% dari luas lantai" }, { val: 2, label: "Ada, luas ventilasi permanen > 10% dari luas lantai" }] },
+                    { id: "k7", text: "7. Lubang asap dapur", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, luas ventilasi dapur < 10% dari luas lantai dapur" }, { val: 2, label: "Ada, luas ventilasi dapur > 10% dari luas lantai dapur" }] },
+                    { id: "k8", text: "8. Pencahayaan (Ruang Keluarga)", options: [{ val: 0, label: "Tidak terang, tidak dapat dipergunakan untuk membaca" }, { val: 2, label: "Kurang terang, sehingga kurang jelas untuk membaca dengan normal" }, { val: 3, label: "Terang dan tidak silau sehingga, dapat dipergunakan untuk membaca dengan normal" }] }
                 ]
             },
             sanitasi: {
                 id: 'sanitasi', title: 'Sarana Sanitasi', bobot: 25,
                 questions: [
-                    { id: "s1", text: "1. Sarana Air Bersih", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, bukan milik sendiri, Tdk Syarat" }, { val: 2, label: "Ada, milik sendiri, Tdk Syarat" }, { val: 3, label: "Ada, bukan milik sendiri, Memenuhi Syarat" }, { val: 4, label: "Ada, milik sendiri, Memenuhi Syarat" }] },
-                    { id: "s2", text: "2. Jamban", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Bukan leher angsa, sungai/kolam" }, { val: 2, label: "Bukan leher angsa, ada tutup, sungai" }, { val: 3, label: "Bukan leher angsa, septic tank" }, { val: 4, label: "Leher angsa, septic tank" }] },
-                    { id: "s3", text: "3. SPAL", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, mencemari sumber air (<10m)" }, { val: 2, label: "Ada, dialirkan ke selokan terbuka" }, { val: 3, label: "Ada, diresapkan tidak mencemari (>10m)" }, { val: 4, label: "Ada, selokan tertutup" }] },
-                    { id: "s4", text: "4. Pembuangan sampah", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, tidak kedap air, tanpa tutup" }, { val: 2, label: "Ada, kedap air, tanpa tutup" }, { val: 3, label: "Ada, kedap air dan tertutup" }] }
+                    { id: "s1", text: "1. Sarana Air Bersih (SGL/SPT/PP/KU/PAH)", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, bukan milik sendiri dan tidak memenuhi syarat kesehatan" }, { val: 2, label: "Ada, milik sendiri dan tidak memenuhi syarat kesehatan" }, { val: 3, label: "Ada, bukan milik sendiri dan memenuhi syarat kesehatan" }, { val: 4, label: "Ada, milik sendiri dan memenuhi syarat kesehatan" }] },
+                    { id: "s2", text: "2. Jamban (Sarana pembuangan kotoran)", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, bukan leher angsa, tidak ada tutup, disalurkan ke sungai/kolam" }, { val: 2, label: "Ada, bukan leher angsa, ada tutup (leher angsa), disalurkan ke sungai/kolam" }, { val: 3, label: "Ada, bukan leher angsa, ada tutup, septic tank" }, { val: 4, label: "Ada, leher angsa, septic tank" }] },
+                    { id: "s3", text: "3. Sarana pembuangan air limbah (SPAL)", options: [{ val: 0, label: "Tidak ada, sehingga tergenang dan tidak teratur di halaman rumah" }, { val: 1, label: "Ada, diresapkan tetapi mencemari sumber air (jarak dengan sumber air < 10 m)" }, { val: 2, label: "Ada, dialirkan ke selokan terbuka" }, { val: 3, label: "Ada, diresapkan dan tidak mencemari sumber air (jarak dengan sumber air >10m)" }, { val: 4, label: "Ada, dialirkan ke selokan tertutup (saluran kota) untuk diolah lebih lanjut" }] },
+                    { id: "s4", text: "4. Sarana pembuangan sampah (tempat sampah rumah tangga)", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, tetapi tidak kedap air dan tidak ada tutup" }, { val: 2, label: "Ada, kedap air dan tidak tertutup" }, { val: 3, label: "Ada, kedap air dan tertutup" }] }
                 ]
             },
             perilaku: {
                 id: 'perilaku', title: 'Perilaku Penghuni', bobot: 44,
                 questions: [
-                    { id: "p1", text: "1. Buka jendela kamar", options: [{ val: 0, label: "Tidak pernah" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari" }] },
-                    { id: "p2", text: "2. Buka jendela ruang keluarga", options: [{ val: 0, label: "Tidak pernah" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari" }] },
-                    { id: "p3", text: "3. Bersihkan rumah/halaman", options: [{ val: 0, label: "Tidak pernah" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari" }] }
+                    { id: "p1", text: "1. Membuka jendela kamar tidur", options: [{ val: 0, label: "Tidak pernah dibuka" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari dibuka" }] },
+                    { id: "p2", text: "2. Membuka jendela ruang keluarga", options: [{ val: 0, label: "Tidak pernah dibuka" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari dibuka" }] },
+                    { id: "p3", text: "3. Membersihkan rumah dan halaman", options: [{ val: 0, label: "Tidak pernah" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari" }] },
+                    { id: "p4", text: "4. Membuang tinja ke jamban", options: [{ val: 0, label: "Dibuang ke sungai/ kebun/ kolam/ sembarangan" }, { val: 1, label: "Kadang-kadang ke jamban" }, { val: 2, label: "Setiap hari dibuang ke jamban" }] },
+                    { id: "p5", text: "5. Membuang sampah pada tempat sampah", options: [{ val: 0, label: "Dibuang ke sungai/ kebun/ kolam/ sembarangan" }, { val: 1, label: "Kadang-kadang dibuang ke tempat sampah" }, { val: 2, label: "Setiap hari dibuang ke tempat sampah" }] }
                 ]
             }
         };
@@ -479,7 +666,7 @@
         let subScores = { komponen: 0, sanitasi: 0, perilaku: 0 };
         let totalScore = 0;
         let selectedImageBase64 = null;
-        let geminiApiKey = localStorage.getItem('geminiApiKey') || ""; 
+        let geminiApiKey = localStorage.getItem('geminiApiKey') || "";
         let petugasName = localStorage.getItem('petugasName') || "";
 
         // --- OTENTIKASI & INIT --- //
@@ -494,7 +681,7 @@
         function showWelcomeScreen() {
             document.getElementById('view-welcome').classList.remove('hidden');
             document.getElementById('view-welcome').classList.add('active');
-            
+
             document.getElementById('app-header').classList.add('hidden');
             document.getElementById('view-dashboard').classList.remove('active');
             document.getElementById('main-bottom-nav').classList.add('hidden');
@@ -520,13 +707,13 @@
             // Tampilkan UI Utama
             document.getElementById('app-header').classList.remove('hidden');
             document.getElementById('main-bottom-nav').classList.remove('hidden');
-            
+
             // Set nama di berbagai bagian UI
             document.getElementById('dash-petugas-name').innerText = petugasName;
             document.getElementById('set-petugas-name').innerText = petugasName;
-            
+
             initSettings();
-            switchTab('dashboard'); 
+            switchTab('dashboard');
         }
 
         // --- FUNGSI PENGATURAN (SETTINGS) --- //
@@ -609,15 +796,15 @@
             // Hide all main views
             document.getElementById('view-dashboard').classList.remove('active');
             document.getElementById('view-settings').classList.remove('active');
-            
+
             // Show selected view
             document.getElementById(`view-${tabName}`).classList.add('active');
-            
+
             // Update Tab Styling
             const tabDash = document.getElementById('tab-dashboard');
             const tabSet = document.getElementById('tab-settings');
-            
-            if(tabName === 'dashboard') {
+
+            if (tabName === 'dashboard') {
                 tabDash.className = "flex flex-col items-center gap-1 w-16 text-teal-600 transition-colors";
                 tabSet.className = "flex flex-col items-center gap-1 w-16 text-gray-400 hover:text-teal-600 transition-colors";
                 loadHistory();
@@ -630,7 +817,7 @@
         function toggleAddMenu() {
             const backdrop = document.getElementById('add-menu-backdrop');
             const sheet = document.getElementById('add-menu-sheet');
-            
+
             if (backdrop.classList.contains('hidden')) {
                 // Open menu
                 backdrop.classList.remove('hidden');
@@ -680,19 +867,19 @@
             document.getElementById('view-dashboard').classList.remove('active');
             document.getElementById('view-settings').classList.remove('active');
             document.getElementById('view-form').classList.add('active');
-            
+
             // Swap Navigation Bars
             document.getElementById('main-bottom-nav').classList.add('hidden');
             document.getElementById('form-bottom-nav').classList.remove('hidden');
             document.getElementById('btn-home').classList.remove('hidden');
-            
+
             currentStep = 1;
             formAnswers = {};
             document.getElementById('form-identitas').reset();
             document.getElementById('tanggal').valueAsDate = new Date();
             document.getElementById('nama_petugas').value = petugasName; // Auto-fill nama petugas
             document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
-            
+
             recalculateTotal();
             showStep(currentStep);
         }
@@ -701,7 +888,7 @@
             document.getElementById('view-form').classList.remove('active');
             document.getElementById('form-bottom-nav').classList.add('hidden');
             document.getElementById('btn-home').classList.add('hidden');
-            
+
             document.getElementById('main-bottom-nav').classList.remove('hidden');
             switchTab('dashboard'); // Default back to dashboard
         }
@@ -710,10 +897,10 @@
             for (let i = 1; i <= totalSteps; i++) {
                 document.getElementById(`step-${i}`).classList.add('hidden');
                 document.getElementById(`step-${i}`).classList.remove('block');
-                
-                if(i <= 4) {
+
+                if (i <= 4) {
                     const ind = document.getElementById(`step-ind-${i}`);
-                    if(i < step) {
+                    if (i < step) {
                         ind.querySelector('div').className = "w-6 h-6 rounded-full bg-teal-500 text-white flex justify-center items-center";
                         ind.querySelector('div').innerHTML = '<i class="fas fa-check text-xs"></i>';
                     } else if (i === step) {
@@ -753,9 +940,9 @@
             subScores = { komponen: 0, sanitasi: 0, perilaku: 0 };
             Object.keys(formAnswers).forEach(qId => {
                 const ans = formAnswers[qId];
-                if(qId.startsWith('k')) subScores.komponen += ans.sub;
-                if(qId.startsWith('s')) subScores.sanitasi += ans.sub;
-                if(qId.startsWith('p')) subScores.perilaku += ans.sub;
+                if (qId.startsWith('k')) subScores.komponen += ans.sub;
+                if (qId.startsWith('s')) subScores.sanitasi += ans.sub;
+                if (qId.startsWith('p')) subScores.perilaku += ans.sub;
             });
             totalScore = subScores.komponen + subScores.sanitasi + subScores.perilaku;
             document.getElementById('live-score').innerText = totalScore;
@@ -780,15 +967,15 @@
             return true;
         }
 
-        function nextStep() { if (validateStep(currentStep)) { currentStep++; showStep(currentStep); window.scrollTo(0,0); } }
-        function prevStep() { if (currentStep > 1) { currentStep--; showStep(currentStep); window.scrollTo(0,0); } }
+        function nextStep() { if (validateStep(currentStep)) { currentStep++; showStep(currentStep); window.scrollTo(0, 0); } }
+        function prevStep() { if (currentStep > 1) { currentStep--; showStep(currentStep); window.scrollTo(0, 0); } }
 
         function prepareSummary() {
             document.getElementById('review-total-skor').innerText = totalScore;
             document.getElementById('review-sub-1').innerText = subScores.komponen;
             document.getElementById('review-sub-2').innerText = subScores.sanitasi;
             document.getElementById('review-sub-3').innerText = subScores.perilaku;
-            
+
             const isSehat = totalScore >= 1068;
             const sEl = document.getElementById('review-status');
             sEl.innerText = isSehat ? "MEMENUHI SYARAT (SEHAT)" : "TIDAK MEMENUHI SYARAT";
@@ -832,12 +1019,12 @@
                         "Content-Type": "text/plain;charset=utf-8", // Menggunakan text/plain bypasses preflight browser
                     }
                 });
-                
+
                 const result = await response.json();
-                
-                if(result.success) {
+
+                if (result.success) {
                     showModal("Berhasil!", "Data Penilaian berhasil disimpan ke Google Sheets.", true);
-                    document.getElementById('modal-action-btn').onclick = function() { closeModal(); goHome(); };
+                    document.getElementById('modal-action-btn').onclick = function () { closeModal(); goHome(); };
                 } else {
                     showModal("Gagal Menyimpan", result.message);
                 }
@@ -853,9 +1040,9 @@
         async function loadHistory() {
             const container = document.getElementById('history-list');
             if (GAS_WEB_APP_URL === "MASUKKAN_URL_EXEC_ANDA_DISINI") return;
-            
+
             container.innerHTML = '<div class="text-center py-6 text-teal-600"><i class="fas fa-circle-notch fa-spin text-2xl"></i></div>';
-            
+
             try {
                 // Tambahkan parameter ?action=get_history agar backend mengenali ini request dari aplikasi
                 const response = await fetch(GAS_WEB_APP_URL + "?action=get_history", {
@@ -863,13 +1050,13 @@
                     redirect: "follow"
                 });
                 const history = await response.json();
-                
+
                 // Variabel untuk menghitung statistik dinamis
                 let totalInspeksi = 0;
                 let sehatCount = 0;
                 let tidakSehatCount = 0;
-                
-                if(!history || history.length === 0) {
+
+                if (!history || history.length === 0) {
                     container.innerHTML = `
                         <div class="text-center py-8 bg-white rounded-2xl border border-gray-100 shadow-sm mt-4">
                             <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -881,16 +1068,16 @@
                 } else {
                     let html = '';
                     totalInspeksi = history.length;
-                    
+
                     history.forEach(item => {
                         // Kalkulasi statistik
-                        if(item.status === 'Sehat') sehatCount++;
+                        if (item.status === 'Sehat') sehatCount++;
                         else tidakSehatCount++;
 
                         const color = item.status === 'Sehat' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700';
                         const icon = item.status === 'Sehat' ? 'fa-check-circle' : 'fa-times-circle';
                         const badgeText = item.status === 'Sehat' ? 'Sehat' : 'Tdk Sehat';
-                        
+
                         html += `<div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
                                     <div class="absolute left-0 top-0 bottom-0 w-1 ${item.status === 'Sehat' ? 'bg-green-500' : 'bg-red-500'}"></div>
                                     <div class="flex justify-between items-start pl-2">
@@ -916,11 +1103,11 @@
                 document.getElementById('stat-total').innerText = totalInspeksi;
                 document.getElementById('stat-sehat').innerText = sehatCount;
                 document.getElementById('stat-tidak-sehat').innerText = tidakSehatCount;
-                
+
                 // Update Progress Bar
                 let percentage = Math.round((totalInspeksi / targetBulanIni) * 100);
                 if (percentage > 100) percentage = 100; // Cap at 100%
-                
+
                 // Gunakan setTimeout kecil untuk memicu animasi transisi CSS
                 setTimeout(() => {
                     document.getElementById('stat-progress').style.width = percentage + '%';
@@ -951,7 +1138,7 @@
         function handleImageSelection(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     selectedImageBase64 = e.target.result.split(',')[1];
                     document.getElementById('image-preview').src = e.target.result;
                     document.getElementById('image-preview').classList.remove('hidden');
@@ -968,11 +1155,11 @@
             const btn = document.getElementById('btn-process-scan');
             const stat = document.getElementById('scan-status');
             const kkIndex = document.getElementById('kk-index').value;
-            
+
             btn.disabled = true; stat.classList.remove('hidden');
-            
+
             // Dummy bypass jika API Key tidak diset. Dalam produksi, gunakan endpoint API Asli
-            if(!geminiApiKey) {
+            if (!geminiApiKey) {
                 setTimeout(() => {
                     stat.classList.add('hidden');
                     closeScannerModal();
@@ -986,7 +1173,7 @@
             }
 
             // Implementasi API Asli jika key diberikan
-            const prompt = `Ekstrak data dari formulir ceklis Rumah Sehat untuk kolom hasil ceklis nomor ${kkIndex}. Berikan output JSON murni dengan format { "identitas": {"nama_kk": "...", "alamat": "...", "kelurahan": "...", "kecamatan": "...", "kabupaten": "...", "provinsi": "...", "nama_petugas": "...", "tanggal": "..."}, "komponen": {"k1": [index pilihan 0,1,2], "k2": [...], ...} }`;
+            const prompt = `Ekstrak data dari formulir ceklis Rumah Sehat untuk kolom hasil ceklis nomor ${kkIndex}. Berikan output JSON murni dengan format { "identitas": {"nama_kk": "...", "alamat": "...", "kelurahan": "...", "kecamatan": "...", "kabupaten": "...", "provinsi": "...", "nama_petugas": "...", "tanggal": "..."}, "komponen": {"k1": val, "k2": val, ...}, "sanitasi": {"s1": val, ...}, "perilaku": {"p1": val, ...} } di mana val adalah nilai pilihan angka (0/1/2/3/4) sesuai kriteria formulir.`;
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`;
 
             try {
@@ -996,27 +1183,36 @@
                     body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }, { inlineData: { mimeType: "image/jpeg", data: selectedImageBase64 } }] }] })
                 });
                 const result = await res.json();
-                
+
                 let jsonStr = result.candidates[0].content.parts[0].text;
                 // Bersihkan block markdown jika ada
                 jsonStr = jsonStr.replace(/```json/g, '').replace(/```/g, '').trim();
                 const parsedData = JSON.parse(jsonStr);
-                
+
                 startAssessment();
-                if(parsedData.identitas) {
+                if (parsedData.identitas) {
                     ['nama_kk', 'alamat', 'kelurahan', 'kecamatan', 'kabupaten', 'provinsi', 'nama_petugas'].forEach(id => {
-                        if(parsedData.identitas[id]) document.getElementById(id).value = parsedData.identitas[id];
+                        if (parsedData.identitas[id]) document.getElementById(id).value = parsedData.identitas[id];
                     });
                 }
-                if(parsedData.komponen) {
-                    Object.keys(parsedData.komponen).forEach(qId => {
-                        const idx = parsedData.komponen[qId];
-                        if (idx !== null && idx !== undefined) {
-                            const radioEl = document.getElementById(`${qId}_${idx}`);
-                            if (radioEl) { radioEl.checked = true; handleAnswerChange(qId, idx, configData.komponen.bobot); }
-                        }
-                    });
-                }
+                ['komponen', 'sanitasi', 'perilaku'].forEach(sec => {
+                    if (parsedData[sec]) {
+                        const bobotSec = configData[sec].bobot;
+                        Object.keys(parsedData[sec]).forEach(qId => {
+                            const val = parsedData[sec][qId];
+                            if (val !== null && val !== undefined) {
+                                const qObj = configData[sec].questions.find(q => q.id === qId);
+                                if (qObj) {
+                                    const optIdx = qObj.options.findIndex(o => o.val === val);
+                                    if (optIdx !== -1) {
+                                        const radioEl = document.getElementById(`${qId}_${optIdx}`);
+                                        if (radioEl) { radioEl.checked = true; handleAnswerChange(qId, val, bobotSec); }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
                 showModal("Ekstraksi Berhasil", "Data sebagian diisi otomatis berdasarkan foto.", true);
                 document.getElementById('modal-action-btn').onclick = closeModal;
             } catch (e) {
@@ -1033,18 +1229,19 @@
             document.getElementById('modal-desc').innerText = desc;
             const icon = document.getElementById('modal-icon');
             const btn = document.getElementById('modal-action-btn');
-            
+
             icon.className = isSuccess ? "w-16 h-16 mx-auto rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-3xl mb-4" : "w-16 h-16 mx-auto rounded-full bg-red-100 text-red-600 flex items-center justify-center text-3xl mb-4";
             icon.innerHTML = isSuccess ? '<i class="fas fa-check"></i>' : '<i class="fas fa-exclamation-triangle"></i>';
             btn.className = isSuccess ? "w-full bg-indigo-600 text-white font-medium py-3 rounded-lg hover:bg-indigo-700" : "w-full bg-gray-900 text-white font-medium py-3 rounded-lg hover:bg-gray-800";
-            
+
             modal.classList.remove('hidden');
         }
         function closeModal() { document.getElementById('custom-modal').classList.add('hidden'); }
 
-        window.onload = function() {
+        window.onload = function () {
             checkLoginStatus();
         };
     </script>
 </body>
+
 </html>

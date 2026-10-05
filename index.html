@@ -443,111 +443,31 @@
             komponen: {
                 id: 'komponen', title: 'Komponen Rumah', bobot: 31,
                 questions: [
-                    { id: "k1", text: "1. Langit-langit", options: [
-                        { val: 0, label: "a. Tidak ada" }, 
-                        { val: 1, label: "b. Ada, kotor, sulit dibersihkan dan rawan kecelakaan" }, 
-                        { val: 2, label: "c. Ada, bersih dan tidak rawan kecelakaan" }
-                    ]},
-                    { id: "k2", text: "2. Dinding", options: [
-                        { val: 1, label: "a. Bukan tembok (terbuat dari anyaman bambu/ilalang)" }, 
-                        { val: 2, label: "b. Semi permanen/setengah tembok/pasangan bata atau batu yang tidak diplester/papan yang tidak kedap air" }, 
-                        { val: 3, label: "c. Permanen (tembok/pasangan batu bata yang diplester) papan kedap air" }
-                    ]},
-                    { id: "k3", text: "3. Lantai", options: [
-                        { val: 0, label: "a. Tanah" }, 
-                        { val: 1, label: "b. Papan/anyaman bambu dekat dengan tanah/plesteran yang retak dan berdebu" }, 
-                        { val: 2, label: "c. Diplester/ubin/keramik/ papan (rumah panggung)" }
-                    ]},
-                    { id: "k4", text: "4. Jendela kamar tidur", options: [
-                        { val: 0, label: "a. Tidak ada" }, 
-                        { val: 1, label: "b. Ada" }
-                    ]},
-                    { id: "k5", text: "5. Jendela ruang keluarga", options: [
-                        { val: 0, label: "a. Tidak ada" }, 
-                        { val: 1, label: "b. Ada" }
-                    ]},
-                    { id: "k6", text: "6. Ventilasi", options: [
-                        { val: 0, label: "a. Tidak ada" }, 
-                        { val: 1, label: "b. Ada, luas ventilasi permanen < 10% dari luas lantai" }, 
-                        { val: 2, label: "c. Ada, luas ventilasi permanen > 10% dari luas lantai" }
-                    ]},
-                    { id: "k7", text: "7. Lubang asap dapur", options: [
-                        { val: 0, label: "a. Tidak ada" }, 
-                        { val: 1, label: "b. Ada, luas ventilasi dapur < 10% dari luas lantai dapur" }, 
-                        { val: 2, label: "c. Ada, luas ventilasi dapur > 10% dari luas lantai dapur" }
-                    ]},
-                    { id: "k8", text: "8. Pencahayaan (Ruang Keluarga)", options: [
-                        { val: 0, label: "a. Tidak terang, tidak dapat dipergunakan untuk membaca" }, 
-                        { val: 1, label: "b. Kurang terang, sehingga kurang jelas untuk membaca dengan normal" }, 
-                        { val: 2, label: "c. Terang dan tidak silau sehingga, dapat dipergunakan untuk membaca dengan normal" }
-                    ]}
+                    { id: "k1", text: "1. Langit-langit", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, kotor, rawan kecelakaan" }, { val: 2, label: "Ada, bersih" }] },
+                    { id: "k2", text: "2. Dinding", options: [{ val: 1, label: "Bukan tembok (bambu/ilalang)" }, { val: 2, label: "Semi permanen/tidak kedap air" }, { val: 3, label: "Permanen (tembok kedap air)" }] },
+                    { id: "k3", text: "3. Lantai", options: [{ val: 0, label: "Tanah" }, { val: 1, label: "Papan/plesteran retak" }, { val: 2, label: "Diplester/ubin/keramik" }] },
+                    { id: "k4", text: "4. Jendela kamar tidur", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada" }] },
+                    { id: "k5", text: "5. Jendela ruang keluarga", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada" }] },
+                    { id: "k6", text: "6. Ventilasi", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, permanen < 10%" }, { val: 2, label: "Ada, permanen > 10%" }] },
+                    { id: "k7", text: "7. Lubang asap dapur", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, < 10% luas lantai" }, { val: 2, label: "Ada, > 10% luas lantai" }] },
+                    { id: "k8", text: "8. Pencahayaan", options: [{ val: 0, label: "Tidak terang" }, { val: 1, label: "Kurang terang" }, { val: 2, label: "Terang, tidak silau" }] }
                 ]
             },
             sanitasi: {
                 id: 'sanitasi', title: 'Sarana Sanitasi', bobot: 25,
                 questions: [
-                    { id: "s1", text: "1. Sarana Air Bersih (SGL/SPT/PP/KU/PAH)", options: [
-                        { val: 0, label: "a. Tidak ada" }, 
-                        { val: 1, label: "b. Ada, bukan milik sendiri dan tidak memenuhi syarat kesehatan" }, 
-                        { val: 2, label: "c. Ada, milik sendiri dan tidak memenuhi syarat kesehatan" }, 
-                        { val: 3, label: "d. Ada, bukan milik sendiri dan memenuhi syarat kesehatan" }, 
-                        { val: 4, label: "e. Ada, milik sendiri dan memenuhi syarat kesehatan" }
-                    ]},
-                    { id: "s2", text: "2. Jamban (Sarana pembuangan kotoran)", options: [
-                        { val: 0, label: "a. Tidak ada" }, 
-                        { val: 1, label: "b. Ada, bukan leher angsa, tidak ada tutup, disalurkan ke sungai/kolam" }, 
-                        { val: 2, label: "c. Ada, bukan leher angsa, ada tutup (leher angsa), disalurkan ke sungai/kolam" }, 
-                        { val: 3, label: "d. Ada, bukan leher angsa, ada tutup, septic tank" }, 
-                        { val: 4, label: "e. Ada, leher angsa, septic tank" }
-                    ]},
-                    { id: "s3", text: "3. Sarana pembuangan air limbah (SPAL)", options: [
-                        { val: 0, label: "a. Tidak ada, sehingga tergenang dan tidak teratur di halaman rumah" }, 
-                        { val: 1, label: "b. Ada, diresapkan tetapi mencemari sumber air (jarak dengan sumber air < 10 m)" }, 
-                        { val: 2, label: "c. Ada, dialirkan ke selokan terbuka" }, 
-                        { val: 3, label: "d. Ada, diresapkan dan tidak mencemari sumber air (jarak dengan sumber air >10m)" }, 
-                        { val: 4, label: "e. Ada, dialirkan ke selokan tertutup (saluran kota) untuk diolah lebih lanjut" }
-                    ]},
-                    { id: "s4", text: "4. Sarana pembuangan sampah (tempat sampah rumah tangga)", options: [
-                        { val: 0, label: "a. Tidak ada" }, 
-                        { val: 1, label: "b. Ada, tetapi tidak kedap air dan tidak ada tutup" }, 
-                        { val: 2, label: "c. Ada, kedap air dan tidak tertutup" }, 
-                        { val: 3, label: "d. Ada, kedap air dan tertutup" }
-                    ]}
+                    { id: "s1", text: "1. Sarana Air Bersih", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, bukan milik sendiri, Tdk Syarat" }, { val: 2, label: "Ada, milik sendiri, Tdk Syarat" }, { val: 3, label: "Ada, bukan milik sendiri, Memenuhi Syarat" }, { val: 4, label: "Ada, milik sendiri, Memenuhi Syarat" }] },
+                    { id: "s2", text: "2. Jamban", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Bukan leher angsa, sungai/kolam" }, { val: 2, label: "Bukan leher angsa, ada tutup, sungai" }, { val: 3, label: "Bukan leher angsa, septic tank" }, { val: 4, label: "Leher angsa, septic tank" }] },
+                    { id: "s3", text: "3. SPAL", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, mencemari sumber air (<10m)" }, { val: 2, label: "Ada, dialirkan ke selokan terbuka" }, { val: 3, label: "Ada, diresapkan tidak mencemari (>10m)" }, { val: 4, label: "Ada, selokan tertutup" }] },
+                    { id: "s4", text: "4. Pembuangan sampah", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, tidak kedap air, tanpa tutup" }, { val: 2, label: "Ada, kedap air, tanpa tutup" }, { val: 3, label: "Ada, kedap air dan tertutup" }] }
                 ]
             },
             perilaku: {
                 id: 'perilaku', title: 'Perilaku Penghuni', bobot: 44,
                 questions: [
-                    { id: "p1", text: "1. Membuka jendela kamar tidur", options: [
-                        { val: 0, label: "a. Tidak pernah dibuka" }, 
-                        { val: 1, label: "b. Kadang-kadang" }, 
-                        { val: 2, label: "c. Setiap hari dibuka" }
-                    ]},
-                    { id: "p2", text: "2. Membuka jendela ruang keluarga", options: [
-                        { val: 0, label: "a. Tidak pernah dibuka" }, 
-                        { val: 1, label: "b. Kadang-kadang" }, 
-                        { val: 2, label: "c. Setiap hari dibuka" }
-                    ]},
-                    { id: "p3", text: "3. Membersihkan rumah dan halaman", options: [
-                        { val: 0, label: "a. Tidak pernah" }, 
-                        { val: 1, label: "b. Kadang-kadang" }, 
-                        { val: 2, label: "c. Setiap hari" }
-                    ]},
-                    { id: "p4", text: "4. Membuang tinja bayi dan balita ke jamban", options: [
-                        { val: 0, label: "a. Dibuang ke sungai/kebun/kolam/sembarangan" }, 
-                        { val: 1, label: "b. Kadang-kadang ke jamban" }, 
-                        { val: 2, label: "c. Setiap hari dibuang ke jamban" }
-                    ]},
-                    { id: "p5", text: "5. Membuang sampah pada tempat sampah", options: [
-                        { val: 0, label: "a. Dibuang ke sungai/kebun/kolam/sembarangan" }, 
-                        { val: 1, label: "b. Kadang-kadang ke tempat sampah" }, 
-                        { val: 2, label: "c. Setiap hari dibuang ke tempat sampah" }
-                    ]},
-                    { id: "p6", text: "6. Mencuci tangan dengan sabun dan air bersih", options: [
-                        { val: 0, label: "a. Tidak pernah" }, 
-                        { val: 1, label: "b. Kadang-kadang" }, 
-                        { val: 2, label: "c. Setiap hari / setiap saat" }
-                    ]}
+                    { id: "p1", text: "1. Buka jendela kamar", options: [{ val: 0, label: "Tidak pernah" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari" }] },
+                    { id: "p2", text: "2. Buka jendela ruang keluarga", options: [{ val: 0, label: "Tidak pernah" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari" }] },
+                    { id: "p3", text: "3. Bersihkan rumah/halaman", options: [{ val: 0, label: "Tidak pernah" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari" }] }
                 ]
             }
         };
@@ -583,30 +503,12 @@
         function loginUser(event) {
             event.preventDefault();
             const nameInput = document.getElementById('input-petugas-name').value.trim();
-            const pinInput = document.getElementById('input-pin').value.trim();
-            
-            // --- DATABASE PETUGAS (DAFTAR KADER YANG DIIZINKAN) ---
-            // Format: "nama yang diketik huruf kecil semua" : "PIN"
-            const dbPetugas = {
-                "admin": "1234",
-                "hani puspawati": "123456",
-                "budi santoso": "7890",
-                "siti aminah": "1122"
-            };
-
-            if (nameInput && pinInput) {
-                // Ubah input nama ke huruf kecil semua untuk pengecekan (case-insensitive)
-                const nameKey = nameInput.toLowerCase();
-
-                // Cek apakah nama ada di database DAN PIN-nya cocok
-                if (dbPetugas.hasOwnProperty(nameKey) && dbPetugas[nameKey] === pinInput) {
-                    petugasName = nameInput; // Simpan nama asli (dengan huruf kapitalnya)
-                    localStorage.setItem('petugasName', petugasName);
-                    initApp();
-                } else {
-                    // Jika salah, tampilkan pesan error
-                    showModal("Akses Ditolak", "Nama Kader atau PIN yang Anda masukkan salah / tidak terdaftar.");
-                }
+            if (nameInput) {
+                petugasName = nameInput;
+                localStorage.setItem('petugasName', petugasName);
+                initApp();
+            } else {
+                showModal("Perhatian", "Silakan masukkan nama Anda terlebih dahulu.");
             }
         }
 

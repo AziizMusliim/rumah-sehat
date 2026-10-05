@@ -683,6 +683,59 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal Tambah Jadwal Inspeksi -->
+        <div id="schedule-modal" class="fixed inset-0 bg-black/50 z-[100] hidden flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden flex flex-col animate-fadeIn">
+                <div class="p-4 border-b flex justify-between items-center bg-gray-50">
+                    <h3 class="font-bold text-gray-800 text-sm flex items-center gap-2">
+                        <i class="fas fa-calendar-plus text-indigo-600 text-base"></i>
+                        Tambah Jadwal Inspeksi
+                    </h3>
+                    <button onclick="closeScheduleModal()" class="text-gray-400 hover:text-gray-700 transition-colors">
+                        <i class="fas fa-times text-lg"></i>
+                    </button>
+                </div>
+                <form id="form-add-schedule" onsubmit="saveScheduleFromModal(event)" class="p-5 space-y-3 text-xs">
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-1">Nama Kepala Keluarga (KK) *</label>
+                        <div class="relative">
+                            <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="sch-nama-kk" required placeholder="Contoh: Bpk. Ahmad Yani"
+                                class="w-full border border-gray-200 rounded-xl pl-9 pr-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-1">Alamat / RT / RW *</label>
+                        <div class="relative">
+                            <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+                            <textarea id="sch-alamat" required rows="2" placeholder="Jl. Cigadung Raya No. 12, RT 02/RW 05"
+                                class="w-full border border-gray-200 rounded-xl pl-9 pr-3 py-2 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"></textarea>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-1">Kelurahan</label>
+                            <input type="text" id="sch-kelurahan" placeholder="Cigadung"
+                                class="w-full border border-gray-200 rounded-xl px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-1">Kecamatan</label>
+                            <input type="text" id="sch-kecamatan" placeholder="Cibeunying Kaler"
+                                class="w-full border border-gray-200 rounded-xl px-3 py-2.5 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+                        </div>
+                    </div>
+                    <div class="pt-3 flex gap-2">
+                        <button type="button" onclick="closeScheduleModal()"
+                            class="flex-1 py-2.5 text-gray-600 font-medium rounded-xl hover:bg-gray-100 transition-colors border border-gray-200">Batal</button>
+                        <button type="submit"
+                            class="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-all flex items-center justify-center gap-1.5">
+                            <i class="fas fa-save"></i> Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1184,23 +1237,43 @@
             container.innerHTML = html;
         }
 
+        function openScheduleModal() {
+            const form = document.getElementById('form-add-schedule');
+            if (form) form.reset();
+            const modal = document.getElementById('schedule-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeScheduleModal() {
+            const modal = document.getElementById('schedule-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
         function promptAddSchedule() {
-            const nama = prompt("Masukkan Nama Kepala Keluarga (KK):");
-            if (!nama || !nama.trim()) return;
-            const alamat = prompt("Masukkan Alamat / RT / RW:");
-            const kel = prompt("Masukkan Kelurahan:");
-            const kec = prompt("Masukkan Kecamatan:");
+            openScheduleModal();
+        }
+
+        function saveScheduleFromModal(event) {
+            event.preventDefault();
+            const nama = document.getElementById('sch-nama-kk').value.trim();
+            const alamat = document.getElementById('sch-alamat').value.trim();
+            const kel = document.getElementById('sch-kelurahan').value.trim();
+            const kec = document.getElementById('sch-kecamatan').value.trim();
+
+            if (!nama) return;
 
             realSchedules.push({
                 id: 'sch-' + new Date().getTime(),
-                nama_kk: nama.trim(),
-                alamat: alamat ? alamat.trim() : '',
-                kelurahan: kel ? kel.trim() : '',
-                kecamatan: kec ? kec.trim() : '',
+                nama_kk: nama,
+                alamat: alamat,
+                kelurahan: kel,
+                kecamatan: kec,
                 status: 'pending'
             });
             localStorage.setItem('realSchedules', JSON.stringify(realSchedules));
+            closeScheduleModal();
             renderScheduleWidget();
+            showModal("Berhasil Disimpan", "Jadwal inspeksi baru telah ditambahkan ke daftar target.", true);
         }
 
         function removeSchedule(index) {

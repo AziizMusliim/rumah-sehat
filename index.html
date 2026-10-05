@@ -8,6 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -177,7 +180,7 @@
                 <div>
                     <h1 class="font-bold text-lg leading-tight">Rumah Sehat</h1>
                     <div class="flex items-center gap-2 mt-0.5">
-                        <span class="text-xs text-teal-100">UPT Puskesmas Cigadung</span>
+                        <span class="text-xs text-teal-100">Dinas Kesehatan v0.3</span>
                         <span id="network-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online
                         </span>
@@ -306,9 +309,14 @@
             <div class="mt-4">
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-gray-800 text-lg">Riwayat Penilaian</h3>
-                    <button onclick="loadHistory()" class="text-xs text-teal-600 font-medium hover:underline bg-teal-50 px-2.5 py-1.5 rounded-lg border border-teal-100 flex items-center gap-1">
-                        <i class="fas fa-sync-alt"></i> Segarkan
-                    </button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="openExportModal()" class="text-xs text-indigo-600 font-medium hover:underline bg-indigo-50 px-2.5 py-1.5 rounded-lg border border-indigo-100 flex items-center gap-1.5 shadow-sm hover:bg-indigo-100 transition-all">
+                            <i class="fas fa-file-export"></i> Ekspor
+                        </button>
+                        <button onclick="loadHistory()" class="text-xs text-teal-600 font-medium hover:underline bg-teal-50 px-2.5 py-1.5 rounded-lg border border-teal-100 flex items-center gap-1 hover:bg-teal-100 transition-all">
+                            <i class="fas fa-sync-alt"></i> Segarkan
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Input Cari & Filter Chips -->
@@ -734,6 +742,73 @@
                         </button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ekspor Laporan -->
+    <div id="export-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative overflow-hidden">
+            <div class="flex justify-between items-center mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg font-bold">
+                        <i class="fas fa-file-export"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-800 text-base">Ekspor Laporan</h3>
+                        <p class="text-xs text-gray-500">Unduh data penilaian dalam format Excel atau PDF</p>
+                    </div>
+                </div>
+                <button onclick="closeExportModal()" class="text-gray-400 hover:text-gray-600 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Pilihan Scope Data -->
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Cakupan Data</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <input type="radio" name="export-scope" value="all" checked class="text-indigo-600 focus:ring-indigo-500">
+                            <div>
+                                <p class="text-xs font-bold text-gray-800" id="export-opt-all-text">Semua Data</p>
+                                <p class="text-[10px] text-gray-500">Mengekspor seluruh riwayat yang tersimpan di database</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <input type="radio" name="export-scope" value="filtered" class="text-indigo-600 focus:ring-indigo-500">
+                            <div>
+                                <p class="text-xs font-bold text-gray-800" id="export-opt-filtered-text">Sesuai Filter & Pencarian Saat Ini</p>
+                                <p class="text-[10px] text-gray-500">Mengekspor data yang tampil berdasarkan pencarian/filter di layar</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <input type="radio" name="export-scope" value="Sehat" class="text-indigo-600 focus:ring-indigo-500">
+                            <div>
+                                <p class="text-xs font-bold text-gray-800">Hanya Memenuhi Syarat (Sehat)</p>
+                                <p class="text-[10px] text-gray-500">Mengekspor khusus rumah yang lulus kriteria sehat</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <input type="radio" name="export-scope" value="Tidak Sehat" class="text-indigo-600 focus:ring-indigo-500">
+                            <div>
+                                <p class="text-xs font-bold text-gray-800">Hanya Tidak Memenuhi Syarat</p>
+                                <p class="text-[10px] text-gray-500">Mengekspor daftar rumah yang memerlukan pembinaan</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Tombol Format Ekspor -->
+                <div class="pt-2 grid grid-cols-2 gap-3">
+                    <button onclick="executeExport('excel')" class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md transition-all text-xs">
+                        <i class="fas fa-file-excel text-sm"></i> Unduh Excel
+                    </button>
+                    <button onclick="executeExport('pdf')" class="flex items-center justify-center gap-2 bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl shadow-md transition-all text-xs">
+                        <i class="fas fa-file-pdf text-sm"></i> Unduh PDF
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1346,7 +1421,10 @@
                 const matchesFilter = activeHistoryFilter === 'all' || item.status === activeHistoryFilter;
                 return matchesQuery && matchesFilter;
             });
-            renderHistoryCards(filtered);
+
+            const isSearchingOrFiltering = (query.length > 0) || (activeHistoryFilter !== 'all');
+            const displayItems = isSearchingOrFiltering ? filtered : filtered.slice(0, 5);
+            renderHistoryCards(displayItems, !isSearchingOrFiltering, filtered.length);
         }
 
         function setHistoryFilter(filterType) {
@@ -1364,7 +1442,7 @@
             filterHistoryList();
         }
 
-        function renderHistoryCards(historyItems) {
+        function renderHistoryCards(historyItems, isDefaultView = false, totalCount = 0) {
             const container = document.getElementById('history-list');
             if (!container) return;
             if (!historyItems || historyItems.length === 0) {
@@ -1400,6 +1478,15 @@
                             </div>
                         </div>`;
             });
+
+            if (isDefaultView && totalCount > 5) {
+                html += `
+                    <div class="text-center py-2.5 bg-gray-50 border border-dashed border-gray-200 rounded-xl mt-3">
+                        <p class="text-xs text-gray-500 font-medium">Menampilkan 5 data terbaru dari total ${totalCount} data.</p>
+                        <p class="text-[10px] text-gray-400 mt-0.5">Ketik pencarian atau pilih filter status untuk menampilkan data lainnya.</p>
+                    </div>`;
+            }
+
             container.innerHTML = html;
         }
 
@@ -1634,6 +1721,308 @@
 
             modal.classList.remove('hidden');
         }
+        function closeModal() { document.getElementById('custom-modal').classList.add('hidden'); }
+
+        // --- FUNGSI EKSPOR LAPORAN (EXCEL & PDF) --- //
+        function openExportModal() {
+            if (!allHistoryData || allHistoryData.length === 0) {
+                showModal("Belum Ada Data", "Belum ada riwayat penilaian tersimpan untuk diekspor.");
+                return;
+            }
+
+            const inputEl = document.getElementById('search-history-input');
+            const query = inputEl ? inputEl.value.toLowerCase().trim() : '';
+            const filtered = allHistoryData.filter(item => {
+                const matchesQuery = (item.nama_kk && item.nama_kk.toLowerCase().includes(query)) ||
+                                     (item.kelurahan && item.kelurahan.toLowerCase().includes(query)) ||
+                                     (item.alamat && item.alamat.toLowerCase().includes(query));
+                const matchesFilter = activeHistoryFilter === 'all' || item.status === activeHistoryFilter;
+                return matchesQuery && matchesFilter;
+            });
+
+            const optAllText = document.getElementById('export-opt-all-text');
+            const optFiltText = document.getElementById('export-opt-filtered-text');
+            if (optAllText) optAllText.innerText = `Semua Data (${allHistoryData.length} Data)`;
+            if (optFiltText) optFiltText.innerText = `Sesuai Filter & Pencarian Saat Ini (${filtered.length} Data)`;
+
+            const modal = document.getElementById('export-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeExportModal() {
+            const modal = document.getElementById('export-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function getExportData() {
+            const scopeRadios = document.getElementsByName('export-scope');
+            let selectedScope = 'all';
+            for (const r of scopeRadios) {
+                if (r.checked) {
+                    selectedScope = r.value;
+                    break;
+                }
+            }
+
+            if (selectedScope === 'all') {
+                return allHistoryData;
+            } else if (selectedScope === 'filtered') {
+                const inputEl = document.getElementById('search-history-input');
+                const query = inputEl ? inputEl.value.toLowerCase().trim() : '';
+                return allHistoryData.filter(item => {
+                    const matchesQuery = (item.nama_kk && item.nama_kk.toLowerCase().includes(query)) ||
+                                         (item.kelurahan && item.kelurahan.toLowerCase().includes(query)) ||
+                                         (item.alamat && item.alamat.toLowerCase().includes(query));
+                    const matchesFilter = activeHistoryFilter === 'all' || item.status === activeHistoryFilter;
+                    return matchesQuery && matchesFilter;
+                });
+            } else {
+                return allHistoryData.filter(item => item.status === selectedScope);
+            }
+        }
+
+        function executeExport(type) {
+            const dataToExport = getExportData();
+            if (!dataToExport || dataToExport.length === 0) {
+                showModal("Tidak Ada Data", "Tidak ada data yang memenuhi kriteria ekspor yang dipilih.");
+                return;
+            }
+
+            closeExportModal();
+
+            if (type === 'excel') {
+                exportToExcel(dataToExport);
+            } else if (type === 'pdf') {
+                exportToPDF(dataToExport);
+            }
+        }
+
+        function exportToExcel(dataList) {
+            const formattedData = dataList.map((item, idx) => ({
+                "No": idx + 1,
+                "ID Penilaian": item.id || `RS-${idx+1}`,
+                "Tanggal": item.tgl_penilaian || item.timestamp || '-',
+                "Nama Kepala Keluarga": item.nama_kk || '-',
+                "Alamat": item.alamat || '-',
+                "Kelurahan": item.kelurahan || '-',
+                "Kecamatan": item.kecamatan || '-',
+                "Kabupaten/Kota": item.kabupaten || '-',
+                "Skor Komponen Rumah (31%)": item.sub_komponen || 0,
+                "Skor Sarana Sanitasi (25%)": item.sub_sanitasi || 0,
+                "Skor Perilaku Penghuni (44%)": item.sub_perilaku || 0,
+                "Total Skor Akhir": item.total_skor || 0,
+                "Status Kesimpulan": item.status || (item.total_skor >= 1068 ? 'Sehat' : 'Tidak Sehat'),
+                "Petugas Inspeksi": item.nama_petugas || '-'
+            }));
+
+            if (window.XLSX) {
+                const worksheet = XLSX.utils.json_to_sheet(formattedData);
+                worksheet['!cols'] = [
+                    { wch: 5 }, { wch: 15 }, { wch: 15 }, { wch: 25 }, { wch: 30 },
+                    { wch: 18 }, { wch: 18 }, { wch: 15 }, { wch: 25 }, { wch: 25 },
+                    { wch: 25 }, { wch: 15 }, { wch: 18 }, { wch: 20 }
+                ];
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Penilaian");
+                const filename = `Laporan_Rumah_Sehat_${new Date().toISOString().slice(0,10)}.xlsx`;
+                XLSX.writeFile(workbook, filename);
+                showModal("Ekspor Excel Berhasil", `File ${filename} telah diunduh.`, true);
+            } else {
+                let csvContent = "\uFEFF";
+                const headers = Object.keys(formattedData[0]);
+                csvContent += headers.map(h => `"${h}"`).join(";") + "\n";
+                formattedData.forEach(row => {
+                    const line = headers.map(h => `"${String(row[h]).replace(/"/g, '""')}"`).join(";");
+                    csvContent += line + "\n";
+                });
+
+                const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+                const link = document.createElement("a");
+                const filename = `Laporan_Rumah_Sehat_${new Date().toISOString().slice(0,10)}.csv`;
+                link.href = URL.createObjectURL(blob);
+                link.setAttribute("download", filename);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showModal("Ekspor CSV Berhasil", `File ${filename} telah diunduh.`, true);
+            }
+        }
+
+        function exportToPDF(dataList) {
+            if (window.jspdf && window.jspdf.jsPDF) {
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const doc = new jsPDF({ orientation: "landscape" });
+
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(16);
+                    doc.setTextColor(15, 118, 110);
+                    doc.text("PEMERINTAH KABUPATEN / KOTA", 14, 15);
+                    doc.setFontSize(14);
+                    doc.setTextColor(31, 41, 55);
+                    doc.text("DINAS KESEHATAN - UPTD PUSKESMAS", 14, 22);
+
+                    doc.setFont("helvetica", "normal");
+                    doc.setFontSize(10);
+                    doc.setTextColor(107, 114, 128);
+                    doc.text("LAPORAN REKAPITULASI INSPEKSI SANITASI RUMAH SEHAT", 14, 28);
+
+                    const todayStr = new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
+                    doc.text(`Tanggal Cetak: ${todayStr}`, 280, 28, { align: "right" });
+
+                    doc.setDrawColor(229, 231, 235);
+                    doc.setLineWidth(0.5);
+                    doc.line(14, 32, 280, 32);
+
+                    const total = dataList.length;
+                    const sehat = dataList.filter(d => d.status === 'Sehat').length;
+                    const tidakSehat = total - sehat;
+
+                    doc.setFillColor(243, 244, 246);
+                    doc.roundedRect(14, 36, 80, 16, 2, 2, 'F');
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(9);
+                    doc.setTextColor(55, 65, 81);
+                    doc.text("TOTAL INSPEKSI", 18, 43);
+                    doc.setFontSize(12);
+                    doc.text(`${total} Rumah`, 18, 49);
+
+                    doc.setFillColor(220, 252, 231);
+                    doc.roundedRect(100, 36, 80, 16, 2, 2, 'F');
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(9);
+                    doc.setTextColor(22, 101, 52);
+                    doc.text("MEMENUHI SYARAT (SEHAT)", 104, 43);
+                    doc.setFontSize(12);
+                    doc.text(`${sehat} Rumah (${Math.round((sehat/total)*100)}%)`, 104, 49);
+
+                    doc.setFillColor(254, 226, 226);
+                    doc.roundedRect(186, 36, 94, 16, 2, 2, 'F');
+                    doc.setFont("helvetica", "bold");
+                    doc.setFontSize(9);
+                    doc.setTextColor(153, 27, 27);
+                    doc.text("TIDAK MEMENUHI SYARAT", 190, 43);
+                    doc.setFontSize(12);
+                    doc.text(`${tidakSehat} Rumah (${Math.round((tidakSehat/total)*100)}%)`, 190, 49);
+
+                    const tableHeaders = [["No", "Tanggal", "Nama KK", "Alamat", "Kelurahan", "Kecamatan", "K.Rumah", "Sanitasi", "Perilaku", "Skor", "Status"]];
+                    const tableBody = dataList.map((item, idx) => [
+                        idx + 1,
+                        item.tgl_penilaian || item.timestamp || '-',
+                        item.nama_kk || '-',
+                        item.alamat || '-',
+                        item.kelurahan || '-',
+                        item.kecamatan || '-',
+                        item.sub_komponen || 0,
+                        item.sub_sanitasi || 0,
+                        item.sub_perilaku || 0,
+                        item.total_skor || 0,
+                        item.status || (item.total_skor >= 1068 ? 'Sehat' : 'Tidak Sehat')
+                    ]);
+
+                    doc.autoTable({
+                        head: tableHeaders,
+                        body: tableBody,
+                        startY: 58,
+                        theme: 'grid',
+                        headStyles: { fillColor: [15, 118, 110], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9 },
+                        bodyStyles: { fontSize: 8.5, textColor: [31, 41, 55] },
+                        alternateRowStyles: { fillColor: [249, 250, 251] },
+                        didParseCell: function(data) {
+                            if (data.section === 'body' && data.column.index === 10) {
+                                if (data.cell.raw === 'Sehat') {
+                                    data.cell.styles.textColor = [22, 101, 52];
+                                    data.cell.styles.fontStyle = 'bold';
+                                } else {
+                                    data.cell.styles.textColor = [153, 27, 27];
+                                    data.cell.styles.fontStyle = 'bold';
+                                }
+                            }
+                        }
+                    });
+
+                    const finalY = doc.lastAutoTable ? doc.lastAutoTable.finalY : 150;
+                    if (finalY + 40 < 200) {
+                        doc.setFontSize(9);
+                        doc.setFont("helvetica", "normal");
+                        doc.setTextColor(55, 65, 81);
+                        doc.text(`Mengetahui,`, 220, finalY + 15);
+                        doc.text(`Petugas Pemeriksa Kesehatan Lingkungan`, 220, finalY + 20);
+                        doc.text(`( .................................................... )`, 220, finalY + 38);
+                    }
+
+                    const filename = `Laporan_Rumah_Sehat_${new Date().toISOString().slice(0,10)}.pdf`;
+                    doc.save(filename);
+                    showModal("Ekspor PDF Berhasil", `File ${filename} telah diunduh.`, true);
+                } catch(e) {
+                    console.error("PDF generation error:", e);
+                    printPDFReportFallback(dataList);
+                }
+            } else {
+                printPDFReportFallback(dataList);
+            }
+        }
+
+        function printPDFReportFallback(dataList) {
+            const printWin = window.open('', '_blank');
+            let rowsHtml = '';
+            dataList.forEach((item, idx) => {
+                const isSehat = item.status === 'Sehat';
+                rowsHtml += `
+                    <tr>
+                        <td style="padding:6px; border:1px solid #ddd; text-align:center;">${idx + 1}</td>
+                        <td style="padding:6px; border:1px solid #ddd;">${item.tgl_penilaian || item.timestamp || '-'}</td>
+                        <td style="padding:6px; border:1px solid #ddd; font-weight:bold;">${item.nama_kk || '-'}</td>
+                        <td style="padding:6px; border:1px solid #ddd;">${item.alamat || '-'}</td>
+                        <td style="padding:6px; border:1px solid #ddd;">${item.kelurahan || '-'}</td>
+                        <td style="padding:6px; border:1px solid #ddd; text-align:center;">${item.sub_komponen || 0}</td>
+                        <td style="padding:6px; border:1px solid #ddd; text-align:center;">${item.sub_sanitasi || 0}</td>
+                        <td style="padding:6px; border:1px solid #ddd; text-align:center;">${item.sub_perilaku || 0}</td>
+                        <td style="padding:6px; border:1px solid #ddd; text-align:center; font-weight:bold;">${item.total_skor || 0}</td>
+                        <td style="padding:6px; border:1px solid #ddd; text-align:center; font-weight:bold; color:${isSehat ? '#15803d' : '#b91c1c'};">${item.status || '-'}</td>
+                    </tr>`;
+            });
+
+            const html = `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Laporan Hasil Inspeksi Rumah Sehat</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; font-size: 12px; margin: 20px; color: #333; }
+                        h2 { margin: 0; color: #0f766e; }
+                        h4 { margin: 4px 0 15px 0; color: #666; font-weight: normal; }
+                        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+                        th { background-color: #0f766e; color: white; padding: 8px; border: 1px solid #0f766e; text-align: left; }
+                        @media print {
+                            @page { size: landscape; margin: 10mm; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h2>DINAS KESEHATAN - PENILAIAN RUMAH SEHAT</h2>
+                    <h4>Laporan Rekapitulasi Inspeksi Kesehatan Lingkungan - Tanggal: ${new Date().toLocaleDateString('id-ID')}</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th><th>Tanggal</th><th>Nama KK</th><th>Alamat</th><th>Kelurahan</th>
+                                <th>Komponen</th><th>Sanitasi</th><th>Perilaku</th><th>Total Skor</th><th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${rowsHtml}
+                        </tbody>
+                    </table>
+                    <script>
+                        window.onload = function() { window.print(); }
+                    <\/script>
+                </body>
+                </html>`;
+
+            printWin.document.write(html);
+            printWin.document.close();
+        }
+
         function closeModal() { document.getElementById('custom-modal').classList.add('hidden'); }
 
         window.onload = function () {

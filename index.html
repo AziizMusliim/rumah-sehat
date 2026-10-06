@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Penilaian Rumah Sehat</title>
+    <!-- PWA Meta & Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d9488">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Rumah Sehat">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -217,6 +226,14 @@
                         <p class="text-[11px] font-medium text-center text-gray-400 mt-6 tracking-wide">
                             Sistem Penilaian Digital &copy; 2026
                         </p>
+                        <div class="mt-2 text-center">
+                            <button type="button" id="btn-welcome-install-pwa" onclick="triggerPWAInstall()"
+                                class="inline-flex items-center gap-1.5 text-xs font-bold text-teal-600 hover:text-teal-700 bg-teal-50 hover:bg-teal-100 px-3.5 py-1.5 rounded-full transition-all border border-teal-200 shadow-sm active:scale-95">
+                                <i class="fas fa-download text-teal-600"></i> Install Aplikasi di HP
+                            </button>
+                        </div>
+
+                        </p>
                     </form>
                 </div>
             </div>
@@ -238,9 +255,16 @@
                     </div>
                 </div>
             </div>
-            <button id="btn-home" class="text-teal-100 hover:text-white hidden" onclick="goHome()">
+            <div class="flex items-center gap-2">
+                <button id="btn-header-install-pwa" onclick="triggerPWAInstall()" title="Install Aplikasi ke HP"
+                    class="text-xs bg-teal-700/80 hover:bg-teal-800 text-white px-2.5 py-1.5 rounded-lg border border-teal-400/40 transition-all flex items-center gap-1.5 font-bold shadow-sm active:scale-95">
+                    <i class="fas fa-download"></i> <span>Install</span>
+                </button>
+                <button id="btn-home" class="text-teal-100 hover:text-white hidden" onclick="goHome()">
                 <i class="fas fa-times text-xl"></i>
             </button>
+            </div>
+
         </header>
 
         <!-- Main Dashboard View -->
@@ -2629,8 +2653,132 @@
 
         function closeModal() { document.getElementById('custom-modal').classList.add('hidden'); }
 
+        let deferredPrompt = null;
+
+        function initPWA() {
+            // Register Service Worker
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('./sw.js')
+                    .then((reg) => console.log('[PWA] Service Worker registered with scope:', reg.scope))
+                    .catch((err) => console.error('[PWA] Service Worker registration failed:', err));
+            }
+
+            // Check if already running in standalone mode
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone || document.referrer.includes('android-app://');
+            if (isStandalone) {
+                console.log('[PWA] App running in standalone PWA mode');
+                hidePWAInstallButtons();
+                return;
+            }
+
+            // Capture browser's prompt
+            window.addEventListener('beforeinstallprompt', (e) => {
+                console.log('[PWA] beforeinstallprompt event captured');
+                e.preventDefault();
+                deferredPrompt = e;
+
+                setTimeout(() => {
+                    showPWAInstallBanner();
+                }, 1000);
+            });
+
+            // Handle installation completion
+            window.addEventListener('appinstalled', () => {
+                console.log('[PWA] Application installed successfully!');
+                deferredPrompt = null;
+                hidePWAInstallBanner();
+                hidePWAInstallButtons();
+                showModal('Aplikasi Terpasang!', 'Aplikasi Rumah Sehat telah berhasil diinstall di HP Anda.', true);
+            });
+
+            // Auto prompt for mobile devices if not dismissed
+            setTimeout(() => {
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                const pwaDismissed = localStorage.getItem('pwa_banner_dismissed');
+
+                if (isMobile && !isStandalone && !pwaDismissed) {
+                    showPWAInstallBanner(isIOS);
+                }
+            }, 1800);
+        }
+
+        function showPWAInstallBanner(isIOS = false) {
+            const banner = document.getElementById('pwa-install-banner');
+            if (!banner) return;
+            banner.classList.remove('hidden');
+            setTimeout(() => {
+                banner.classList.remove('translate-y-32', 'opacity-0');
+                banner.classList.add('translate-y-0', 'opacity-100');
+            }, 50);
+
+            if (isIOS) {
+                const btnInstall = document.getElementById('btn-install-pwa');
+                if (btnInstall) {
+                    btnInstall.innerHTML = '<i class="fab fa-apple text-sm"></i> Petunjuk iOS';
+                    btnInstall.onclick = openIOSPWAModal;
+                }
+            }
+        }
+
+        function hidePWAInstallBanner() {
+            const banner = document.getElementById('pwa-install-banner');
+            if (!banner) return;
+            banner.classList.remove('translate-y-0', 'opacity-100');
+            banner.classList.add('translate-y-32', 'opacity-0');
+            setTimeout(() => {
+                banner.classList.add('hidden');
+            }, 300);
+        }
+
+        function dismissPWAInstall() {
+            hidePWAInstallBanner();
+            localStorage.setItem('pwa_banner_dismissed', 'true');
+        }
+
+        function hidePWAInstallButtons() {
+            const btnHeader = document.getElementById('btn-header-install-pwa');
+            const btnWelcome = document.getElementById('btn-welcome-install-pwa');
+            if (btnHeader) btnHeader.style.display = 'none';
+            if (btnWelcome) btnWelcome.style.display = 'none';
+        }
+
+        function triggerPWAInstall() {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            if (isIOS) {
+                openIOSPWAModal();
+                return;
+            }
+
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('[PWA] User accepted install prompt');
+                    } else {
+                        console.log('[PWA] User dismissed install prompt');
+                    }
+                    deferredPrompt = null;
+                    hidePWAInstallBanner();
+                });
+            } else {
+                showModal('Install Aplikasi Rumah Sehat', 'Untuk menginstall aplikasi ini di HP Anda:\n\n1. Ketuk menu titik tiga (⋮) di sudut kanan atas browser.\n2. Pilih "Install aplikasi" atau "Tambah ke Layar Utama" (Add to Home Screen).', true);
+            }
+        }
+
+        function openIOSPWAModal() {
+            const modal = document.getElementById('pwa-ios-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeIOSPWAModal() {
+            const modal = document.getElementById('pwa-ios-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
         window.onload = function () {
             try {
+                initPWA();
                 initNetworkMonitoring();
                 renderScheduleWidget();
                 renderTopIssues();
@@ -2642,6 +2790,85 @@
             }
         };
     </script>
+    <!-- PWA Floating Notification Install Banner -->
+    <div id="pwa-install-banner"
+        class="fixed bottom-4 left-1/2 -translate-x-1/2 w-[92%] max-w-[440px] bg-white/95 dark:bg-gray-800/95 backdrop-blur-md rounded-2xl p-4 shadow-2xl border border-teal-500/30 z-[999] transition-all duration-300 transform translate-y-32 opacity-0 hidden">
+        <div class="flex items-start gap-3">
+            <div
+                class="w-11 h-11 rounded-xl bg-gradient-to-br from-teal-500 to-teal-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-teal-500/30 mt-0.5">
+                <i class="fas fa-mobile-screen-button text-xl"></i>
+            </div>
+            <div class="flex-1 pr-1">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-gray-900 dark:text-white text-sm">Install Aplikasi Rumah Sehat</h3>
+                    <span
+                        class="text-[9px] font-extrabold bg-teal-100 dark:bg-teal-900/80 text-teal-700 dark:text-teal-300 px-2 py-0.5 rounded-full border border-teal-300/50">PWA</span>
+                </div>
+                <p class="text-[12px] text-gray-600 dark:text-gray-300 mt-1 leading-snug">
+                    Pasang di layar utama HP Anda agar bisa diakses cepat &amp; tetap dapat digunakan offline.
+                </p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2 mt-3 pt-2.5 border-t border-gray-100 dark:border-gray-700">
+            <button id="btn-dismiss-pwa" onclick="dismissPWAInstall()"
+                class="flex-1 py-2 text-xs font-semibold text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                Nanti
+            </button>
+            <button id="btn-install-pwa" onclick="triggerPWAInstall()"
+                class="flex-1 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-700 hover:to-teal-600 rounded-xl shadow-md shadow-teal-600/30 transition-all flex items-center justify-center gap-1.5 active:scale-95">
+                <i class="fas fa-download"></i> Install Sekarang
+            </button>
+        </div>
+    </div>
+
+    <!-- iOS Safari PWA Installation Modal -->
+    <div id="pwa-ios-modal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-end sm:items-center justify-center p-4 hidden animate-fadeIn">
+        <div
+            class="bg-white dark:bg-gray-800 rounded-3xl max-w-sm w-full p-5 shadow-2xl relative border border-gray-100 dark:border-gray-700">
+            <button onclick="closeIOSPWAModal()"
+                class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-white w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-teal-600 text-white mx-auto flex items-center justify-center shadow-lg shadow-teal-600/40 mb-3">
+                    <i class="fab fa-apple text-3xl"></i>
+                </div>
+                <h3 class="text-base font-bold text-gray-900 dark:text-white">Cara Install di iPhone / iPad</h3>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Ikuti langkah mudah di Safari:</p>
+            </div>
+            <div class="mt-4 space-y-2.5">
+                <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
+                    <div
+                        class="w-7 h-7 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 flex items-center justify-center font-bold text-xs shrink-0">
+                        1</div>
+                    <p class="text-xs text-gray-700 dark:text-gray-200">Ketuk ikon <span
+                            class="font-bold text-teal-600 dark:text-teal-400">Bagikan / Share</span> <i
+                            class="fas fa-share-from-square text-teal-600"></i> di bagian bawah Safari.</p>
+                </div>
+                <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
+                    <div
+                        class="w-7 h-7 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 flex items-center justify-center font-bold text-xs shrink-0">
+                        2</div>
+                    <p class="text-xs text-gray-700 dark:text-gray-200">Gulir lalu pilih <span
+                            class="font-bold text-teal-600 dark:text-teal-400">'Tambah ke Layar Utama' (Add to Home
+                            Screen)</span> <i class="far fa-square-plus text-teal-600"></i>.</p>
+                </div>
+                <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-2xl">
+                    <div
+                        class="w-7 h-7 rounded-full bg-teal-100 dark:bg-teal-900 text-teal-700 dark:text-teal-300 flex items-center justify-center font-bold text-xs shrink-0">
+                        3</div>
+                    <p class="text-xs text-gray-700 dark:text-gray-200">Ketuk <span
+                            class="font-bold text-teal-600 dark:text-teal-400">'Tambah'</span> di kanan atas.</p>
+                </div>
+            </div>
+            <button onclick="closeIOSPWAModal()"
+                class="w-full mt-4 bg-teal-600 text-white font-bold py-3 rounded-2xl shadow-lg shadow-teal-600/30 text-xs hover:bg-teal-700 transition-all">
+                Saya Mengerti
+            </button>
+        </div>
+    </div>
 </body>
 
 </html>

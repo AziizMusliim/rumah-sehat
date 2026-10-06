@@ -105,29 +105,34 @@
         }
 
         /* Option Choice Card & Right Corner Badge Styling */
-        input[type="radio"]:checked + label {
+        input[type="radio"]:checked+label {
             border-color: #0d9488 !important;
             background-color: #f0fdfa !important;
             box-shadow: 0 2px 6px rgba(13, 148, 136, 0.12) !important;
         }
-        input[type="radio"]:checked + label .opt-badge {
+
+        input[type="radio"]:checked+label .opt-badge {
             background-color: #0d9488 !important;
             color: #ffffff !important;
             border-color: #0d9488 !important;
             box-shadow: 0 1px 3px rgba(13, 148, 136, 0.25) !important;
         }
-        input[type="radio"]:checked + label .radio-circle {
+
+        input[type="radio"]:checked+label .radio-circle {
             border-color: #0d9488 !important;
             background-color: #0d9488 !important;
         }
-        input[type="radio"]:checked + label .radio-dot {
+
+        input[type="radio"]:checked+label .radio-dot {
             opacity: 1 !important;
         }
-        body.dark-mode input[type="radio"]:checked + label {
+
+        body.dark-mode input[type="radio"]:checked+label {
             border-color: #14b8a6 !important;
             background-color: #134e4a !important;
         }
-        body.dark-mode input[type="radio"]:checked + label .opt-badge {
+
+        body.dark-mode input[type="radio"]:checked+label .opt-badge {
             background-color: #14b8a6 !important;
             color: #ffffff !important;
             border-color: #14b8a6 !important;
@@ -209,8 +214,9 @@
                 <div>
                     <h1 class="font-bold text-lg leading-tight">Rumah Sehat</h1>
                     <div class="flex items-center gap-2 mt-0.5">
-                        <span class="text-xs text-teal-100">Dinas Kesehatan v0.3</span>
-                        <span id="network-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
+                        <span class="text-xs text-teal-100">UPT PUSKESMAS CIGADUNG</span>
+                        <span id="network-badge"
+                            class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online
                         </span>
                     </div>
@@ -231,19 +237,23 @@
                     <h2 class="text-xl font-bold text-gray-800" id="dash-petugas-name">Petugas Lapangan</h2>
                 </div>
                 <div class="flex items-center gap-2">
-                    <button onclick="logout()" title="Ganti Petugas / Keluar" class="text-xs bg-gray-100 hover:bg-red-50 text-gray-600 hover:text-red-600 px-3 py-1.5 rounded-lg border border-gray-200 transition-colors flex items-center gap-1.5 font-medium">
+                    <button onclick="logout()" title="Ganti Petugas / Keluar"
+                        class="text-xs bg-gray-100 hover:bg-red-50 text-gray-600 hover:text-red-600 px-3 py-1.5 rounded-lg border border-gray-200 transition-colors flex items-center gap-1.5 font-medium">
                         <i class="fas fa-sign-out-alt"></i> Ganti
                     </button>
-                    <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold border border-teal-200 shadow-sm">
+                    <div
+                        class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold border border-teal-200 shadow-sm">
                         <i class="fas fa-user-md"></i>
                     </div>
                 </div>
             </div>
 
             <!-- Banner Sync Draft (Jika Ada Draft Offline) -->
-            <div id="banner-offline-draft" class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4 flex items-center justify-between shadow-sm">
+            <div id="banner-offline-draft"
+                class="hidden bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-4 flex items-center justify-between shadow-sm">
                 <div class="flex items-center gap-3">
-                    <div class="w-9 h-9 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                    <div
+                        class="w-9 h-9 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
                         <i class="fas fa-cloud-upload-alt text-base"></i>
                     </div>
                     <div>
@@ -251,13 +261,15 @@
                         <p class="text-[11px] text-amber-700" id="text-offline-count">Ada 0 data belum tersinkron</p>
                     </div>
                 </div>
-                <button onclick="syncOfflineDrafts()" class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-sm transition-all flex items-center gap-1">
+                <button onclick="syncOfflineDrafts()"
+                    class="bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold px-3 py-2 rounded-xl shadow-sm transition-all flex items-center gap-1">
                     <i class="fas fa-sync-alt"></i> Sinkron
                 </button>
             </div>
 
             <!-- Kartu Target Utama (Hero Card) -->
-            <div class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden mb-4">
+            <div
+                class="bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl p-5 text-white shadow-lg relative overflow-hidden mb-4">
                 <div class="absolute -right-4 -top-4 w-24 h-24 bg-white opacity-10 rounded-full"></div>
                 <div class="absolute -right-8 -bottom-8 w-32 h-32 bg-white opacity-10 rounded-full"></div>
                 <div class="relative z-10">
@@ -271,7 +283,8 @@
                     </div>
                     <!-- Progress Bar -->
                     <div class="w-full bg-teal-800/50 rounded-full h-2 mb-1.5 overflow-hidden">
-                        <div id="stat-progress" class="bg-white h-2 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                        <div id="stat-progress" class="bg-white h-2 rounded-full transition-all duration-1000"
+                            style="width: 0%"></div>
                     </div>
                     <p class="text-xs text-teal-100 text-right font-medium" id="stat-percent">0% Selesai</p>
                 </div>
@@ -279,8 +292,10 @@
 
             <!-- Grid Statistik (Sehat vs Tidak Sehat) -->
             <div class="grid grid-cols-2 gap-4 mb-5">
-                <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
-                    <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex justify-center items-center text-lg shrink-0">
+                <div
+                    class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
+                    <div
+                        class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex justify-center items-center text-lg shrink-0">
                         <i class="fas fa-home"></i>
                     </div>
                     <div>
@@ -289,8 +304,10 @@
                     </div>
                 </div>
 
-                <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
-                    <div class="w-10 h-10 rounded-full bg-red-100 text-red-500 flex justify-center items-center text-lg shrink-0">
+                <div
+                    class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm flex items-center gap-3 hover:shadow-md transition-shadow">
+                    <div
+                        class="w-10 h-10 rounded-full bg-red-100 text-red-500 flex justify-center items-center text-lg shrink-0">
                         <i class="fas fa-house-damage"></i>
                     </div>
                     <div>
@@ -304,16 +321,19 @@
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 mb-5">
                 <div class="flex justify-between items-center mb-3">
                     <div class="flex items-center gap-2">
-                        <div class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-bold">
+                        <div
+                            class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center text-xs font-bold">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
                         <h3 class="font-bold text-gray-800 text-sm">Target Inspeksi Hari Ini</h3>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="promptAddSchedule()" class="text-[10px] font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-lg transition-colors">
+                        <button onclick="promptAddSchedule()"
+                            class="text-[10px] font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-lg transition-colors">
                             + Tambah
                         </button>
-                        <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full" id="schedule-count">0 Jadwal</span>
+                        <span class="text-[10px] font-bold bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded-full"
+                            id="schedule-count">0 Jadwal</span>
                     </div>
                 </div>
                 <div id="schedule-list" class="space-y-2.5">
@@ -324,7 +344,8 @@
             <!-- Widget 2: Ringkasan Masalah Sanitasi Terbanyak -->
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 mb-5">
                 <div class="flex items-center gap-2 mb-3">
-                    <div class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center text-xs font-bold">
+                    <div
+                        class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center text-xs font-bold">
                         <i class="fas fa-exclamation-circle"></i>
                     </div>
                     <h3 class="font-bold text-gray-800 text-sm">Temuan Masalah Terbanyak</h3>
@@ -338,7 +359,8 @@
             <div class="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 mb-5">
                 <div class="flex justify-between items-center mb-3">
                     <div class="flex items-center gap-2">
-                        <div class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-xs font-bold">
+                        <div
+                            class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-xs font-bold">
                             <i class="fas fa-trophy"></i>
                         </div>
                         <div>
@@ -346,7 +368,8 @@
                             <p class="text-[10px] text-gray-400">Peringkat 3 Kader/Petugas Terbaik</p>
                         </div>
                     </div>
-                    <span class="text-[10px] font-bold bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full flex items-center gap-1 border border-amber-200/60">
+                    <span
+                        class="text-[10px] font-bold bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full flex items-center gap-1 border border-amber-200/60">
                         <i class="fas fa-award text-amber-500"></i> Leaderboard
                     </span>
                 </div>
@@ -360,10 +383,12 @@
                 <div class="flex justify-between items-center mb-3">
                     <h3 class="font-bold text-gray-800 text-lg">Riwayat Penilaian</h3>
                     <div class="flex items-center gap-2">
-                        <button onclick="openExportModal()" class="text-xs text-indigo-600 font-medium hover:underline bg-indigo-50 px-2.5 py-1.5 rounded-lg border border-indigo-100 flex items-center gap-1.5 shadow-sm hover:bg-indigo-100 transition-all">
+                        <button onclick="openExportModal()"
+                            class="text-xs text-indigo-600 font-medium hover:underline bg-indigo-50 px-2.5 py-1.5 rounded-lg border border-indigo-100 flex items-center gap-1.5 shadow-sm hover:bg-indigo-100 transition-all">
                             <i class="fas fa-file-export"></i> Ekspor
                         </button>
-                        <button onclick="loadHistory()" class="text-xs text-teal-600 font-medium hover:underline bg-teal-50 px-2.5 py-1.5 rounded-lg border border-teal-100 flex items-center gap-1 hover:bg-teal-100 transition-all">
+                        <button onclick="loadHistory()"
+                            class="text-xs text-teal-600 font-medium hover:underline bg-teal-50 px-2.5 py-1.5 rounded-lg border border-teal-100 flex items-center gap-1 hover:bg-teal-100 transition-all">
                             <i class="fas fa-sync-alt"></i> Segarkan
                         </button>
                     </div>
@@ -373,12 +398,18 @@
                 <div class="space-y-2 mb-4">
                     <div class="relative">
                         <i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
-                        <input type="text" id="search-history-input" onkeyup="filterHistoryList()" placeholder="Cari nama KK / kelurahan..." class="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition-all">
+                        <input type="text" id="search-history-input" onkeyup="filterHistoryList()"
+                            placeholder="Cari nama KK / kelurahan..."
+                            class="w-full pl-9 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs focus:ring-2 focus:ring-teal-500 focus:bg-white outline-none transition-all">
                     </div>
                     <div class="flex gap-2 text-xs">
-                        <button onclick="setHistoryFilter('all')" id="filter-chip-all" class="px-3 py-1.5 rounded-lg font-medium bg-teal-600 text-white transition-colors">Semua</button>
-                        <button onclick="setHistoryFilter('Sehat')" id="filter-chip-Sehat" class="px-3 py-1.5 rounded-lg font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">Sehat</button>
-                        <button onclick="setHistoryFilter('Tidak Sehat')" id="filter-chip-Tidak Sehat" class="px-3 py-1.5 rounded-lg font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">Tdk Sehat</button>
+                        <button onclick="setHistoryFilter('all')" id="filter-chip-all"
+                            class="px-3 py-1.5 rounded-lg font-medium bg-teal-600 text-white transition-colors">Semua</button>
+                        <button onclick="setHistoryFilter('Sehat')" id="filter-chip-Sehat"
+                            class="px-3 py-1.5 rounded-lg font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">Sehat</button>
+                        <button onclick="setHistoryFilter('Tidak Sehat')" id="filter-chip-Tidak Sehat"
+                            class="px-3 py-1.5 rounded-lg font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">Tdk
+                            Sehat</button>
                     </div>
                 </div>
 
@@ -400,7 +431,8 @@
                 <div class="p-4 border-b flex items-center gap-3">
                     <div
                         class="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 text-xl">
-                        <i class="fas fa-user"></i></div>
+                        <i class="fas fa-user"></i>
+                    </div>
                     <div>
                         <h4 class="font-bold text-gray-800" id="set-petugas-name">Petugas Lapangan</h4>
                         <p class="text-xs text-gray-500">Petugas Aktif</p>
@@ -545,13 +577,15 @@
             </div>
             <div id="step-4" class="form-step p-6 hidden">
                 <div class="mb-4">
-                    <h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">III. Perilaku Penghuni</h2>
+                    <h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">III. Perilaku Penghuni
+                    </h2>
                     <p class="text-sm text-gray-500 mt-1">Bobot: 44</p>
                 </div>
                 <div id="container-perilaku" class="space-y-6"></div>
 
                 <div class="mt-8 mb-4">
-                    <h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">IV. Rumah Bebas Jentik</h2>
+                    <h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">IV. Rumah Bebas Jentik
+                    </h2>
                     <p class="text-sm text-gray-500 mt-1">Kriteria (Checklist)</p>
                 </div>
                 <div id="container-jentik" class="space-y-6"></div>
@@ -668,7 +702,8 @@
                 <div class="p-6 text-center">
                     <div id="modal-icon"
                         class="w-16 h-16 mx-auto rounded-full bg-red-100 text-red-600 flex items-center justify-center text-3xl mb-4">
-                        <i class="fas fa-exclamation-triangle"></i></div>
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
                     <h3 id="modal-title" class="text-lg font-bold text-gray-900 mb-2">Peringatan</h3>
                     <p id="modal-desc" class="text-sm text-gray-500 mb-6">Pesan.</p>
                     <button id="modal-action-btn" onclick="closeModal()"
@@ -775,7 +810,8 @@
                         <label class="block font-medium text-gray-700 mb-1">Alamat / RT / RW *</label>
                         <div class="relative">
                             <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
-                            <textarea id="sch-alamat" required rows="2" placeholder="Jl. Cigadung Raya No. 12, RT 02/RW 05"
+                            <textarea id="sch-alamat" required rows="2"
+                                placeholder="Jl. Cigadung Raya No. 12, RT 02/RW 05"
                                 class="w-full border border-gray-200 rounded-xl pl-9 pr-3 py-2 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-indigo-500 outline-none transition-all"></textarea>
                         </div>
                     </div>
@@ -805,11 +841,13 @@
     </div>
 
     <!-- Modal Ekspor Laporan -->
-    <div id="export-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div id="export-modal"
+        class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative overflow-hidden">
             <div class="flex justify-between items-center mb-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg font-bold">
+                    <div
+                        class="w-10 h-10 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-lg font-bold">
                         <i class="fas fa-file-export"></i>
                     </div>
                     <div>
@@ -817,7 +855,8 @@
                         <p class="text-xs text-gray-500">Unduh data penilaian dalam format Excel atau PDF</p>
                     </div>
                 </div>
-                <button onclick="closeExportModal()" class="text-gray-400 hover:text-gray-600 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors">
+                <button onclick="closeExportModal()"
+                    class="text-gray-400 hover:text-gray-600 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
@@ -825,34 +864,48 @@
             <div class="space-y-4">
                 <!-- Pilihan Scope Data -->
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Cakupan Data</label>
+                    <label class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Cakupan
+                        Data</label>
                     <div class="space-y-2">
-                        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
-                            <input type="radio" name="export-scope" value="all" checked class="text-indigo-600 focus:ring-indigo-500">
+                        <label
+                            class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <input type="radio" name="export-scope" value="all" checked
+                                class="text-indigo-600 focus:ring-indigo-500">
                             <div>
                                 <p class="text-xs font-bold text-gray-800" id="export-opt-all-text">Semua Data</p>
-                                <p class="text-[10px] text-gray-500">Mengekspor seluruh riwayat yang tersimpan di database</p>
+                                <p class="text-[10px] text-gray-500">Mengekspor seluruh riwayat yang tersimpan di
+                                    database</p>
                             </div>
                         </label>
-                        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
-                            <input type="radio" name="export-scope" value="filtered" class="text-indigo-600 focus:ring-indigo-500">
+                        <label
+                            class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <input type="radio" name="export-scope" value="filtered"
+                                class="text-indigo-600 focus:ring-indigo-500">
                             <div>
-                                <p class="text-xs font-bold text-gray-800" id="export-opt-filtered-text">Sesuai Filter & Pencarian Saat Ini</p>
-                                <p class="text-[10px] text-gray-500">Mengekspor data yang tampil berdasarkan pencarian/filter di layar</p>
+                                <p class="text-xs font-bold text-gray-800" id="export-opt-filtered-text">Sesuai Filter &
+                                    Pencarian Saat Ini</p>
+                                <p class="text-[10px] text-gray-500">Mengekspor data yang tampil berdasarkan
+                                    pencarian/filter di layar</p>
                             </div>
                         </label>
-                        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
-                            <input type="radio" name="export-scope" value="Sehat" class="text-indigo-600 focus:ring-indigo-500">
+                        <label
+                            class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <input type="radio" name="export-scope" value="Sehat"
+                                class="text-indigo-600 focus:ring-indigo-500">
                             <div>
                                 <p class="text-xs font-bold text-gray-800">Hanya Memenuhi Syarat (Sehat)</p>
-                                <p class="text-[10px] text-gray-500">Mengekspor khusus rumah yang lulus kriteria sehat</p>
+                                <p class="text-[10px] text-gray-500">Mengekspor khusus rumah yang lulus kriteria sehat
+                                </p>
                             </div>
                         </label>
-                        <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
-                            <input type="radio" name="export-scope" value="Tidak Sehat" class="text-indigo-600 focus:ring-indigo-500">
+                        <label
+                            class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <input type="radio" name="export-scope" value="Tidak Sehat"
+                                class="text-indigo-600 focus:ring-indigo-500">
                             <div>
                                 <p class="text-xs font-bold text-gray-800">Hanya Tidak Memenuhi Syarat</p>
-                                <p class="text-[10px] text-gray-500">Mengekspor daftar rumah yang memerlukan pembinaan</p>
+                                <p class="text-[10px] text-gray-500">Mengekspor daftar rumah yang memerlukan pembinaan
+                                </p>
                             </div>
                         </label>
                     </div>
@@ -860,10 +913,12 @@
 
                 <!-- Tombol Format Ekspor -->
                 <div class="pt-2 grid grid-cols-2 gap-3">
-                    <button onclick="executeExport('excel')" class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md transition-all text-xs">
+                    <button onclick="executeExport('excel')"
+                        class="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl shadow-md transition-all text-xs">
                         <i class="fas fa-file-excel text-sm"></i> Unduh Excel
                     </button>
-                    <button onclick="executeExport('pdf')" class="flex items-center justify-center gap-2 bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl shadow-md transition-all text-xs">
+                    <button onclick="executeExport('pdf')"
+                        class="flex items-center justify-center gap-2 bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl shadow-md transition-all text-xs">
                         <i class="fas fa-file-pdf text-sm"></i> Unduh PDF
                     </button>
                 </div>
@@ -1293,7 +1348,7 @@
         renderQuestions(configData.perilaku, 'container-perilaku');
         renderQuestions(configData.jentik, 'container-jentik');
 
-        function startAssessment() {
+        function startAssessment(isEdit = false) {
             document.getElementById('view-dashboard').classList.remove('active');
             document.getElementById('view-settings').classList.remove('active');
             document.getElementById('view-form').classList.add('active');
@@ -1304,11 +1359,16 @@
             document.getElementById('btn-home').classList.remove('hidden');
 
             currentStep = 1;
-            formAnswers = {};
-            document.getElementById('form-identitas').reset();
-            document.getElementById('tanggal').valueAsDate = new Date();
-            document.getElementById('nama_petugas').value = petugasName; // Auto-fill nama petugas
-            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+            if (!isEdit) {
+                currentEditingId = null;
+                formAnswers = {};
+                document.getElementById('form-identitas').reset();
+                document.getElementById('tanggal').valueAsDate = new Date();
+                document.getElementById('nama_petugas').value = petugasName; // Auto-fill nama petugas
+                document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+                const btnSubmit = document.getElementById('btn-submit');
+                if (btnSubmit) btnSubmit.innerHTML = '<i class="fas fa-save mr-2"></i> Simpan Data';
+            }
 
             recalculateTotal();
             showStep(currentStep);
@@ -1433,6 +1493,62 @@
         let activeHistoryFilter = 'all';
         let offlineDrafts = JSON.parse(localStorage.getItem('offlineDrafts') || '[]');
         let realSchedules = JSON.parse(localStorage.getItem('realSchedules') || '[]');
+        let currentEditingId = null;
+
+        function editAssessment(id) {
+            const item = allHistoryData.find(h => String(h.id) === String(id)) || offlineDrafts.find(d => String(d.id) === String(id));
+            if (!item) {
+                showModal("Data Tidak Ditemukan", "Data penilaian yang ingin diedit tidak ditemukan.");
+                return;
+            }
+
+            const currentPetugas = (localStorage.getItem('petugasName') || '').trim();
+            const isOwner = item.nama_petugas && currentPetugas && (item.nama_petugas.trim().toLowerCase() === currentPetugas.toLowerCase());
+
+            if (!isOwner) {
+                const ownerName = item.nama_petugas || 'Petugas Lain';
+                showModal("Akses Dibatasi", `Data ini diinput oleh "${ownerName}". Hanya petugas pembuat yang berhak mengedit data ini.`);
+                return;
+            }
+
+            currentEditingId = item.id;
+            startAssessment(true);
+
+            // Isikan form identitas
+            if (item.nama_kk) document.getElementById('nama_kk').value = item.nama_kk;
+            if (item.alamat) document.getElementById('alamat').value = item.alamat;
+            if (item.kelurahan) document.getElementById('kelurahan').value = item.kelurahan;
+            if (item.kecamatan) document.getElementById('kecamatan').value = item.kecamatan;
+            if (item.kabupaten) document.getElementById('kabupaten').value = item.kabupaten;
+            if (item.provinsi) document.getElementById('provinsi').value = item.provinsi;
+            if (item.nama_petugas) document.getElementById('nama_petugas').value = item.nama_petugas;
+            if (item.tgl_penilaian) document.getElementById('tanggal').value = item.tgl_penilaian;
+
+            // Centang ulang radio button jika ada data jawaban tersimpan
+            document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+            formAnswers = {};
+            if (item.answers) {
+                formAnswers = JSON.parse(JSON.stringify(item.answers));
+                Object.keys(formAnswers).forEach(qId => {
+                    const ansObj = formAnswers[qId];
+                    if (ansObj && ansObj.val !== undefined) {
+                        const radioEl = document.querySelector(`input[name="${qId}"][value="${ansObj.val}"]`);
+                        if (radioEl) {
+                            radioEl.checked = true;
+                        }
+                    }
+                });
+            }
+            recalculateTotal();
+
+            const btnSubmit = document.getElementById('btn-submit');
+            if (btnSubmit) {
+                btnSubmit.innerHTML = '<i class="fas fa-edit mr-2"></i> Perbarui Data Penilaian';
+            }
+
+            showModal("Mode Edit Aktif", `Anda sedang mengedit data penilaian untuk KK: "${item.nama_kk}". Silakan sesuaikan data lalu klik Perbarui Data.`, true);
+            document.getElementById('modal-action-btn').onclick = closeModal;
+        }
 
         function initNetworkMonitoring() {
             updateNetworkStatus();
@@ -1570,8 +1686,8 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-2">
-                            ${isDone ? '<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">Selesai</span>' : 
-                            `<button onclick="startScheduledAssessment('${item.nama_kk}', '${item.alamat}', '${item.kelurahan || ''}', '${item.kecamatan || ''}')" class="text-[10px] font-bold text-white bg-indigo-600 hover:bg-indigo-700 px-2.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1">
+                            ${isDone ? '<span class="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">Selesai</span>' :
+                        `<button onclick="startScheduledAssessment('${item.nama_kk}', '${item.alamat}', '${item.kelurahan || ''}', '${item.kecamatan || ''}')" class="text-[10px] font-bold text-white bg-indigo-600 hover:bg-indigo-700 px-2.5 py-1.5 rounded-lg shadow-sm transition-all flex items-center gap-1">
                                 Inspeksi <i class="fas fa-arrow-right text-[8px]"></i>
                             </button>`}
                             <button onclick="removeSchedule(${index})" class="text-gray-400 hover:text-red-500 text-xs px-1" title="Hapus Jadwal"><i class="fas fa-trash-alt"></i></button>
@@ -1671,7 +1787,7 @@
                     <div>
                         <div class="flex justify-between text-xs font-medium mb-1">
                             <span class="text-gray-700 text-[11px] font-medium">${issue.name}</span>
-                            <span class="text-gray-500 text-[11px] font-bold">${issue.count}% Rumah (${Math.round((issue.count * totalCount)/100)}/${totalCount})</span>
+                            <span class="text-gray-500 text-[11px] font-bold">${issue.count}% Rumah (${Math.round((issue.count * totalCount) / 100)}/${totalCount})</span>
                         </div>
                         <div class="w-full bg-gray-100 rounded-full h-1.5 overflow-hidden">
                             <div class="${issue.color} h-1.5 rounded-full transition-all duration-500" style="width: ${issue.count}%"></div>
@@ -1695,7 +1811,7 @@
             combinedData.forEach(item => {
                 let name = item.nama_petugas ? item.nama_petugas.trim() : '';
                 if (!name || name === '-') name = 'Petugas Lapangan';
-                
+
                 petugasCounts[name] = (petugasCounts[name] || 0) + 1;
                 if (!petugasLastActive[name] && item.timestamp) {
                     petugasLastActive[name] = item.timestamp;
@@ -1783,9 +1899,9 @@
             const query = inputEl ? inputEl.value.toLowerCase().trim() : '';
             const filtered = allHistoryData.filter(item => {
                 const matchesQuery = (item.nama_kk && item.nama_kk.toLowerCase().includes(query)) ||
-                                     (item.kelurahan && item.kelurahan.toLowerCase().includes(query)) ||
-                                     (item.alamat && item.alamat.toLowerCase().includes(query)) ||
-                                     (item.nama_petugas && item.nama_petugas.toLowerCase().includes(query));
+                    (item.kelurahan && item.kelurahan.toLowerCase().includes(query)) ||
+                    (item.alamat && item.alamat.toLowerCase().includes(query)) ||
+                    (item.nama_petugas && item.nama_petugas.toLowerCase().includes(query));
                 const matchesFilter = activeHistoryFilter === 'all' || item.status === activeHistoryFilter;
                 return matchesQuery && matchesFilter;
             });
@@ -1823,11 +1939,28 @@
                     </div>`;
                 return;
             }
+
+            const currentPetugas = (localStorage.getItem('petugasName') || '').trim();
+
             let html = '';
             historyItems.forEach(item => {
                 const color = item.status === 'Sehat' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700';
                 const icon = item.status === 'Sehat' ? 'fa-check-circle' : 'fa-times-circle';
                 const badgeText = item.status === 'Sehat' ? 'Sehat' : 'Tdk Sehat';
+
+                const isOwner = item.nama_petugas && currentPetugas && (item.nama_petugas.trim().toLowerCase() === currentPetugas.toLowerCase());
+
+                let editBtnHtml = '';
+                if (isOwner) {
+                    editBtnHtml = `<button onclick="editAssessment('${item.id}')" class="text-[11px] font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 px-2.5 py-1 rounded-lg border border-teal-200 flex items-center gap-1 transition-all shadow-xs" title="Edit Data Ini">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>`;
+                } else {
+                    const safeName = (item.nama_petugas || 'petugas lain').replace(/'/g, "\\'");
+                    editBtnHtml = `<button onclick="showModal('Akses Dibatasi', 'Data ini diinput oleh &quot;${safeName}&quot;. Hanya petugas pembuat yang berhak mengedit data ini.')" class="text-[11px] font-medium text-gray-400 bg-gray-50 px-2 py-1 rounded-lg border border-gray-200 flex items-center gap-1 cursor-not-allowed opacity-75" title="Hanya diinput oleh ${safeName}">
+                        <i class="fas fa-lock text-[9px]"></i> Edit
+                    </button>`;
+                }
 
                 html += `<div class="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
                             <div class="absolute left-0 top-0 bottom-0 w-1 ${item.status === 'Sehat' ? 'bg-green-500' : 'bg-red-500'}"></div>
@@ -1842,7 +1975,10 @@
                                     <span class="${color} text-[10px] font-bold px-2 py-1 rounded-md flex items-center uppercase tracking-wider">
                                         <i class="fas ${icon} mr-1"></i> ${badgeText}
                                     </span>
-                                    <span class="text-gray-700 text-xs font-bold bg-gray-50 px-2 py-1 rounded border">Skor: ${item.total_skor}</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="text-gray-700 text-xs font-bold bg-gray-50 px-2 py-1 rounded border">Skor: ${item.total_skor}</span>
+                                        ${editBtnHtml}
+                                    </div>
                                 </div>
                             </div>
                         </div>`;
@@ -1866,11 +2002,14 @@
             }
 
             const btnSubmit = document.getElementById('btn-submit');
-            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...';
+            btnSubmit.innerHTML = currentEditingId ? '<i class="fas fa-spinner fa-spin mr-2"></i> Memperbarui...' : '<i class="fas fa-spinner fa-spin mr-2"></i> Menyimpan...';
             btnSubmit.disabled = true;
 
+            const isEditing = !!currentEditingId;
+            const targetId = currentEditingId ? currentEditingId : ('RS-' + new Date().getTime());
+
             const dataPayload = {
-                id: 'RS-' + new Date().getTime(),
+                id: targetId,
                 tgl_penilaian: document.getElementById('tanggal').value,
                 nama_petugas: document.getElementById('nama_petugas').value,
                 nama_kk: document.getElementById('nama_kk').value,
@@ -1885,18 +2024,30 @@
                 bebas_jentik: formAnswers['j1'] && formAnswers['j1'].val === 1 ? 'YA' : 'TIDAK',
                 total_skor: totalScore,
                 status: totalScore >= 1068 ? 'Sehat' : 'Tidak Sehat',
+                answers: formAnswers,
                 timestamp: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
             };
 
             // Handling mode Offline
             if (!navigator.onLine) {
+                if (isEditing) {
+                    const idx = allHistoryData.findIndex(h => String(h.id) === String(targetId));
+                    if (idx !== -1) allHistoryData[idx] = dataPayload;
+                    else allHistoryData.unshift(dataPayload);
+                } else {
+                    allHistoryData.unshift(dataPayload);
+                }
+
                 offlineDrafts.push(dataPayload);
                 localStorage.setItem('offlineDrafts', JSON.stringify(offlineDrafts));
-                allHistoryData.unshift(dataPayload);
                 filterHistoryList();
+                renderTopPetugas();
                 markScheduleAsCompleted(dataPayload.nama_kk);
                 updateOfflineBanner();
-                showModal("Draft Offline Tersimpan", "Koneksi terputus. Data penilaian berhasil disimpan secara lokal di perangkat Anda dan akan tersinkron otomatis saat online.", true);
+
+                const successMsg = isEditing ? "Koneksi terputus. Pembaruan data disimpan secara lokal di perangkat Anda." : "Koneksi terputus. Data penilaian berhasil disimpan secara lokal di perangkat Anda.";
+                currentEditingId = null;
+                showModal("Draft Offline Tersimpan", successMsg, true);
                 document.getElementById('modal-action-btn').onclick = function () { closeModal(); goHome(); };
                 btnSubmit.innerHTML = '<i class="fas fa-save mr-2"></i> Simpan Data';
                 btnSubmit.disabled = false;
@@ -1916,11 +2067,23 @@
                 const result = await response.json();
 
                 if (result.success) {
-                    allHistoryData.unshift(dataPayload);
+                    if (isEditing) {
+                        const idx = allHistoryData.findIndex(h => String(h.id) === String(targetId));
+                        if (idx !== -1) allHistoryData[idx] = dataPayload;
+                        else allHistoryData.unshift(dataPayload);
+                    } else {
+                        allHistoryData.unshift(dataPayload);
+                    }
+
                     filterHistoryList();
                     renderTopPetugas();
                     markScheduleAsCompleted(dataPayload.nama_kk);
-                    showModal("Berhasil!", "Data Penilaian berhasil disimpan ke Google Sheets.", true);
+
+                    const successTitle = isEditing ? "Pembaruan Berhasil!" : "Berhasil!";
+                    const successText = isEditing ? "Perubahan data penilaian berhasil diperbarui di Google Sheets." : "Data Penilaian berhasil disimpan ke Google Sheets.";
+                    currentEditingId = null;
+
+                    showModal(successTitle, successText, true);
                     document.getElementById('modal-action-btn').onclick = function () { closeModal(); goHome(); };
                 } else {
                     showModal("Gagal Menyimpan", result.message);
@@ -1928,10 +2091,21 @@
             } catch (error) {
                 console.error(error);
                 // Fallback simpan offline jika gagal koneksi
+                if (isEditing) {
+                    const idx = allHistoryData.findIndex(h => String(h.id) === String(targetId));
+                    if (idx !== -1) allHistoryData[idx] = dataPayload;
+                    else allHistoryData.unshift(dataPayload);
+                } else {
+                    allHistoryData.unshift(dataPayload);
+                }
+
                 offlineDrafts.push(dataPayload);
                 localStorage.setItem('offlineDrafts', JSON.stringify(offlineDrafts));
                 updateOfflineBanner();
                 renderTopPetugas();
+                filterHistoryList();
+                currentEditingId = null;
+
                 showModal("Tersimpan sebagai Draft Offline", "Gagal menghubungi server. Data telah disimpan secara lokal di perangkat Anda.", true);
                 document.getElementById('modal-action-btn').onclick = function () { closeModal(); goHome(); };
             } finally {
@@ -2113,9 +2287,9 @@
             const query = inputEl ? inputEl.value.toLowerCase().trim() : '';
             const filtered = allHistoryData.filter(item => {
                 const matchesQuery = (item.nama_kk && item.nama_kk.toLowerCase().includes(query)) ||
-                                     (item.kelurahan && item.kelurahan.toLowerCase().includes(query)) ||
-                                     (item.alamat && item.alamat.toLowerCase().includes(query)) ||
-                                     (item.nama_petugas && item.nama_petugas.toLowerCase().includes(query));
+                    (item.kelurahan && item.kelurahan.toLowerCase().includes(query)) ||
+                    (item.alamat && item.alamat.toLowerCase().includes(query)) ||
+                    (item.nama_petugas && item.nama_petugas.toLowerCase().includes(query));
                 const matchesFilter = activeHistoryFilter === 'all' || item.status === activeHistoryFilter;
                 return matchesQuery && matchesFilter;
             });
@@ -2151,9 +2325,9 @@
                 const query = inputEl ? inputEl.value.toLowerCase().trim() : '';
                 return allHistoryData.filter(item => {
                     const matchesQuery = (item.nama_kk && item.nama_kk.toLowerCase().includes(query)) ||
-                                         (item.kelurahan && item.kelurahan.toLowerCase().includes(query)) ||
-                                         (item.alamat && item.alamat.toLowerCase().includes(query)) ||
-                                         (item.nama_petugas && item.nama_petugas.toLowerCase().includes(query));
+                        (item.kelurahan && item.kelurahan.toLowerCase().includes(query)) ||
+                        (item.alamat && item.alamat.toLowerCase().includes(query)) ||
+                        (item.nama_petugas && item.nama_petugas.toLowerCase().includes(query));
                     const matchesFilter = activeHistoryFilter === 'all' || item.status === activeHistoryFilter;
                     return matchesQuery && matchesFilter;
                 });
@@ -2181,7 +2355,7 @@
         function exportToExcel(dataList) {
             const formattedData = dataList.map((item, idx) => ({
                 "No": idx + 1,
-                "ID Penilaian": item.id || `RS-${idx+1}`,
+                "ID Penilaian": item.id || `RS-${idx + 1}`,
                 "Tanggal": item.tgl_penilaian || item.timestamp || '-',
                 "Nama Petugas/Kader": item.nama_petugas || '-',
                 "Nama Kepala Keluarga": item.nama_kk || '-',
@@ -2206,7 +2380,7 @@
                 ];
                 const workbook = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Penilaian");
-                const filename = `Laporan_Rumah_Sehat_${new Date().toISOString().slice(0,10)}.xlsx`;
+                const filename = `Laporan_Rumah_Sehat_${new Date().toISOString().slice(0, 10)}.xlsx`;
                 XLSX.writeFile(workbook, filename);
                 showModal("Ekspor Excel Berhasil", `File ${filename} telah diunduh.`, true);
             } else {
@@ -2220,7 +2394,7 @@
 
                 const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
                 const link = document.createElement("a");
-                const filename = `Laporan_Rumah_Sehat_${new Date().toISOString().slice(0,10)}.csv`;
+                const filename = `Laporan_Rumah_Sehat_${new Date().toISOString().slice(0, 10)}.csv`;
                 link.href = URL.createObjectURL(blob);
                 link.setAttribute("download", filename);
                 document.body.appendChild(link);
@@ -2242,7 +2416,7 @@
                     doc.text("PEMERINTAH KABUPATEN / KOTA", 14, 15);
                     doc.setFontSize(14);
                     doc.setTextColor(31, 41, 55);
-                    doc.text("DINAS KESEHATAN - UPTD PUSKESMAS", 14, 22);
+                    doc.text("DINAS KESEHATAN - UPTD PUSKESMAS CIGADUNG", 14, 22);
 
                     doc.setFont("helvetica", "normal");
                     doc.setFontSize(10);
@@ -2276,7 +2450,7 @@
                     doc.setTextColor(22, 101, 52);
                     doc.text("MEMENUHI SYARAT (SEHAT)", 104, 43);
                     doc.setFontSize(12);
-                    doc.text(`${sehat} Rumah (${Math.round((sehat/total)*100)}%)`, 104, 49);
+                    doc.text(`${sehat} Rumah (${Math.round((sehat / total) * 100)}%)`, 104, 49);
 
                     doc.setFillColor(254, 226, 226);
                     doc.roundedRect(186, 36, 94, 16, 2, 2, 'F');
@@ -2285,7 +2459,7 @@
                     doc.setTextColor(153, 27, 27);
                     doc.text("TIDAK MEMENUHI SYARAT", 190, 43);
                     doc.setFontSize(12);
-                    doc.text(`${tidakSehat} Rumah (${Math.round((tidakSehat/total)*100)}%)`, 190, 49);
+                    doc.text(`${tidakSehat} Rumah (${Math.round((tidakSehat / total) * 100)}%)`, 190, 49);
 
                     const tableHeaders = [["No", "Tanggal", "Petugas/Kader", "Nama KK", "Alamat", "Kelurahan", "Kecamatan", "K.Rumah", "Sanitasi", "Perilaku", "Jentik", "Skor", "Status"]];
                     const tableBody = dataList.map((item, idx) => [
@@ -2312,7 +2486,7 @@
                         headStyles: { fillColor: [15, 118, 110], textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9 },
                         bodyStyles: { fontSize: 8, textColor: [31, 41, 55] },
                         alternateRowStyles: { fillColor: [249, 250, 251] },
-                        didParseCell: function(data) {
+                        didParseCell: function (data) {
                             if (data.section === 'body' && (data.cell.raw === 'Sehat' || data.cell.raw === 'Tidak Sehat')) {
                                 if (data.cell.raw === 'Sehat') {
                                     data.cell.styles.textColor = [22, 101, 52];
@@ -2335,10 +2509,10 @@
                         doc.text(`( .................................................... )`, 220, finalY + 38);
                     }
 
-                    const filename = `Laporan_Rumah_Sehat_${new Date().toISOString().slice(0,10)}.pdf`;
+                    const filename = `Laporan_Rumah_Sehat_${new Date().toISOString().slice(0, 10)}.pdf`;
                     doc.save(filename);
                     showModal("Ekspor PDF Berhasil", `File ${filename} telah diunduh.`, true);
-                } catch(e) {
+                } catch (e) {
                     console.error("PDF generation error:", e);
                     printPDFReportFallback(dataList);
                 }

@@ -103,6 +103,35 @@
         body.dark-mode #add-menu-sheet {
             background-color: #1f2937 !important;
         }
+
+        /* Option Choice Card & Right Corner Badge Styling */
+        input[type="radio"]:checked + label {
+            border-color: #0d9488 !important;
+            background-color: #f0fdfa !important;
+            box-shadow: 0 2px 6px rgba(13, 148, 136, 0.12) !important;
+        }
+        input[type="radio"]:checked + label .opt-badge {
+            background-color: #0d9488 !important;
+            color: #ffffff !important;
+            border-color: #0d9488 !important;
+            box-shadow: 0 1px 3px rgba(13, 148, 136, 0.25) !important;
+        }
+        input[type="radio"]:checked + label .radio-circle {
+            border-color: #0d9488 !important;
+            background-color: #0d9488 !important;
+        }
+        input[type="radio"]:checked + label .radio-dot {
+            opacity: 1 !important;
+        }
+        body.dark-mode input[type="radio"]:checked + label {
+            border-color: #14b8a6 !important;
+            background-color: #134e4a !important;
+        }
+        body.dark-mode input[type="radio"]:checked + label .opt-badge {
+            background-color: #14b8a6 !important;
+            color: #ffffff !important;
+            border-color: #14b8a6 !important;
+        }
     </style>
 </head>
 
@@ -180,7 +209,7 @@
                 <div>
                     <h1 class="font-bold text-lg leading-tight">Rumah Sehat</h1>
                     <div class="flex items-center gap-2 mt-0.5">
-                        <span class="text-xs text-teal-100">UPT Puskesmas Cigadung</span>
+                        <span class="text-xs text-teal-100">Dinas Kesehatan v0.3</span>
                         <span id="network-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online
                         </span>
@@ -495,11 +524,16 @@
             </div>
             <div id="step-4" class="form-step p-6 hidden">
                 <div class="mb-4">
-                    <h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">III. Perilaku Penghuni
-                    </h2>
+                    <h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">III. Perilaku Penghuni</h2>
                     <p class="text-sm text-gray-500 mt-1">Bobot: 44</p>
                 </div>
                 <div id="container-perilaku" class="space-y-6"></div>
+
+                <div class="mt-8 mb-4">
+                    <h2 class="text-xl font-bold text-gray-800 border-l-4 border-teal-500 pl-3">IV. Rumah Bebas Jentik</h2>
+                    <p class="text-sm text-gray-500 mt-1">Kriteria (Checklist)</p>
+                </div>
+                <div id="container-jentik" class="space-y-6"></div>
             </div>
 
             <!-- Step 5: Review & Submit -->
@@ -515,14 +549,17 @@
                 </div>
                 <div class="space-y-3 mb-6">
                     <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border"><span
-                            class="text-sm font-medium text-gray-700">I. Komponen</span><span
+                            class="text-sm font-medium text-gray-700">I. Komponen Rumah</span><span
                             class="font-bold text-teal-600" id="review-sub-1">0</span></div>
                     <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border"><span
-                            class="text-sm font-medium text-gray-700">II. Sanitasi</span><span
+                            class="text-sm font-medium text-gray-700">II. Sarana Sanitasi</span><span
                             class="font-bold text-teal-600" id="review-sub-2">0</span></div>
                     <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border"><span
-                            class="text-sm font-medium text-gray-700">III. Perilaku</span><span
+                            class="text-sm font-medium text-gray-700">III. Perilaku Penghuni</span><span
                             class="font-bold text-teal-600" id="review-sub-3">0</span></div>
+                    <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg border"><span
+                            class="text-sm font-medium text-gray-700">IV. Rumah Bebas Jentik</span><span
+                            class="font-bold text-emerald-600" id="review-sub-4">YA</span></div>
                 </div>
                 <p class="text-xs text-gray-500 text-center italic mt-4 pb-24">Pastikan data sesuai sebelum menekan
                     tombol Simpan.</p>
@@ -823,33 +860,169 @@
             komponen: {
                 id: 'komponen', title: 'Komponen Rumah', bobot: 31,
                 questions: [
-                    { id: "k1", text: "1. Langit-langit", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, kotor, sulit dibersihkan dan rawan kecelakaan" }, { val: 2, label: "Ada, bersih dan tidak rawan kecelakaan" }] },
-                    { id: "k2", text: "2. Dinding", options: [{ val: 1, label: "Bukan tembok (terbuat dari anyaman bambu/ilalang)" }, { val: 2, label: "Semi permanen/setengah tembok/pasangan bata/batu tidak diplester/papan tidak kedap air" }, { val: 3, label: "Permanen (tembok/pasangan batu bata yang diplester) papan kedap air" }] },
-                    { id: "k3", text: "3. Lantai", options: [{ val: 0, label: "Tanah" }, { val: 1, label: "Papan/anyaman bambu dekat tanah/plesteran retak dan berdebu" }, { val: 2, label: "Diplester/ubin/keramik/papan (rumah panggung)" }] },
-                    { id: "k4", text: "4. Jendela kamar tidur", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada" }] },
-                    { id: "k5", text: "5. Jendela ruang keluarga", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada" }] },
-                    { id: "k6", text: "6. Ventilasi", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, luas ventilasi permanen < 10% dari luas lantai" }, { val: 2, label: "Ada, luas ventilasi permanen > 10% dari luas lantai" }] },
-                    { id: "k7", text: "7. Lubang asap dapur", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, luas ventilasi dapur < 10% dari luas lantai dapur" }, { val: 2, label: "Ada, luas ventilasi dapur > 10% dari luas lantai dapur" }] },
-                    { id: "k8", text: "8. Pencahayaan (Ruang Keluarga)", options: [{ val: 0, label: "Tidak terang, tidak dapat dipergunakan untuk membaca" }, { val: 2, label: "Kurang terang, sehingga kurang jelas untuk membaca dengan normal" }, { val: 3, label: "Terang dan tidak silau sehingga, dapat dipergunakan untuk membaca dengan normal" }] }
+                    {
+                        id: "k1", text: "1. Langit-langit",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak ada" },
+                            { val: 1, nilai: 1, bobotScore: 31, label: "Ada, kotor, sulit dibersihkan dan rawan kecelakaan" },
+                            { val: 2, nilai: 2, bobotScore: 62, label: "Ada, bersih dan tidak rawan kecelakaan" }
+                        ]
+                    },
+                    {
+                        id: "k2", text: "2. Dinding",
+                        options: [
+                            { val: 1, nilai: 1, bobotScore: 31, label: "Bukan tembok (terbuat dari anyaman bambu/ilalang)" },
+                            { val: 2, nilai: 2, bobotScore: 62, label: "Semi permanen/setengah tembok/pasangan bata/batu tidak diplester/papan tidak kedap air" },
+                            { val: 3, nilai: 3, bobotScore: 93, label: "Permanen (tembok/pasangan batu bata yang diplester) papan kedap air" }
+                        ]
+                    },
+                    {
+                        id: "k3", text: "3. Lantai",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tanah" },
+                            { val: 1, nilai: 1, bobotScore: 31, label: "Papan/anyaman bambu dekat tanah/plesteran retak dan berdebu" },
+                            { val: 2, nilai: 2, bobotScore: 62, label: "Diplester/ubin/keramik/papan (rumah panggung)" }
+                        ]
+                    },
+                    {
+                        id: "k4", text: "4. Jendela kamar tidur",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak ada" },
+                            { val: 1, nilai: 1, bobotScore: 31, label: "Ada" }
+                        ]
+                    },
+                    {
+                        id: "k5", text: "5. Jendela ruang keluarga",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak ada" },
+                            { val: 1, nilai: 1, bobotScore: 31, label: "Ada" }
+                        ]
+                    },
+                    {
+                        id: "k6", text: "6. Ventilasi",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak ada" },
+                            { val: 1, nilai: 1, bobotScore: 31, label: "Ada, luas ventilasi permanen < 10% dari luas lantai" },
+                            { val: 2, nilai: 2, bobotScore: 62, label: "Ada, luas ventilasi permanen > 10% dari luas lantai" }
+                        ]
+                    },
+                    {
+                        id: "k7", text: "7. Lubang asap dapur",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak ada" },
+                            { val: 1, nilai: 1, bobotScore: 31, label: "Ada, luas ventilasi dapur < 10% dari luas lantai dapur" },
+                            { val: 2, nilai: 2, bobotScore: 62, label: "Ada, luas ventilasi dapur > 10% dari luas lantai dapur" }
+                        ]
+                    },
+                    {
+                        id: "k8", text: "8. Pencahayaan (Ruang Keluarga)",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak terang, tidak dapat dipergunakan untuk membaca" },
+                            { val: 2, nilai: 1, bobotScore: 62, label: "Kurang terang, sehingga kurang jelas untuk membaca dengan normal" },
+                            { val: 3, nilai: 2, bobotScore: 93, label: "Terang dan tidak silau sehingga, dapat dipergunakan untuk membaca dengan normal" }
+                        ]
+                    }
                 ]
             },
             sanitasi: {
                 id: 'sanitasi', title: 'Sarana Sanitasi', bobot: 25,
                 questions: [
-                    { id: "s1", text: "1. Sarana Air Bersih (SGL/SPT/PP/KU/PAH)", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, bukan milik sendiri dan tidak memenuhi syarat kesehatan" }, { val: 2, label: "Ada, milik sendiri dan tidak memenuhi syarat kesehatan" }, { val: 3, label: "Ada, bukan milik sendiri dan memenuhi syarat kesehatan" }, { val: 4, label: "Ada, milik sendiri dan memenuhi syarat kesehatan" }] },
-                    { id: "s2", text: "2. Jamban (Sarana pembuangan kotoran)", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, bukan leher angsa, tidak ada tutup, disalurkan ke sungai/kolam" }, { val: 2, label: "Ada, bukan leher angsa, ada tutup (leher angsa), disalurkan ke sungai/kolam" }, { val: 3, label: "Ada, bukan leher angsa, ada tutup, septic tank" }, { val: 4, label: "Ada, leher angsa, septic tank" }] },
-                    { id: "s3", text: "3. Sarana pembuangan air limbah (SPAL)", options: [{ val: 0, label: "Tidak ada, sehingga tergenang dan tidak teratur di halaman rumah" }, { val: 1, label: "Ada, diresapkan tetapi mencemari sumber air (jarak dengan sumber air < 10 m)" }, { val: 2, label: "Ada, dialirkan ke selokan terbuka" }, { val: 3, label: "Ada, diresapkan dan tidak mencemari sumber air (jarak dengan sumber air >10m)" }, { val: 4, label: "Ada, dialirkan ke selokan tertutup (saluran kota) untuk diolah lebih lanjut" }] },
-                    { id: "s4", text: "4. Sarana pembuangan sampah (tempat sampah rumah tangga)", options: [{ val: 0, label: "Tidak ada" }, { val: 1, label: "Ada, tetapi tidak kedap air dan tidak ada tutup" }, { val: 2, label: "Ada, kedap air dan tidak tertutup" }, { val: 3, label: "Ada, kedap air dan tertutup" }] }
+                    {
+                        id: "s1", text: "1. Sarana Air Bersih (SGL/SPT/PP/KU/PAH)",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak ada" },
+                            { val: 1, nilai: 1, bobotScore: 25, label: "Ada, bukan milik sendiri dan tidak memenuhi syarat kesehatan" },
+                            { val: 2, nilai: 2, bobotScore: 50, label: "Ada, milik sendiri dan tidak memenuhi syarat kesehatan" },
+                            { val: 3, nilai: 3, bobotScore: 75, label: "Ada, bukan milik sendiri dan memenuhi syarat kesehatan" },
+                            { val: 4, nilai: 4, bobotScore: 100, label: "Ada, milik sendiri dan memenuhi syarat kesehatan" }
+                        ]
+                    },
+                    {
+                        id: "s2", text: "2. Jamban (Sarana pembuangan kotoran)",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak ada" },
+                            { val: 1, nilai: 1, bobotScore: 25, label: "Ada, bukan leher angsa, tidak ada tutup, disalurkan ke sungai/kolam" },
+                            { val: 2, nilai: 2, bobotScore: 50, label: "Ada, bukan leher angsa, ada tutup (leher angsa), disalurkan ke sungai/kolam" },
+                            { val: 3, nilai: 3, bobotScore: 75, label: "Ada, bukan leher angsa, ada tutup, septic tank" },
+                            { val: 4, nilai: 4, bobotScore: 100, label: "Ada, leher angsa, septic tank" }
+                        ]
+                    },
+                    {
+                        id: "s3", text: "3. Sarana pembuangan air limbah (SPAL)",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak ada, sehingga tergenang dan tidak teratur di halaman rumah" },
+                            { val: 1, nilai: 1, bobotScore: 25, label: "Ada, diresapkan tetapi mencemari sumber air (jarak dengan sumber air < 10 m)" },
+                            { val: 2, nilai: 2, bobotScore: 50, label: "Ada, dialirkan ke selokan terbuka" },
+                            { val: 3, nilai: 3, bobotScore: 75, label: "Ada, diresapkan dan tidak mencemari sumber air (jarak dengan sumber air >10m)" },
+                            { val: 4, nilai: 4, bobotScore: 100, label: "Ada, dialirkan ke selokan tertutup (saluran kota) untuk diolah lebih lanjut" }
+                        ]
+                    },
+                    {
+                        id: "s4", text: "4. Sarana pembuangan sampah (tempat sampah rumah tangga)",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak ada" },
+                            { val: 1, nilai: 1, bobotScore: 25, label: "Ada, tetapi tidak kedap air dan tidak ada tutup" },
+                            { val: 2, nilai: 2, bobotScore: 50, label: "Ada, kedap air dan tidak tertutup" },
+                            { val: 3, nilai: 3, bobotScore: 75, label: "Ada, kedap air dan tertutup" }
+                        ]
+                    }
                 ]
             },
             perilaku: {
                 id: 'perilaku', title: 'Perilaku Penghuni', bobot: 44,
                 questions: [
-                    { id: "p1", text: "1. Membuka jendela kamar tidur", options: [{ val: 0, label: "Tidak pernah dibuka" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari dibuka" }] },
-                    { id: "p2", text: "2. Membuka jendela ruang keluarga", options: [{ val: 0, label: "Tidak pernah dibuka" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari dibuka" }] },
-                    { id: "p3", text: "3. Membersihkan rumah dan halaman", options: [{ val: 0, label: "Tidak pernah" }, { val: 1, label: "Kadang-kadang" }, { val: 2, label: "Setiap hari" }] },
-                    { id: "p4", text: "4. Membuang tinja ke jamban", options: [{ val: 0, label: "Dibuang ke sungai/ kebun/ kolam/ sembarangan" }, { val: 1, label: "Kadang-kadang ke jamban" }, { val: 2, label: "Setiap hari dibuang ke jamban" }] },
-                    { id: "p5", text: "5. Membuang sampah pada tempat sampah", options: [{ val: 0, label: "Dibuang ke sungai/ kebun/ kolam/ sembarangan" }, { val: 1, label: "Kadang-kadang dibuang ke tempat sampah" }, { val: 2, label: "Setiap hari dibuang ke tempat sampah" }] }
+                    {
+                        id: "p1", text: "1. Membuka jendela kamar tidur",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak pernah dibuka" },
+                            { val: 1, nilai: 1, bobotScore: 44, label: "Kadang-kadang" },
+                            { val: 2, nilai: 2, bobotScore: 88, label: "Setiap hari dibuka" }
+                        ]
+                    },
+                    {
+                        id: "p2", text: "2. Membuka jendela ruang keluarga",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak pernah dibuka" },
+                            { val: 1, nilai: 1, bobotScore: 44, label: "Kadang-kadang" },
+                            { val: 2, nilai: 2, bobotScore: 88, label: "Setiap hari dibuka" }
+                        ]
+                    },
+                    {
+                        id: "p3", text: "3. Membersihkan rumah dan halaman",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Tidak pernah" },
+                            { val: 1, nilai: 1, bobotScore: 44, label: "Kadang-kadang" },
+                            { val: 2, nilai: 2, bobotScore: 88, label: "Setiap hari" }
+                        ]
+                    },
+                    {
+                        id: "p4", text: "4. Membuang tinja ke jamban",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Dibuang ke sungai/ kebun/ kolam/ sembarangan" },
+                            { val: 1, nilai: 1, bobotScore: 44, label: "Kadang-kadang ke jamban" },
+                            { val: 2, nilai: 2, bobotScore: 88, label: "Setiap hari dibuang ke jamban" }
+                        ]
+                    },
+                    {
+                        id: "p5", text: "5. Membuang sampah pada tempat sampah",
+                        options: [
+                            { val: 0, nilai: 0, bobotScore: 0, label: "Dibuang ke sungai/ kebun/ kolam/ sembarangan" },
+                            { val: 1, nilai: 1, bobotScore: 44, label: "Kadang-kadang dibuang ke tempat sampah" },
+                            { val: 2, nilai: 2, bobotScore: 88, label: "Setiap hari dibuang ke tempat sampah" }
+                        ]
+                    }
+                ]
+            },
+            jentik: {
+                id: 'jentik', title: 'Rumah Bebas Jentik', isChecklist: true,
+                questions: [
+                    {
+                        id: "j1", text: "1. Rumah Bebas Jentik",
+                        options: [
+                            { val: 1, label: "YA", badgeText: "Checklist: YA" },
+                            { val: 0, label: "TIDAK", badgeText: "Checklist: TIDAK" }
+                        ]
+                    }
                 ]
             }
         };
@@ -1049,20 +1222,43 @@
 
         function renderQuestions(configObj, containerId) {
             const container = document.getElementById(containerId);
+            if (!container) return;
             let html = '';
             configObj.questions.forEach((q, index) => {
-                html += `<div class="bg-white rounded-xl border border-gray-200 shadow-sm mb-5">
-                            <div class="bg-gray-50 px-4 py-3 border-b"><h3 class="font-medium text-gray-800 text-sm">${q.text}</h3></div>
-                            <div class="p-3 space-y-2">`;
+                html += `<div class="bg-white rounded-2xl border border-gray-200 shadow-xs mb-5 overflow-hidden transition-all hover:shadow-md">
+                            <div class="bg-gray-50/80 px-4 py-3 border-b border-gray-200 flex justify-between items-center gap-2">
+                                <h3 class="font-bold text-gray-800 text-xs sm:text-sm leading-snug">${q.text}</h3>
+                                ${configObj.bobot ? `<span class="text-[10px] font-extrabold text-teal-700 bg-teal-100/70 border border-teal-200 px-2.5 py-0.5 rounded-full shrink-0">Bobot: ${configObj.bobot}</span>` : '<span class="text-[10px] font-extrabold text-indigo-700 bg-indigo-100/70 border border-indigo-200 px-2.5 py-0.5 rounded-full shrink-0">Checklist</span>'}
+                            </div>
+                            <div class="p-3 space-y-2.5">`;
                 q.options.forEach((opt, oIndex) => {
                     const inputId = `${q.id}_${oIndex}`;
-                    html += `<div>
-                                <input type="radio" id="${inputId}" name="${q.id}" value="${opt.val}" class="peer hidden" onchange="handleAnswerChange('${q.id}', ${opt.val}, ${configObj.bobot})">
-                                <label for="${inputId}" class="flex items-start p-3 border rounded-lg cursor-pointer peer-checked:border-teal-500 peer-checked:bg-teal-50 hover:bg-gray-50 transition-all">
-                                    <div class="w-5 h-5 rounded-full border-2 border-gray-300 peer-checked:border-teal-500 peer-checked:bg-teal-500 mr-3 mt-0.5 flex-shrink-0 flex items-center justify-center">
-                                        <div class="w-2 h-2 bg-white rounded-full opacity-0 peer-checked:opacity-100"></div>
+                    const nilaiVal = opt.nilai !== undefined ? opt.nilai : opt.val;
+                    const hasilBobot = opt.bobotScore !== undefined ? opt.bobotScore : (configObj.bobot ? opt.val * configObj.bobot : null);
+
+                    let badgeHTML = '';
+                    if (opt.badgeText) {
+                        badgeHTML = `<span class="opt-badge inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-gray-100 text-gray-700 border border-gray-200 transition-all">${opt.badgeText}</span>`;
+                    } else {
+                        badgeHTML = `<span class="opt-badge inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-bold bg-gray-100 text-gray-700 border border-gray-200 transition-all">
+                            <span>Nilai: ${nilaiVal}</span>
+                            <span class="opacity-30">|</span>
+                            <span>Bobot: ${hasilBobot}</span>
+                        </span>`;
+                    }
+
+                    html += `<div class="relative">
+                                <input type="radio" id="${inputId}" name="${q.id}" value="${opt.val}" class="peer hidden" onchange="handleAnswerChange('${q.id}', ${opt.val}, ${configObj.bobot || 0}, ${opt.bobotScore !== undefined ? opt.bobotScore : -1})">
+                                <label for="${inputId}" class="flex items-center justify-between p-3.5 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition-all duration-200 group">
+                                    <div class="flex items-start gap-3 flex-1 pr-3">
+                                        <div class="radio-circle w-5 h-5 rounded-full border-2 border-gray-300 mt-0.5 shrink-0 flex items-center justify-center transition-colors">
+                                            <div class="radio-dot w-2 h-2 bg-white rounded-full opacity-0 transition-opacity"></div>
+                                        </div>
+                                        <span class="text-xs font-medium text-gray-700 leading-relaxed">${opt.label}</span>
                                     </div>
-                                    <span class="text-sm pt-0.5">${opt.label}</span>
+                                    <div class="shrink-0">
+                                        ${badgeHTML}
+                                    </div>
                                 </label>
                             </div>`;
                 });
@@ -1074,6 +1270,7 @@
         renderQuestions(configData.komponen, 'container-komponen');
         renderQuestions(configData.sanitasi, 'container-sanitasi');
         renderQuestions(configData.perilaku, 'container-perilaku');
+        renderQuestions(configData.jentik, 'container-jentik');
 
         function startAssessment() {
             document.getElementById('view-dashboard').classList.remove('active');
@@ -1143,8 +1340,14 @@
             }
         }
 
-        function handleAnswerChange(qId, val, bobot) {
-            formAnswers[qId] = { val: val, sub: val * bobot };
+        function handleAnswerChange(qId, val, bobot, customBobotScore) {
+            let sub = 0;
+            if (customBobotScore !== undefined && customBobotScore >= 0) {
+                sub = customBobotScore;
+            } else {
+                sub = val * bobot;
+            }
+            formAnswers[qId] = { val: val, sub: sub };
             recalculateTotal();
         }
 
@@ -1174,6 +1377,9 @@
                 let config = step === 2 ? configData.komponen : step === 3 ? configData.sanitasi : configData.perilaku;
                 let allAnswered = true;
                 config.questions.forEach(q => { if (!document.querySelector(`input[name="${q.id}"]:checked`)) allAnswered = false; });
+                if (step === 4) {
+                    configData.jentik.questions.forEach(q => { if (!document.querySelector(`input[name="${q.id}"]:checked`)) allAnswered = false; });
+                }
                 if (!allAnswered) { showModal("Kuesioner Belum Lengkap", `Jawab semua pertanyaan pada bagian ini.`); return false; }
             }
             return true;
@@ -1187,6 +1393,13 @@
             document.getElementById('review-sub-1').innerText = subScores.komponen;
             document.getElementById('review-sub-2').innerText = subScores.sanitasi;
             document.getElementById('review-sub-3').innerText = subScores.perilaku;
+
+            const jentikAns = formAnswers['j1'] && formAnswers['j1'].val === 1 ? 'YA' : 'TIDAK';
+            const reviewJentikEl = document.getElementById('review-sub-4');
+            if (reviewJentikEl) {
+                reviewJentikEl.innerText = jentikAns;
+                reviewJentikEl.className = jentikAns === 'YA' ? "font-bold text-emerald-600" : "font-bold text-rose-600";
+            }
 
             const isSehat = totalScore >= 1068;
             const sEl = document.getElementById('review-status');
@@ -1513,6 +1726,7 @@
                 sub_komponen: subScores.komponen,
                 sub_sanitasi: subScores.sanitasi,
                 sub_perilaku: subScores.perilaku,
+                bebas_jentik: formAnswers['j1'] && formAnswers['j1'].val === 1 ? 'YA' : 'TIDAK',
                 total_skor: totalScore,
                 status: totalScore >= 1068 ? 'Sehat' : 'Tidak Sehat',
                 timestamp: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
@@ -1810,6 +2024,7 @@
                 "Skor Komponen Rumah (31%)": item.sub_komponen || 0,
                 "Skor Sarana Sanitasi (25%)": item.sub_sanitasi || 0,
                 "Skor Perilaku Penghuni (44%)": item.sub_perilaku || 0,
+                "Rumah Bebas Jentik": item.bebas_jentik || 'YA',
                 "Total Skor Akhir": item.total_skor || 0,
                 "Status Kesimpulan": item.status || (item.total_skor >= 1068 ? 'Sehat' : 'Tidak Sehat'),
                 "Petugas Inspeksi": item.nama_petugas || '-'
@@ -1820,7 +2035,7 @@
                 worksheet['!cols'] = [
                     { wch: 5 }, { wch: 15 }, { wch: 15 }, { wch: 25 }, { wch: 30 },
                     { wch: 18 }, { wch: 18 }, { wch: 15 }, { wch: 25 }, { wch: 25 },
-                    { wch: 25 }, { wch: 15 }, { wch: 18 }, { wch: 20 }
+                    { wch: 25 }, { wch: 18 }, { wch: 15 }, { wch: 18 }, { wch: 20 }
                 ];
                 const workbook = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Penilaian");
@@ -1905,7 +2120,7 @@
                     doc.setFontSize(12);
                     doc.text(`${tidakSehat} Rumah (${Math.round((tidakSehat/total)*100)}%)`, 190, 49);
 
-                    const tableHeaders = [["No", "Tanggal", "Nama KK", "Alamat", "Kelurahan", "Kecamatan", "K.Rumah", "Sanitasi", "Perilaku", "Skor", "Status"]];
+                    const tableHeaders = [["No", "Tanggal", "Nama KK", "Alamat", "Kelurahan", "Kecamatan", "K.Rumah", "Sanitasi", "Perilaku", "Jentik", "Skor", "Status"]];
                     const tableBody = dataList.map((item, idx) => [
                         idx + 1,
                         item.tgl_penilaian || item.timestamp || '-',
@@ -1916,6 +2131,7 @@
                         item.sub_komponen || 0,
                         item.sub_sanitasi || 0,
                         item.sub_perilaku || 0,
+                        item.bebas_jentik || 'YA',
                         item.total_skor || 0,
                         item.status || (item.total_skor >= 1068 ? 'Sehat' : 'Tidak Sehat')
                     ]);
@@ -1929,7 +2145,7 @@
                         bodyStyles: { fontSize: 8.5, textColor: [31, 41, 55] },
                         alternateRowStyles: { fillColor: [249, 250, 251] },
                         didParseCell: function(data) {
-                            if (data.section === 'body' && data.column.index === 10) {
+                            if (data.section === 'body' && data.column.index === 11) {
                                 if (data.cell.raw === 'Sehat') {
                                     data.cell.styles.textColor = [22, 101, 52];
                                     data.cell.styles.fontStyle = 'bold';
@@ -1978,6 +2194,7 @@
                         <td style="padding:6px; border:1px solid #ddd; text-align:center;">${item.sub_komponen || 0}</td>
                         <td style="padding:6px; border:1px solid #ddd; text-align:center;">${item.sub_sanitasi || 0}</td>
                         <td style="padding:6px; border:1px solid #ddd; text-align:center;">${item.sub_perilaku || 0}</td>
+                        <td style="padding:6px; border:1px solid #ddd; text-align:center;">${item.bebas_jentik || 'YA'}</td>
                         <td style="padding:6px; border:1px solid #ddd; text-align:center; font-weight:bold;">${item.total_skor || 0}</td>
                         <td style="padding:6px; border:1px solid #ddd; text-align:center; font-weight:bold; color:${isSehat ? '#15803d' : '#b91c1c'};">${item.status || '-'}</td>
                     </tr>`;
@@ -2006,7 +2223,7 @@
                         <thead>
                             <tr>
                                 <th>No</th><th>Tanggal</th><th>Nama KK</th><th>Alamat</th><th>Kelurahan</th>
-                                <th>Komponen</th><th>Sanitasi</th><th>Perilaku</th><th>Total Skor</th><th>Status</th>
+                                <th>Komponen</th><th>Sanitasi</th><th>Perilaku</th><th>Bebas Jentik</th><th>Total Skor</th><th>Status</th>
                             </tr>
                         </thead>
                         <tbody>

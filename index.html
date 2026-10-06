@@ -1479,10 +1479,46 @@
             showModal("Sinkronisasi Selesai", `${successCount} data draft berhasil dikirim ke Google Sheets.`, true);
         }
 
+        function markScheduleAsCompleted(namaKK) {
+            if (!namaKK || !realSchedules || realSchedules.length === 0) return;
+            const targetName = namaKK.trim().toLowerCase();
+            let updated = false;
+            realSchedules.forEach(item => {
+                if (item.nama_kk && item.nama_kk.trim().toLowerCase() === targetName) {
+                    item.status = 'completed';
+                    updated = true;
+                }
+            });
+            if (updated) {
+                localStorage.setItem('realSchedules', JSON.stringify(realSchedules));
+                renderScheduleWidget();
+            }
+        }
+
         function renderScheduleWidget() {
             const container = document.getElementById('schedule-list');
             const countEl = document.getElementById('schedule-count');
             if (!container) return;
+
+            // Auto-sync status jadwal jika nama KK sudah ada di riwayat (online) atau draft (offline)
+            const historyKKSet = new Set([
+                ...allHistoryData.map(h => h.nama_kk ? h.nama_kk.trim().toLowerCase() : ''),
+                ...offlineDrafts.map(d => d.nama_kk ? d.nama_kk.trim().toLowerCase() : '')
+            ]);
+
+            let updatedSchedules = false;
+            realSchedules.forEach(item => {
+                if (item.status !== 'completed' && item.nama_kk) {
+                    if (historyKKSet.has(item.nama_kk.trim().toLowerCase())) {
+                        item.status = 'completed';
+                        updatedSchedules = true;
+                    }
+                }
+            });
+
+            if (updatedSchedules) {
+                localStorage.setItem('realSchedules', JSON.stringify(realSchedules));
+            }
 
             if (!realSchedules || realSchedules.length === 0) {
                 if (countEl) countEl.innerText = "0 Jadwal";
@@ -1736,6 +1772,7 @@
             if (!navigator.onLine) {
                 offlineDrafts.push(dataPayload);
                 localStorage.setItem('offlineDrafts', JSON.stringify(offlineDrafts));
+                markScheduleAsCompleted(dataPayload.nama_kk);
                 updateOfflineBanner();
                 showModal("Draft Offline Tersimpan", "Koneksi terputus. Data penilaian berhasil disimpan secara lokal di perangkat Anda dan akan tersinkron otomatis saat online.", true);
                 document.getElementById('modal-action-btn').onclick = function () { closeModal(); goHome(); };
@@ -1757,6 +1794,7 @@
                 const result = await response.json();
 
                 if (result.success) {
+                    markScheduleAsCompleted(dataPayload.nama_kk);
                     showModal("Berhasil!", "Data Penilaian berhasil disimpan ke Google Sheets.", true);
                     document.getElementById('modal-action-btn').onclick = function () { closeModal(); goHome(); };
                 } else {

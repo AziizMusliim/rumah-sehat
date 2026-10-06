@@ -1827,18 +1827,15 @@
 
             combinedData.forEach(item => {
                 let name = item.nama_petugas ? item.nama_petugas.trim() : '';
-                if (!name || name === '-') name = 'Petugas Lapangan';
-
-                petugasCounts[name] = (petugasCounts[name] || 0) + 1;
-                if (!petugasLastActive[name] && item.timestamp) {
-                    petugasLastActive[name] = item.timestamp;
+                if (name && name !== '-') {
+                    petugasCounts[name] = (petugasCounts[name] || 0) + 1;
+                    if (!petugasLastActive[name] && item.timestamp) {
+                        petugasLastActive[name] = item.timestamp;
+                    }
                 }
             });
 
-            if (currentPetugas && !petugasCounts[currentPetugas]) {
-                petugasCounts[currentPetugas] = 0;
-            }
-
+            // Ubah ke array & urutkan murni berdasarkan jumlah inspeksi real terbanyak
             let list = Object.keys(petugasCounts).map(name => ({
                 name: name,
                 count: petugasCounts[name],
@@ -1847,23 +1844,8 @@
 
             list.sort((a, b) => b.count - a.count);
 
-            const defaultPetugasList = [
-                { name: "Siti Rahma, A.Md.Kes", count: 18 },
-                { name: "Budi Santoso, S.SKM", count: 14 },
-                { name: "Ahmad Fauzi (Kader 03)", count: 11 }
-            ];
-
-            if (list.length < 3) {
-                defaultPetugasList.forEach(def => {
-                    const exists = list.some(item => item.name.toLowerCase() === def.name.toLowerCase());
-                    if (!exists && list.length < 3) {
-                        list.push(def);
-                    }
-                });
-            }
-
+            // Ambil maksimal 3 Petugas Teraktif Murni dari Data Real
             const top3 = list.slice(0, 3);
-            const totalMax = Math.max(...top3.map(p => p.count), 1);
 
             const badges = [
                 { rank: 1, icon: '🥇', badgeColor: 'bg-amber-500 text-white', label: 'Juara 1 - Terrajin' },
@@ -1872,71 +1854,89 @@
             ];
 
             if (container) {
-                let html = '';
-                top3.forEach((petugas, idx) => {
-                    const bgInfo = badges[idx] || badges[2];
-                    const isCurrentUser = currentPetugas && petugas.name.toLowerCase() === currentPetugas.toLowerCase();
-                    const percent = Math.round((petugas.count / totalMax) * 100);
-
-                    html += `
-                        <div class="p-3 bg-gray-50 rounded-xl border ${isCurrentUser ? 'border-teal-400 bg-teal-50/40 ring-1 ring-teal-300' : 'border-gray-100'} transition-all flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="relative shrink-0">
-                                    <div class="w-10 h-10 rounded-full ${isCurrentUser ? 'bg-teal-600 text-white' : 'bg-gray-200 text-gray-700'} font-bold flex items-center justify-center text-sm shadow-sm">
-                                        ${petugas.name.charAt(0).toUpperCase()}
-                                    </div>
-                                    <span class="absolute -bottom-1 -right-1 text-xs filter drop-shadow">${bgInfo.icon}</span>
-                                </div>
-                                <div>
-                                    <div class="flex items-center gap-1.5">
-                                        <h4 class="font-bold text-xs ${isCurrentUser ? 'text-teal-900 font-extrabold' : 'text-gray-800'}">${petugas.name}</h4>
-                                        ${isCurrentUser ? '<span class="text-[9px] bg-teal-600 text-white px-1.5 py-0.2 rounded font-bold">Anda</span>' : ''}
-                                    </div>
-                                    <p class="text-[10px] text-gray-500 flex items-center gap-1.5 mt-0.5">
-                                        <span class="inline-block w-2 h-2 rounded-full ${idx === 0 ? 'bg-amber-400' : idx === 1 ? 'bg-slate-400' : 'bg-orange-400'}"></span>
-                                        <span>${petugas.count} Inspeksi Terdata</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="text-right shrink-0">
-                                <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full ${bgInfo.badgeColor} shadow-xs mb-1">
-                                    ${idx === 0 ? '⚡ Tercepat & Rajin' : idx === 1 ? '🔥 Sangat Aktif' : '👍 Aktif'}
-                                </span>
-                                <div class="w-16 bg-gray-200 rounded-full h-1.5 ml-auto overflow-hidden">
-                                    <div class="${idx === 0 ? 'bg-amber-500' : idx === 1 ? 'bg-slate-500' : 'bg-orange-500'} h-1.5 rounded-full" style="width: ${percent}%"></div>
-                                </div>
-                            </div>
+                if (top3.length === 0) {
+                    container.innerHTML = `
+                        <div class="text-center py-4 bg-gray-50 rounded-xl border border-gray-100">
+                            <p class="text-xs text-gray-500 font-medium">Belum ada data kinerja petugas terdata.</p>
+                            <p class="text-[10px] text-gray-400 mt-0.5">Lakukan inspeksi pertama untuk memunculkan peringkat real.</p>
                         </div>`;
-                });
+                } else {
+                    const totalMax = Math.max(...top3.map(p => p.count), 1);
+                    let html = '';
+                    top3.forEach((petugas, idx) => {
+                        const bgInfo = badges[idx] || badges[2];
+                        const isCurrentUser = currentPetugas && petugas.name.toLowerCase() === currentPetugas.toLowerCase();
+                        const percent = Math.round((petugas.count / totalMax) * 100);
 
-                container.innerHTML = html;
+                        html += `
+                            <div class="p-3 bg-gray-50 rounded-xl border ${isCurrentUser ? 'border-teal-400 bg-teal-50/40 ring-1 ring-teal-300' : 'border-gray-100'} transition-all flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="relative shrink-0">
+                                        <div class="w-10 h-10 rounded-full ${isCurrentUser ? 'bg-teal-600 text-white' : 'bg-gray-200 text-gray-700'} font-bold flex items-center justify-center text-sm shadow-sm">
+                                            ${petugas.name.charAt(0).toUpperCase()}
+                                        </div>
+                                        <span class="absolute -bottom-1 -right-1 text-xs filter drop-shadow">${bgInfo.icon}</span>
+                                    </div>
+                                    <div>
+                                        <div class="flex items-center gap-1.5">
+                                            <h4 class="font-bold text-xs ${isCurrentUser ? 'text-teal-900 font-extrabold' : 'text-gray-800'}">${petugas.name}</h4>
+                                            ${isCurrentUser ? '<span class="text-[9px] bg-teal-600 text-white px-1.5 py-0.2 rounded font-bold">Anda</span>' : ''}
+                                        </div>
+                                        <p class="text-[10px] text-gray-500 flex items-center gap-1.5 mt-0.5">
+                                            <span class="inline-block w-2 h-2 rounded-full ${idx === 0 ? 'bg-amber-400' : idx === 1 ? 'bg-slate-400' : 'bg-orange-400'}"></span>
+                                            <span>${petugas.count} Inspeksi Terdata</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="text-right shrink-0">
+                                    <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full ${bgInfo.badgeColor} shadow-xs mb-1">
+                                        ${idx === 0 ? '⚡ Tercepat & Rajin' : idx === 1 ? '🔥 Sangat Aktif' : '👍 Aktif'}
+                                    </span>
+                                    <div class="w-16 bg-gray-200 rounded-full h-1.5 ml-auto overflow-hidden">
+                                        <div class="${idx === 0 ? 'bg-amber-500' : idx === 1 ? 'bg-slate-500' : 'bg-orange-500'} h-1.5 rounded-full" style="width: ${percent}%"></div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    });
+
+                    container.innerHTML = html;
+                }
             }
 
             if (loginContainer) {
-                let loginHtml = '';
-                top3.forEach((petugas, idx) => {
-                    const bgInfo = badges[idx] || badges[2];
-                    loginHtml += `
-                        <div class="p-2.5 bg-gray-50/90 rounded-xl border border-gray-100 flex items-center justify-between transition-all">
-                            <div class="flex items-center gap-2.5">
-                                <div class="relative shrink-0">
-                                    <div class="w-8 h-8 rounded-full bg-teal-600 text-white font-bold flex items-center justify-center text-xs shadow-xs">
-                                        ${petugas.name.charAt(0).toUpperCase()}
-                                    </div>
-                                    <span class="absolute -bottom-1 -right-1 text-[10px] filter drop-shadow">${bgInfo.icon}</span>
-                                </div>
-                                <div class="text-left">
-                                    <h4 class="font-bold text-xs text-gray-800 leading-tight">${petugas.name}</h4>
-                                    <p class="text-[10px] text-gray-500 font-medium">${petugas.count} Inspeksi Terdata</p>
-                                </div>
-                            </div>
-                            <span class="text-[9px] font-bold px-2 py-0.5 rounded-full ${bgInfo.badgeColor} shrink-0">
-                                ${idx === 0 ? '⚡ Terrajin' : idx === 1 ? '🔥 Sangat Aktif' : '👍 Aktif'}
-                            </span>
+                if (top3.length === 0) {
+                    loginContainer.innerHTML = `
+                        <div class="text-center py-3 bg-gray-50/80 rounded-xl border border-gray-100">
+                            <p class="text-[11px] text-gray-500 font-medium">Belum ada data kinerja petugas terdata.</p>
                         </div>`;
-                });
+                } else {
+                    let loginHtml = '';
+                    top3.forEach((petugas, idx) => {
+                        const bgInfo = badges[idx] || badges[2];
+                        loginHtml += `
+                            <div class="p-2.5 bg-gray-50/90 rounded-xl border border-gray-100 flex items-center justify-between transition-all">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="relative shrink-0">
+                                        <div class="w-8 h-8 rounded-full bg-teal-600 text-white font-bold flex items-center justify-center text-xs shadow-xs">
+                                            ${petugas.name.charAt(0).toUpperCase()}
+                                        </div>
+                                        <span class="absolute -bottom-1 -right-1 text-[10px] filter drop-shadow">${bgInfo.icon}</span>
+                                    </div>
+                                    <div class="text-left">
+                                        <h4 class="font-bold text-xs text-gray-800 leading-tight">${petugas.name}</h4>
+                                        <p class="text-[10px] text-gray-500 font-medium">${petugas.count} Inspeksi Terdata</p>
+                                    </div>
+                                </div>
+                                <span class="text-[9px] font-bold px-2 py-0.5 rounded-full ${bgInfo.badgeColor} shrink-0">
+                                    ${idx === 0 ? '⚡ Terrajin' : idx === 1 ? '🔥 Sangat Aktif' : '👍 Aktif'}
+                                </span>
+                            </div>`;
+                    });
 
-                loginContainer.innerHTML = loginHtml;
+                    loginContainer.innerHTML = loginHtml;
+                }
+            }
+        }
             }
         }
 

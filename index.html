@@ -209,7 +209,7 @@
                 <div>
                     <h1 class="font-bold text-lg leading-tight">Rumah Sehat</h1>
                     <div class="flex items-center gap-2 mt-0.5">
-                        <span class="text-xs text-teal-100">Dinas Kesehatan v0.3</span>
+                        <span class="text-xs text-teal-100">UPT PUSKESMAS CIGADUNG</span>
                         <span id="network-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">
                             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online
                         </span>
@@ -1715,7 +1715,7 @@
                             <div class="flex justify-between items-start pl-2">
                                 <div>
                                     <h4 class="font-bold text-gray-800 text-sm mb-1">${item.nama_kk}</h4>
-                                    <p class="text-xs text-gray-500 mb-1"><i class="fas fa-map-marker-alt text-gray-400 mr-1.5 w-3"></i>${item.kelurahan}</p>
+                                    <p class="text-xs text-gray-500 mb-1"><i class="fas fa-map-marker-alt text-gray-400 mr-1.5 w-3"></i>${item.alamat && item.alamat !== '-' ? item.alamat + ', ' : ''}${item.kelurahan}</p>
                                     <p class="text-[10px] text-gray-400"><i class="far fa-clock text-gray-400 mr-1.5 w-3"></i>${item.timestamp}</p>
                                 </div>
                                 <div class="flex flex-col items-end gap-2">
@@ -1772,6 +1772,8 @@
             if (!navigator.onLine) {
                 offlineDrafts.push(dataPayload);
                 localStorage.setItem('offlineDrafts', JSON.stringify(offlineDrafts));
+                allHistoryData.unshift(dataPayload);
+                filterHistoryList();
                 markScheduleAsCompleted(dataPayload.nama_kk);
                 updateOfflineBanner();
                 showModal("Draft Offline Tersimpan", "Koneksi terputus. Data penilaian berhasil disimpan secara lokal di perangkat Anda dan akan tersinkron otomatis saat online.", true);
@@ -1794,6 +1796,8 @@
                 const result = await response.json();
 
                 if (result.success) {
+                    allHistoryData.unshift(dataPayload);
+                    filterHistoryList();
                     markScheduleAsCompleted(dataPayload.nama_kk);
                     showModal("Berhasil!", "Data Penilaian berhasil disimpan ke Google Sheets.", true);
                     document.getElementById('modal-action-btn').onclick = function () { closeModal(); goHome(); };
